@@ -1,58 +1,58 @@
+using NewGame;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
-using GameTest;
 
-namespace YourGameName
+namespace Shard
 {
-    class YourGameClass : Game
+    class NewGame : Game, InputListener
     {
-        private GameObject background;
-        private List<GameObject> gameObjects;
-
-        public override void initialize()
-        {
-            // Initialize your game here
-
-            // Load game assets
-            assets = Bootstrap.getAssetManager();
-            assets.loadAsset("background.jpg");
-
-            // Create game objects
-            background = new GameObject();
-            background.Transform.SpritePath = assets.getAssetPath("background.jpg");
-            background.Transform.Position = new Vector2(0, 0);
-
-            gameObjects = new List<GameObject>();
-
-            // Register input listeners
-            Bootstrap.getInput().addListener(this);
-        }
-
+        GameObject background;
+        List<GameObject> asteroids;
         public override void update()
         {
-            // Update the game state and objects here
-            foreach (GameObject obj in gameObjects)
-            {
-                obj.update();
-            }
+
+            Bootstrap.getDisplay().showText("FPS: " + Bootstrap.getSecondFPS() + " / " + Bootstrap.getFPS(), 10, 10, 12, 255, 255, 255);
+
+
         }
 
         public override int getTargetFrameRate()
         {
-            // Set the target frame rate for your game here
-            return 60;
+            return 100;
+
+        }
+        public void createShip()
+        {
+            GameObject ship = new Spaceship();
+            Random rand = new Random();
+            int offsetx = 0, offsety = 0;
+
+            GameObject asteroid;
+
+
+
+            background = new GameObject();
+            background.Transform.SpritePath = getAssetManager().getAssetPath("background.jpg");
+            background.Transform.X = 0;
+            background.Transform.Y = 0;
+
+
         }
 
-        public override bool isRunning()
+        public override void initialize()
         {
-            // Add logic to stop the game when a certain condition is met
-            return true;
+            Bootstrap.getInput().addListener(this);
+            createShip();
+
+            asteroids = new List<GameObject>();
+
+
         }
 
         public void handleInput(InputEvent inp, string eventType)
         {
-            // Handle mouse and keyboard events here
+
             if (eventType == "MouseDown")
             {
                 Console.WriteLine("Pressing button " + inp.Button);
@@ -60,13 +60,23 @@ namespace YourGameName
 
             if (eventType == "MouseDown" && inp.Button == 1)
             {
-                // Add your game object creation code here
+                Asteroid asteroid = new Asteroid();
+                asteroid.Transform.X = inp.X;
+                asteroid.Transform.Y = inp.Y;
+                asteroids.Add(asteroid);
             }
 
             if (eventType == "MouseDown" && inp.Button == 3)
             {
-                // Add your game object destruction code here
+                foreach (GameObject ast in asteroids)
+                {
+                    ast.ToBeDestroyed = true;
+                }
+
+                asteroids.Clear();
             }
+
+
         }
     }
 }
