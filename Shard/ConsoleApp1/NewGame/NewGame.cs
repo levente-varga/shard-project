@@ -8,12 +8,8 @@ namespace Shard
     class NewGame : Game, InputListener
     {
         GameObject background;
-        List<GameObject> asteroids;
         public override void update()
         {
-
-            Bootstrap.getDisplay().showText("FPS: " + Bootstrap.getSecondFPS() + " / " + Bootstrap.getFPS(), 10, 10, 12, 255, 255, 255);
-
 
         }
 
@@ -27,9 +23,6 @@ namespace Shard
             GameObject ship = new Spaceship();
             Random rand = new Random();
             int offsetx = 0, offsety = 0;
-
-            GameObject asteroid;
-
 
 
             background = new GameObject();
@@ -45,9 +38,6 @@ namespace Shard
             Bootstrap.getInput().addListener(this);
             createShip();
 
-            asteroids = new List<GameObject>();
-
-
         }
 
         public void handleInput(InputEvent inp, string eventType)
@@ -60,20 +50,12 @@ namespace Shard
 
             if (eventType == "MouseDown" && inp.Button == 1)
             {
-                Asteroid asteroid = new Asteroid();
-                asteroid.Transform.X = inp.X;
-                asteroid.Transform.Y = inp.Y;
-                asteroids.Add(asteroid);
+                Console.WriteLine("Pressing button " + inp.Button);
             }
 
             if (eventType == "MouseDown" && inp.Button == 3)
             {
-                foreach (GameObject ast in asteroids)
-                {
-                    ast.ToBeDestroyed = true;
-                }
-
-                asteroids.Clear();
+                Console.WriteLine("Pressing button " + inp.Button);
             }
 
 
