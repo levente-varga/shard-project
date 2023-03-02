@@ -18,20 +18,23 @@ namespace Shard
             return 100;
 
         }
-
         public void createShip()
         {
-
             GameObject ship = new Spaceship();
             Random rand = new Random();
             int offsetx = 0, offsety = 0;
+
+
+            GameObject background = new GameObject();
+            background.Transform.SpritePath = getAssetManager().getAssetPath("background.jpg");
+            background.Transform.X = 0;
+            background.Transform.Y = 0;
 
         }
 
         public override void initialize()
         {
             Bootstrap.getInput().addListener(this);
-            GameObject background = new Background();
             createShip();
 
         }

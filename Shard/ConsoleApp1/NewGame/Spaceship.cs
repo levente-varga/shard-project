@@ -12,9 +12,6 @@ namespace NewGame
         public override void initialize()
         {
 
-            this.Transform.X = 500.0f;
-            this.Transform.Y = 500.0f;
-            this.Transform.SpritePath = Bootstrap.getAssetManager().getAssetPath("spaceship.png");
 
 
             Bootstrap.getInput().addListener(this);
@@ -99,7 +96,10 @@ namespace NewGame
         {
         }
 
-
+        public override string ToString()
+        {
+            return "Spaceship: [" + Transform.X + ", " + Transform.Y + ", " + Transform.Wid + ", " + Transform.Ht + "]";
+        }
 
     }
 }
