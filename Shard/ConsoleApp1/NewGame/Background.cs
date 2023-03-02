@@ -1,20 +1,18 @@
-﻿using SDL2;
+using SDL2;
 using Shard;
 using System.Drawing;
 
 namespace NewGame
 {
-    class Spaceship : GameObject, InputListener, CollisionHandler
+    class Background : GameObject, InputListener, CollisionHandler
     {
-        bool up, down, turnLeft, turnRight;
-
 
         public override void initialize()
         {
 
-            this.Transform.X = 500.0f;
-            this.Transform.Y = 500.0f;
-            this.Transform.SpritePath = Bootstrap.getAssetManager().getAssetPath("spaceship.png");
+            this.Transform.X = 0;
+            this.Transform.Y = 0;
+            this.Transform.SpritePath = Bootstrap.getAssetManager().getAssetPath("background.jpg");
 
 
             Bootstrap.getInput().addListener(this);
@@ -24,9 +22,9 @@ namespace NewGame
 
             setPhysicsEnabled();
 
-            MyBody.Mass = 1;
-            MyBody.MaxForce = 10;
-            MyBody.AngularDrag = 0.01f;
+            MyBody.Mass = 0;
+            MyBody.MaxForce = 0;
+            MyBody.AngularDrag = 0f;
             MyBody.Drag = 0f;
             MyBody.StopOnCollision = false;
             MyBody.ReflectOnCollision = false;
@@ -35,15 +33,11 @@ namespace NewGame
 
             MyBody.addRectCollider();
 
-            addTag("Spaceship");
+            addTag("Background");
 
 
         }
 
-        public void fireBullet()
-        {
-            Bootstrap.getSound().playSound ("fire.wav");
-        }
 
         public void handleInput(InputEvent inp, string eventType)
         {
@@ -53,7 +47,7 @@ namespace NewGame
             {
                 if (inp.Key == (int)SDL.SDL_Scancode.SDL_SCANCODE_SPACE)
                 {
-                    fireBullet();
+
                 }
             }
         }
@@ -82,7 +76,6 @@ namespace NewGame
 
         public override void update()
         {
-            Bootstrap.getDisplay().addToDraw(this);
         }
 
         public void onCollisionEnter(PhysicsBody x)
