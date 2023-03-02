@@ -25,7 +25,7 @@ namespace Shard
             int offsetx = 0, offsety = 0;
 
 
-            GameObject background = new GameObject();
+            GameObject background = new Background();
             background.Transform.SpritePath = getAssetManager().getAssetPath("background.jpg");
             background.Transform.X = 0;
             background.Transform.Y = 0;

@@ -12,7 +12,9 @@ namespace NewGame
         public override void initialize()
         {
 
-
+            this.Transform.X = 500.0f;
+            this.Transform.Y = 500.0f;
+            this.Transform.SpritePath = Bootstrap.getAssetManager().getAssetPath("asteroid.png");
 
             Bootstrap.getInput().addListener(this);
 
