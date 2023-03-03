@@ -16,9 +16,19 @@ namespace Shard
     {
         IntPtr music;
 
+        int audio_rate = SDL_mixer.MIX_DEFAULT_FREQUENCY;
+        ushort audio_format = SDL_mixer.MIX_DEFAULT_FORMAT;
+        int audio_channels = SDL_mixer.MIX_DEFAULT_CHANNELS;
+        int audio_buffers = 4096;
+        string music_type = "";
+
+        static int audio_open = 0;
+
+        string file;
+
         public Music()
         {
-            SDL_mixer.Mix_Init();
+            SDL.SDL_Init(SDL.SDL_INIT_AUDIO);
         } 
 
         public override double PlayheadPosition
@@ -34,13 +44,32 @@ namespace Shard
 
         public override void Load(string path)
         {
-            string file = Bootstrap.getAssetManager().getAssetPath(path);
-            music = SDL_mixer.Mix_LoadMUS(file);
+            file = Bootstrap.getAssetManager().getAssetPath(path);
+            //music = SDL_mixer.Mix_LoadMUS(file);
         }
 
         public override void Play()
         {
-            
+            if (SDL_mixer.Mix_OpenAudio(audio_rate, audio_format, audio_channels, audio_buffers) < 0)
+            {
+                SDL.SDL_Log("Couldn't open audio: " + SDL.SDL_GetError() + "\n");
+            }
+            else
+            {
+                SDL_mixer.Mix_QuerySpec(out audio_rate, out audio_format, out audio_channels);
+                SDL.SDL_Log($"Opened audio at " +
+                    $"{audio_rate} Hz " +
+                    $"{audio_format & 0xFF} bit" +
+                    $"{(SDL.SDL_AUDIO_ISFLOAT(audio_format) ? " (float)" : "")} " +
+                    $"{((audio_channels > 2) ? "surround" : (audio_channels > 1) ? "stereo" : "mono")} " +
+                    $"{audio_buffers} bytes audio buffer\n");
+            }
+            audio_open = 1;
+
+            SDL_mixer.Mix_VolumeMusic(SDL_mixer.MIX_MAX_VOLUME);
+
+            music = SDL_mixer.Mix_LoadMUS(file);
+
             SDL_mixer.Mix_PlayMusic(music, 1);
         }
 

@@ -13,7 +13,7 @@ namespace Shard
         {
             
             Bootstrap.getDisplay().showText("FPS: " + Bootstrap.getSecondFPS() + " / " + Bootstrap.getFPS(), 10, 10, 12, 255, 255, 255);
-
+            Bootstrap.getDisplay().showText($"Position: {Bootstrap.getSound().PlayheadPosition} / {Bootstrap.getSound().Length}", 10, 30, 12, 255, 255, 255);
 
         }
 
