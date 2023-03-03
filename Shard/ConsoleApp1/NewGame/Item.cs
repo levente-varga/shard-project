@@ -4,7 +4,7 @@ using System.Drawing;
 
 namespace NewGame
 {
-    class Spaceship : GameObject, InputListener, CollisionHandler
+    class Item : GameObject, InputListener, CollisionHandler
     {
         bool up, down, turnLeft, turnRight;
 
@@ -34,7 +34,7 @@ namespace NewGame
 
             MyBody.addRectCollider();
 
-            addTag("Spaceship");
+            addTag("Item");
 
 
         }
@@ -100,7 +100,7 @@ namespace NewGame
 
         public override string ToString()
         {
-            return "Spaceship: [" + Transform.X + ", " + Transform.Y + ", " + Transform.Wid + ", " + Transform.Ht + "]";
+            return "Item: [" + Transform.X + ", " + Transform.Y + ", " + Transform.Wid + ", " + Transform.Ht + "]";
         }
 
     }
