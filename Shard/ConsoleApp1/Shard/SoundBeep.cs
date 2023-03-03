@@ -8,27 +8,36 @@
 
 using SDL2;
 using System;
+using System.IO;
 
 namespace Shard
 {
     public class SoundSDL : Sound
     {
-        public override void playSound(string file)
-        {
-            SDL.SDL_AudioSpec have, want;
-            uint length, dev;
-            IntPtr buffer;
+        SDL.SDL_AudioSpec have, want;
+        uint length, dev;
+        IntPtr buffer;
 
-            file = Bootstrap.getAssetManager().getAssetPath(file);
+        public override double Length => throw new NotImplementedException();
 
-            SDL.SDL_LoadWAV(file, out have, out buffer, out length);
-            dev = SDL.SDL_OpenAudioDevice(IntPtr.Zero, 0, ref have, out want, 0);
-
-            int success = SDL.SDL_QueueAudio(dev, buffer, length);
-            SDL.SDL_PauseAudioDevice(dev, 0);
-
+        public override double PlayheadPosition 
+        { 
+            get => throw new NotImplementedException(); 
+            set => throw new NotImplementedException(); 
         }
 
+        public override void Load(string path)
+        {
+            string file = Bootstrap.getAssetManager().getAssetPath(path);
+            SDL.SDL_LoadWAV(file, out have, out buffer, out length);
+            dev = SDL.SDL_OpenAudioDevice(IntPtr.Zero, 0, ref have, out want, 0);
+        }
+
+        public override void Play()
+        {
+            int success = SDL.SDL_QueueAudio(dev, buffer, length);
+            SDL.SDL_PauseAudioDevice(dev, 0);
+        }
     }
 }
 

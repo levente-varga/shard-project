@@ -6,11 +6,24 @@
 *   
 */
 
+using System;
+
 namespace Shard
 {
     abstract public class Sound
     {
-        abstract public void playSound(string file);
+        abstract public double PlayheadPosition { get; set; }
 
+        abstract public double Length { get; }
+
+        public void LoadAndPlay(string path)
+        {
+            Load(path);
+            Play();
+        }
+
+        abstract public void Load(string path);
+
+        abstract public void Play();
     }
 }
