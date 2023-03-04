@@ -31,7 +31,6 @@ namespace Shard
         public override double PlayheadPosition
         {
             get => SDL_mixer.Mix_GetMusicPosition(music);
-            set => SDL_mixer.Mix_SetMusicPosition(value);
         }
 
         public override double Length

@@ -22,8 +22,7 @@ namespace Shard
 
         public override double PlayheadPosition 
         { 
-            get => throw new NotImplementedException(); 
-            set => throw new NotImplementedException(); 
+            get => -1;
         }
 
         public override void Load(string path)

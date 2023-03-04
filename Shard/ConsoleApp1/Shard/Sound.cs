@@ -12,7 +12,7 @@ namespace Shard
 {
     abstract public class Sound
     {
-        abstract public double PlayheadPosition { get; set; }
+        abstract public double PlayheadPosition { get; }
 
         abstract public double Length { get; }
 
