@@ -1,13 +1,12 @@
 ﻿/*
 *
-*   A very simple implementation of a very simple music player.
+*   A very simple implementation of a very simple sound system.
 *   @author Levente Varga
 *   @version 1.0
 *   
 */
 
 using SDL2;
-using SpaceInvaders;
 using System;
 using System.IO;
 
