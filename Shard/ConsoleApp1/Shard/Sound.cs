@@ -12,18 +12,12 @@ namespace Shard
 {
     abstract public class Sound
     {
-        abstract public double PlayheadPosition { get; }
+        abstract public double MusicPosition { get; }
 
-        abstract public double Length { get; }
+        abstract public double MusicLength { get; }
 
-        public void LoadAndPlay(string path)
-        {
-            Load(path);
-            Play();
-        }
+        abstract public void PlayMusic(string path);
 
-        abstract public void Load(string path);
-
-        abstract public void Play();
+        abstract public void PlaySound(string path);
     }
 }

@@ -7,12 +7,13 @@
 */
 
 using SDL2;
+using SpaceInvaders;
 using System;
 using System.IO;
 
 namespace Shard
 {
-    public class Music : Sound
+    public class SoundSystem : Sound
     {
         IntPtr music;
 
@@ -21,35 +22,45 @@ namespace Shard
         int audio_channels = SDL_mixer.MIX_DEFAULT_CHANNELS;
         int audio_buffers = 4096;
 
-        string file;
+        bool audioOpen = false;
 
-        public Music()
+        public SoundSystem()
         {
             SDL.SDL_Init(SDL.SDL_INIT_AUDIO);
-        } 
-
-        public override double PlayheadPosition
-        {
-            get => SDL_mixer.Mix_GetMusicPosition(music);
-        }
-
-        public override double Length
-        {
-            get => SDL_mixer.Mix_MusicDuration(music);
-        }
-
-        public override void Load(string path)
-        {
-            file = Bootstrap.getAssetManager().getAssetPath(path);
-            //music = SDL_mixer.Mix_LoadMUS(file);
-        }
-
-        public override void Play()
-        {
             if (SDL_mixer.Mix_OpenAudio(audio_rate, audio_format, audio_channels, audio_buffers) < 0)
             {
                 SDL.SDL_Log("Couldn't open audio: " + SDL.SDL_GetError() + "\n");
             }
+            else
+            {
+                audioOpen = true;
+            }
+        } 
+
+        public override double MusicPosition
+        {
+            get => SDL_mixer.Mix_GetMusicPosition(music);
+        }
+
+        public override double MusicLength
+        {
+            get => SDL_mixer.Mix_MusicDuration(music);
+        }
+
+        public override void PlaySound(string path)
+        {
+            string file = Bootstrap.getAssetManager().getAssetPath(path);
+            if (!audioOpen || !File.Exists(file)) return;
+            
+            IntPtr chunk = SDL_mixer.Mix_LoadWAV(file);
+            SDL_mixer.Mix_PlayChannel(-1, chunk, 0);
+        }
+
+        public override void PlayMusic(string path)
+        {
+            string file = Bootstrap.getAssetManager().getAssetPath(path);
+            if (!audioOpen || !File.Exists(file)) return;
+
             else
             {
                 SDL_mixer.Mix_QuerySpec(out audio_rate, out audio_format, out audio_channels);
@@ -57,11 +68,6 @@ namespace Shard
                 music = SDL_mixer.Mix_LoadMUS(file);
                 SDL_mixer.Mix_PlayMusic(music, 1);
             }
-        }
-
-        public void Free()
-        {
-            SDL_mixer.Mix_FreeMusic(music);
         }
     }
 }
