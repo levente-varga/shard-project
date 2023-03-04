@@ -33,6 +33,7 @@ namespace Shard
             }
             else
             {
+                SDL_mixer.Mix_QuerySpec(out audio_rate, out audio_format, out audio_channels);
                 audioOpen = true;
             }
         } 
@@ -61,13 +62,9 @@ namespace Shard
             string file = Bootstrap.getAssetManager().getAssetPath(path);
             if (!audioOpen || !File.Exists(file)) return;
 
-            else
-            {
-                SDL_mixer.Mix_QuerySpec(out audio_rate, out audio_format, out audio_channels);
-                SDL_mixer.Mix_VolumeMusic(SDL_mixer.MIX_MAX_VOLUME / 2);
-                music = SDL_mixer.Mix_LoadMUS(file);
-                SDL_mixer.Mix_PlayMusic(music, 1);
-            }
+            SDL_mixer.Mix_VolumeMusic(SDL_mixer.MIX_MAX_VOLUME / 2);
+            music = SDL_mixer.Mix_LoadMUS(file);
+            SDL_mixer.Mix_PlayMusic(music, 1);
         }
     }
 }
