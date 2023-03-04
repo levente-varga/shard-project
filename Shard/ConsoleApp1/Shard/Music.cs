@@ -20,9 +20,6 @@ namespace Shard
         ushort audio_format = SDL_mixer.MIX_DEFAULT_FORMAT;
         int audio_channels = SDL_mixer.MIX_DEFAULT_CHANNELS;
         int audio_buffers = 4096;
-        string music_type = "";
-
-        static int audio_open = 0;
 
         string file;
 
@@ -57,20 +54,10 @@ namespace Shard
             else
             {
                 SDL_mixer.Mix_QuerySpec(out audio_rate, out audio_format, out audio_channels);
-                SDL.SDL_Log($"Opened audio at " +
-                    $"{audio_rate} Hz " +
-                    $"{audio_format & 0xFF} bit" +
-                    $"{(SDL.SDL_AUDIO_ISFLOAT(audio_format) ? " (float)" : "")} " +
-                    $"{((audio_channels > 2) ? "surround" : (audio_channels > 1) ? "stereo" : "mono")} " +
-                    $"{audio_buffers} bytes audio buffer\n");
+                SDL_mixer.Mix_VolumeMusic(SDL_mixer.MIX_MAX_VOLUME / 2);
+                music = SDL_mixer.Mix_LoadMUS(file);
+                SDL_mixer.Mix_PlayMusic(music, 1);
             }
-            audio_open = 1;
-
-            SDL_mixer.Mix_VolumeMusic(SDL_mixer.MIX_MAX_VOLUME);
-
-            music = SDL_mixer.Mix_LoadMUS(file);
-
-            SDL_mixer.Mix_PlayMusic(music, 1);
         }
 
         public void Free()
