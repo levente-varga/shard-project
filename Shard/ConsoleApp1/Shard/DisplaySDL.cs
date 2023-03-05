@@ -49,12 +49,28 @@ namespace Shard
         public int A { get => a; set => a = value; }
     }
 
+    class Rectangle
+    {
+        int x, y, w, h;
+        private int r, g, b, a;
+
+        public int X { get => x; set => x = value; }
+        public int Y { get => y; set => y = value; }
+        public int W { get => w; set => w = value; }
+        public int H { get => h; set => h = value; }
+        public int R { get => r; set => r = value; }
+        public int G { get => g; set => g = value; }
+        public int B { get => b; set => b = value; }
+        public int A { get => a; set => a = value; }
+    }
+
 
     class DisplaySDL : DisplayText
     {
         private List<Transform> _toDraw;
         private List<Line> _linesToDraw;
         private List<Circle> _circlesToDraw;
+        private List<Rectangle> _rectanglesToDraw;
         private Dictionary<string, IntPtr> spriteBuffer;
         public override void initialize()
         {
@@ -65,8 +81,7 @@ namespace Shard
             _toDraw = new List<Transform>();
             _linesToDraw = new List<Line>();
             _circlesToDraw = new List<Circle>();
-
-
+            _rectanglesToDraw = new List<Rectangle>();
         }
 
         public IntPtr loadTexture(Transform trans)
@@ -239,6 +254,13 @@ namespace Shard
             {
                 SDL.SDL_SetRenderDrawColor(_rend, (byte)c.R, (byte)c.G, (byte)c.B, (byte)c.A);
                 renderCircle(c.X, c.Y, c.Radius);
+            }
+
+            foreach (Rectangle r in _rectanglesToDraw)
+            {
+                SDL.SDL_SetRenderDrawColor(_rend, (byte)r.R, (byte)r.G, (byte)r.B, (byte)r.A);
+                SDL.SDL_Rect rect = new SDL.SDL_Rect() { x = r.X, y = r.Y, w = r.W, h = r.H };
+                SDL.SDL_RenderDrawRect(_rend, ref rect);
             }
 
             foreach (Line l in _linesToDraw)
