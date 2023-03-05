@@ -7,7 +7,7 @@ namespace Shard
 {
     class NewGame : Game, InputListener
     {
-        GameObject background;
+
         public override void update()
         {
 
@@ -20,9 +20,7 @@ namespace Shard
         }
         public void createItem()
         {
-            GameObject ship = new Item();
-            Random rand = new Random();
-            int offsetx = 0, offsety = 0;
+            GameObject item = new Item();
 
         }
 
