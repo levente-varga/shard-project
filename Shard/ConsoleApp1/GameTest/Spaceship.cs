@@ -15,6 +15,7 @@ namespace GameTest
             this.Transform.X = 500.0f;
             this.Transform.Y = 500.0f;
             this.Transform.SpritePath = Bootstrap.getAssetManager().getAssetPath("spaceship.png");
+            Layer = 1;
 
 
             Bootstrap.getInput().addListener(this);
@@ -55,7 +56,7 @@ namespace GameTest
 
             b.Transform.rotate(this.Transform.Rotz);
 
-            Bootstrap.getSound().playSound ("fire.wav");
+            Bootstrap.getSound().PlaySound("fire.wav");
         }
 
         public void handleInput(InputEvent inp, string eventType)
