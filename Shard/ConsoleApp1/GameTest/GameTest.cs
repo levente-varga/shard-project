@@ -49,6 +49,7 @@ namespace Shard
             background.Transform.X = 0;
             background.Transform.Y = 0;
             background.Visible = true;
+            background.Layer = 0;
         }
 
         public override void initialize()

@@ -15,6 +15,7 @@ namespace GameTest
             this.Transform.X = 500.0f;
             this.Transform.Y = 500.0f;
             this.Transform.SpritePath = Bootstrap.getAssetManager().getAssetPath("spaceship.png");
+            Layer = 1;
 
 
             Bootstrap.getInput().addListener(this);

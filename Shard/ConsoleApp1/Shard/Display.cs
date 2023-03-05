@@ -6,6 +6,8 @@
 *   
 */
 
+using SDL2;
+using System;
 using System.Drawing;
 
 namespace Shard
@@ -58,11 +60,21 @@ namespace Shard
         {
         }
 
-        public virtual void addToDraw(GameObject gob)
+        public virtual IntPtr loadTexture(string path)
+        {
+            return IntPtr.Zero;
+        }
+
+        public virtual IntPtr loadTexture(Transform transform)
+        {
+            return IntPtr.Zero;
+        }
+
+        public virtual void addToDraw(Renderable renderable)
         {
         }
 
-        public virtual void removeToDraw(GameObject gob)
+        public virtual void removeToDraw(Renderable renderable)
         {
         }
         public int getHeight()
