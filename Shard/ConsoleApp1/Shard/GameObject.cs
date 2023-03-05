@@ -96,7 +96,7 @@ namespace Shard
 
         public virtual void update()
         {
-
+            if (visible) Bootstrap.getDisplay().addToDraw(this);
         }
 
         public virtual void physicsUpdate()

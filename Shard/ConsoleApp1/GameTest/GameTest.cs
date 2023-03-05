@@ -48,8 +48,7 @@ namespace Shard
             background.Transform.SpritePath = getAssetManager().getAssetPath ("background2.jpg");
             background.Transform.X = 0;
             background.Transform.Y = 0;
-
-
+            background.Visible = true;
         }
 
         public override void initialize()
