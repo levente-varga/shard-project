@@ -29,7 +29,6 @@ namespace Shard
         public override void initialize()
         {
             Bootstrap.getInput().addListener(this);
-            GameObject background = new Background();
             createItem();
 
         }
