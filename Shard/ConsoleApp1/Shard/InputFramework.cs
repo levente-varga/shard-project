@@ -45,6 +45,8 @@ namespace Shard
 
                 ie = new InputEvent();
 
+                ie.TimeStamp = tick;
+
                 if (ev.type == SDL.SDL_EventType.SDL_MOUSEMOTION)
                 {
                     SDL.SDL_MouseMotionEvent mot;
