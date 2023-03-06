@@ -14,7 +14,8 @@ namespace NewGame
 
             this.Transform.X = 500.0f;
             this.Transform.Y = 500.0f;
-            this.Transform.SpritePath = Bootstrap.getAssetManager().getAssetPath("asteroid.png");
+            this.Transform.SpritePath = Bootstrap.getAssetManager().getAssetPath("ball.png");
+            this.Layer = 1;
 
             Bootstrap.getInput().addListener(this);
 
