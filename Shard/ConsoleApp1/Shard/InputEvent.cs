@@ -18,7 +18,6 @@ namespace Shard
         private int button;
         private int key;
         private string classification;
-        private double timeStamp;
 
         public int X
         {
@@ -44,12 +43,6 @@ namespace Shard
         {
             get => key;
             set => key = value;
-        }
-
-        public double TimeStamp
-        {
-            get => timeStamp;
-            set => timeStamp = value;
         }
     }
 }

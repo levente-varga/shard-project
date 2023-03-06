@@ -66,7 +66,7 @@ namespace Shard
 
     class DisplayText : Display
     {
-        protected IntPtr _window, renderer;
+        protected IntPtr _window, _rend;
         uint _format;
         int _access;
         private List<TextDetails> myTexts;
@@ -79,8 +79,8 @@ namespace Shard
             }
 
             myTexts.Clear();
-            SDL.SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
-            SDL.SDL_RenderClear(renderer);
+            SDL.SDL_SetRenderDrawColor(_rend, 0, 0, 0, 255);
+            SDL.SDL_RenderClear(_rend);
 
         }
 
@@ -118,11 +118,11 @@ namespace Shard
 
 
                 SDL_ttf.TTF_SizeText(td.Font, td.Text, out sRect.w, out sRect.h);
-                SDL.SDL_RenderCopy(renderer, td.LblText, IntPtr.Zero, ref sRect);
+                SDL.SDL_RenderCopy(_rend, td.LblText, IntPtr.Zero, ref sRect);
 
             }
 
-            SDL.SDL_RenderPresent(renderer);
+            SDL.SDL_RenderPresent(_rend);
 
         }
 
@@ -155,14 +155,14 @@ namespace Shard
                 0);
 
 
-            renderer = SDL.SDL_CreateRenderer(_window,
+            _rend = SDL.SDL_CreateRenderer(_window,
                 -1,
                 SDL.SDL_RendererFlags.SDL_RENDERER_ACCELERATED);
 
 
-            SDL.SDL_SetRenderDrawBlendMode(renderer, SDL.SDL_BlendMode.SDL_BLENDMODE_BLEND);
+            SDL.SDL_SetRenderDrawBlendMode(_rend, SDL.SDL_BlendMode.SDL_BLENDMODE_BLEND);
 
-            SDL.SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
+            SDL.SDL_SetRenderDrawColor(_rend, 0, 0, 0, 255);
 
 
             myTexts = new List<TextDetails>();
@@ -192,7 +192,7 @@ namespace Shard
             td.Font = font;
 
             IntPtr surf = SDL_ttf.TTF_RenderText_Blended(td.Font, td.Text, td.Col);
-            IntPtr lblText = SDL.SDL_CreateTextureFromSurface(renderer, surf);
+            IntPtr lblText = SDL.SDL_CreateTextureFromSurface(_rend, surf);
             SDL.SDL_FreeSurface(surf);
 
             SDL.SDL_Rect sRect;
