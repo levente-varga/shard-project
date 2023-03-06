@@ -113,7 +113,7 @@ namespace Shard
             GameObjectManager.getInstance().addGameObject(this);
 
             transform = new Transform3D(this);
-            visible = false;
+            visible = true;
 
             ToBeDestroyed = false;
             tags = new List<string>();

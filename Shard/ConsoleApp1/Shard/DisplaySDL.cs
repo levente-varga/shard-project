@@ -122,12 +122,13 @@ namespace Shard
     {
         private Dictionary<string, IntPtr> spriteBuffer;
         private List<Renderable> toDraw;
+
         public override void initialize()
         {
             spriteBuffer = new Dictionary<string, IntPtr>();
 
             base.initialize();
-
+            Debug.getInstance().log($"Initialized window size: {_width} x {_height}");
             toDraw = new List<Renderable>();
         }
 

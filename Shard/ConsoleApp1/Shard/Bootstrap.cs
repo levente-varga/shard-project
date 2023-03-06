@@ -334,7 +334,8 @@ namespace Shard
                     // FPS.  Milliseconds just aren't precise enough.
                     //
                     //  (I'm hinting if this bothers you, you might have found an engine modification to make...)
-                    Thread.Sleep(sleep);
+
+                    //Thread.Sleep(sleep);
                 }
 
                 timeInMillisecondsEnd = getCurrentMillis();
