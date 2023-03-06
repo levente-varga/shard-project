@@ -23,15 +23,6 @@ namespace NewGame
 
             setPhysicsEnabled();
 
-            MyBody.Mass = 1;
-            MyBody.MaxForce = 10;
-            MyBody.AngularDrag = 0.01f;
-            MyBody.Drag = 0f;
-            MyBody.StopOnCollision = false;
-            MyBody.ReflectOnCollision = false;
-            MyBody.ImpartForce = false;
-            MyBody.Kinematic = false;
-
             MyBody.addRectCollider();
 
             addTag("Item");
@@ -41,7 +32,6 @@ namespace NewGame
 
         public void fireBullet()
         {
-            Bootstrap.getSound().playSound ("fire.wav");
         }
 
         public void handleInput(InputEvent inp, string eventType)
