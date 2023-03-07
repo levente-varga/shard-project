@@ -35,13 +35,13 @@ namespace NewGame
         {
         }
 
-        public void handleInput(InputEvent inp, string eventType)
+        public void handleInput(InputEvent ie)
         {
 
 
-            if (eventType == "KeyUp")
+            if (ie.Type == InputEventType.KeyUp)
             {
-                if (inp.Key == (int)SDL.SDL_Scancode.SDL_SCANCODE_SPACE)
+                if (ie.Key == (int)SDL.SDL_Scancode.SDL_SCANCODE_SPACE)
                 {
                     fireBullet();
                 }

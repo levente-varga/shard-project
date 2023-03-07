@@ -47,25 +47,22 @@ namespace Shard
 
         }
 
-        public void handleInput(InputEvent inp, string eventType)
+        public void handleInput(InputEvent ie)
         {
-
-            if (eventType == "MouseDown")
+            switch (ie.Type)
             {
-                Console.WriteLine("Pressing button " + inp.Button);
+                case InputEventType.MouseDown:
+                    if (ie.Button == 1)
+                    {
+                        Console.WriteLine("Pressing button " + ie.Button);
+                    }
+
+                    if (ie.Button == 3)
+                    {
+                        Console.WriteLine("Pressing button " + ie.Button);
+                    }
+                    break;
             }
-
-            if (eventType == "MouseDown" && inp.Button == 1)
-            {
-                Console.WriteLine("Pressing button " + inp.Button);
-            }
-
-            if (eventType == "MouseDown" && inp.Button == 3)
-            {
-                Console.WriteLine("Pressing button " + inp.Button);
-            }
-
-
         }
     }
 }
