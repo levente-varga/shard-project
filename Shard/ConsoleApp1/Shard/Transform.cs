@@ -58,6 +58,12 @@ namespace Shard
             rotate(0);
         }
 
+        public void SetSize(int width, int height)
+        {
+            wid = width;
+            ht = height;
+            recalculateCentre();
+        }
 
         public void recalculateCentre()
         {
@@ -141,11 +147,36 @@ namespace Shard
             set => spritePath = value;
         }
         public ref Vector2 Forward { get => ref forward; }
-        public int Wid { get => wid; set => wid = value; }
-        public int Ht { get => ht; set => ht = value; }
+        public int Wid 
+        { 
+            get => wid; 
+            set
+            {
+                wid = value;
+                recalculateCentre();
+            }
+        }
+        public int Ht 
+        { 
+            get => ht;
+            set 
+            { 
+                ht = value;
+                recalculateCentre();
+            }
+        }
         public ref Vector2 Right { get => ref right; }
         internal GameObject Owner { get => owner; set => owner = value; }
-        public ref Vector2 Centre { get => ref centre; }
+        public Vector2 Centre 
+        { 
+            get => centre;
+            set
+            {
+                centre = value;
+                x = centre.X - wid * scalex / 2;
+                y = centre.Y - ht  * scaley / 2;
+            }
+        }
         public float Scalex { get => scalex; set => scalex = value; }
         public float Scaley { get => scaley; set => scaley = value; }
         public float Lx { get => lx; set => lx = value; }

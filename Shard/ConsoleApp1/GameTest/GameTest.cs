@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Numerics;
 
 namespace Shard
 {
@@ -27,15 +28,15 @@ namespace Shard
             music = new Music("Music", 131.0, 0.24);
             for (int i = 0; i < 600; i += 4)
             {
-                music.AddNote(new Note(music, i, new Point(
+                music.AddNote(new Note(music, i, new Vector2(
                     random.Next(displayWidth / 2) + displayWidth / 4,
                     random.Next(displayHeight / 2) + displayHeight / 4)));
 
-                music.AddNote(new Note(music, i + 1.5, new Point(
+                music.AddNote(new Note(music, i + 1.5, new Vector2(
                     random.Next(displayWidth / 2) + displayWidth / 4,
                     random.Next(displayHeight / 2) + displayHeight / 4)));
 
-                music.AddNote(new Note(music, i + 3, new Point(
+                music.AddNote(new Note(music, i + 3, new Vector2(
                     random.Next(displayWidth / 2) + displayWidth / 4,
                     random.Next(displayHeight / 2) + displayHeight / 4)));
             }
@@ -60,11 +61,14 @@ namespace Shard
         public void createBackground()
         {
             background = new GameObject();
-            background.Transform.SpritePath = getAssetManager().getAssetPath ("background2.jpg");
+            background.Transform.SpritePath = getAssetManager().getAssetPath ("rhythm_game_background.png");
             background.Transform.X = 0;
             background.Transform.Y = 0;
             background.Visible = true;
             background.Layer = 0;
+            background.Transform.SetSize(
+                Bootstrap.getDisplay().getWidth(),
+                Bootstrap.getDisplay().getHeight());
         }
 
         public void handleInput(InputEvent ie)

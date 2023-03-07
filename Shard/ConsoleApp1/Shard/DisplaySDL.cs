@@ -14,6 +14,7 @@
 using SDL2;
 using System;
 using System.Collections.Generic;
+using System.Numerics;
 using System.Threading;
 
 namespace Shard
@@ -143,14 +144,19 @@ namespace Shard
             ret = loadTexture(trans.SpritePath);
 
             SDL.SDL_QueryTexture(ret, out format, out access, out w, out h);
-            trans.Ht = h;
-            trans.Wid = w;
-            trans.recalculateCentre();
+            trans.SetSize(w, h);
 
             return ret;
 
         }
 
+        public override Vector2 GetTextureSize(IntPtr texture)
+        {
+            int width, height, access;
+            uint format;
+            SDL.SDL_QueryTexture(texture, out format, out access, out width, out height);
+            return new Vector2(width, height);
+        }
 
         public override IntPtr loadTexture(string path)
         {

@@ -9,6 +9,7 @@
 using SDL2;
 using System;
 using System.Drawing;
+using System.Numerics;
 
 namespace Shard
 {
@@ -68,6 +69,11 @@ namespace Shard
         public virtual IntPtr loadTexture(Transform transform)
         {
             return IntPtr.Zero;
+        }
+
+        public virtual Vector2 GetTextureSize(IntPtr texture)
+        {
+            return new Vector2();
         }
 
         public virtual void addToDraw(Renderable renderable)

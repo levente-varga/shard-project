@@ -12,6 +12,7 @@ using SDL2;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Numerics;
 
 namespace Shard
 {
@@ -164,26 +165,27 @@ namespace Shard
                 return;
             }
 
-            SDL.SDL_Rect sRect;
-            SDL.SDL_Rect tRect;
+            SDL.SDL_Rect sourceRect;
+            SDL.SDL_Rect destinationRect;
 
-            var sprite = Bootstrap.getDisplay().loadTexture(transform);
+            IntPtr sprite = Bootstrap.getDisplay().loadTexture(transform.SpritePath);
+            Vector2 spriteSize = Bootstrap.getDisplay().GetTextureSize(sprite);
 
-            sRect.x = 0;
-            sRect.y = 0;
-            sRect.w = (int)(transform.Wid * transform.Scalex);
-            sRect.h = (int)(transform.Ht * transform.Scaley);
+            sourceRect.x = 0;
+            sourceRect.y = 0;
+            sourceRect.w = (int)spriteSize.X;
+            sourceRect.h = (int)spriteSize.Y;
 
-            tRect.x = (int)transform.X;
-            tRect.y = (int)transform.Y;
-            tRect.w = sRect.w;
-            tRect.h = sRect.h;
+            destinationRect.x = (int)transform.X;
+            destinationRect.y = (int)transform.Y;
+            destinationRect.w = (int)(transform.Wid * transform.Scalex);
+            destinationRect.h = (int)(transform.Ht * transform.Scaley);
 
             SDL.SDL_SetTextureBlendMode(sprite, SDL.SDL_BlendMode.SDL_BLENDMODE_BLEND);//This sets the texture in blendmode
 
             SDL.SDL_SetTextureAlphaMod(sprite, (byte)alpha); //sets the alpha into the texture
 
-            SDL.SDL_RenderCopyEx(renderer, sprite, ref sRect, ref tRect, (int)transform.Rotz, IntPtr.Zero, SDL.SDL_RendererFlip.SDL_FLIP_NONE);
+            SDL.SDL_RenderCopyEx(renderer, sprite, ref sourceRect, ref destinationRect, (int)transform.Rotz, IntPtr.Zero, SDL.SDL_RendererFlip.SDL_FLIP_NONE);
         }
     }
 }
