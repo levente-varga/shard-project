@@ -11,6 +11,12 @@
 
 namespace Shard
 {
+    enum InputEventType
+    {
+        MouseMotion, MouseDown, MouseUp, MouseWheel,
+        KeyUp, KeyDown,
+    }
+
     class InputEvent
     {
         private int x;
@@ -19,6 +25,13 @@ namespace Shard
         private int key;
         private string classification;
         private double timeStamp;
+        private InputEventType type;
+
+        public InputEventType Type
+        {
+            get => type;
+            set => type = value;
+        }
 
         public int X
         {

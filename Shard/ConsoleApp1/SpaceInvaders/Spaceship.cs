@@ -49,53 +49,44 @@ namespace SpaceInvaders
 
         }
 
-        public void handleInput(InputEvent inp, string eventType)
+        public void handleInput(InputEvent ie)
         {
 
             if (Bootstrap.getRunningGame().isRunning() == false)
             {
                 return;
             }
-
-            if (eventType == "KeyDown")
+            
+            switch (ie.Type)
             {
+                case InputEventType.KeyDown:
+                    if (ie.Key == (int)SDL.SDL_Scancode.SDL_SCANCODE_D)
+                    {
+                        right = true;
+                    }
 
-                if (inp.Key == (int)SDL.SDL_Scancode.SDL_SCANCODE_D)
-                {
-                    right = true;
-                }
+                    if (ie.Key == (int)SDL.SDL_Scancode.SDL_SCANCODE_A)
+                    {
+                        left = true;
+                    }
+                    break;
 
-                if (inp.Key == (int)SDL.SDL_Scancode.SDL_SCANCODE_A)
-                {
-                    left = true;
-                }
+                case InputEventType.KeyUp:
+                    if (ie.Key == (int)SDL.SDL_Scancode.SDL_SCANCODE_D)
+                    {
+                        right = false;
+                    }
 
-            }
-            else if (eventType == "KeyUp")
-            {
+                    if (ie.Key == (int)SDL.SDL_Scancode.SDL_SCANCODE_A)
+                    {
+                        left = false;
+                    }
 
-
-                if (inp.Key == (int)SDL.SDL_Scancode.SDL_SCANCODE_D)
-                {
-                    right = false;
-                }
-
-                if (inp.Key == (int)SDL.SDL_Scancode.SDL_SCANCODE_A)
-                {
-                    left = false;
-                }
-
-
-            }
-
-
-
-            if (eventType == "KeyUp")
-            {
-                if (inp.Key == (int)SDL.SDL_Scancode.SDL_SCANCODE_SPACE)
-                {
-                    fireBullet();
-                }
+                    if (ie.Key == (int)SDL.SDL_Scancode.SDL_SCANCODE_SPACE)
+                    {
+                        fireBullet();
+                    }
+                    break;
             }
         }
 

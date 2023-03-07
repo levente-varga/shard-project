@@ -47,60 +47,12 @@ namespace GameTest
             
         }
 
-        public void handleInput(InputEvent inp, string eventType)
+        public void handleInput(InputEvent ie)
         {
 
 
 
-            if (eventType == "KeyDown")
-            {
-                if (inp.Key == (int)SDL.SDL_Scancode.SDL_SCANCODE_W)
-                {
-                }
-
-                if (inp.Key == (int)SDL.SDL_Scancode.SDL_SCANCODE_S)
-                {
-                }
-
-                if (inp.Key == (int)SDL.SDL_Scancode.SDL_SCANCODE_D)
-                {
-                }
-
-                if (inp.Key == (int)SDL.SDL_Scancode.SDL_SCANCODE_A)
-                {
-                }
-
-            }
-            else if (eventType == "KeyUp")
-            {
-                if (inp.Key == (int)SDL.SDL_Scancode.SDL_SCANCODE_W)
-                {
-                }
-
-                if (inp.Key == (int)SDL.SDL_Scancode.SDL_SCANCODE_S)
-                {
-                }
-
-                if (inp.Key == (int)SDL.SDL_Scancode.SDL_SCANCODE_D)
-                {
-                }
-
-                if (inp.Key == (int)SDL.SDL_Scancode.SDL_SCANCODE_A)
-                {
-                }
-
-
-            }
-
-
-
-            if (eventType == "KeyUp")
-            {
-                if (inp.Key == (int)SDL.SDL_Scancode.SDL_SCANCODE_SPACE)
-                {
-                    fireBullet();
-                }
-            }
+            
         }
 
         public override void update()

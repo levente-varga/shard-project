@@ -98,12 +98,7 @@ namespace Shard
 
                 // Pick a random invader to fire.
                 livingInvaders[rand.Next(livingInvaders.Count)].fire();
-
-
-
-
             }
-
         }
 
         public void createObjects()
@@ -172,7 +167,7 @@ namespace Shard
 
         }
 
-        public void handleInput(InputEvent inp, string eventType)
+        public void handleInput(InputEvent ie)
         {
 
 

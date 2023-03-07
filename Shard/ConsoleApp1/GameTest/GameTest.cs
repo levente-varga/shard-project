@@ -9,41 +9,56 @@ namespace Shard
     {
         GameObject background;
         List<GameObject> asteroids;
+        List<Note> notes;
+
+        Music music;
+
+        public override void initialize()
+        {
+            Bootstrap.getInput().addListener(this);
+            createBackground();
+
+            asteroids = new List<GameObject>();
+
+            int displayWidth = Bootstrap.getDisplay().getWidth();
+            int displayHeight = Bootstrap.getDisplay().getHeight();
+            Random random = new Random();
+            
+            music = new Music("Music", 131.0, 0.24);
+            for (int i = 0; i < 600; i += 4)
+            {
+                music.AddNote(new Note(music, i, new Point(
+                    random.Next(displayWidth / 2) + displayWidth / 4,
+                    random.Next(displayHeight / 2) + displayHeight / 4)));
+
+                music.AddNote(new Note(music, i + 1.5, new Point(
+                    random.Next(displayWidth / 2) + displayWidth / 4,
+                    random.Next(displayHeight / 2) + displayHeight / 4)));
+
+                music.AddNote(new Note(music, i + 3, new Point(
+                    random.Next(displayWidth / 2) + displayWidth / 4,
+                    random.Next(displayHeight / 2) + displayHeight / 4)));
+            }
+
+            Bootstrap.getSound().PlayMusic("clocks.wav");
+        }
+
         public override void update()
         {
+            music.PositionSeconds = Bootstrap.getSound().MusicPosition;
             
             Bootstrap.getDisplay().showText("FPS: " + Bootstrap.getSecondFPS() + " / " + Bootstrap.getFPS(), 10, 10, 12, 255, 255, 255);
             Bootstrap.getDisplay().showText($"Position: {Bootstrap.getSound().MusicPosition} / {Bootstrap.getSound().MusicLength}", 10, 30, 12, 255, 255, 255);
-
-            double beatPerMinute = 131.0;
-            double beatPerSecond = beatPerMinute / 60;
-            double offsetSeconds = 0.64;
-            double beat = Bootstrap.getSound().MusicPosition * beatPerSecond - offsetSeconds;
-
-            Bootstrap.getDisplay().showText($"Beat: {(int)beat + (int)(beat * 100) / 25 % 4 * 25 * 0.01 }", 10, 50, 12, 255, 255, 255);
-
+            Bootstrap.getDisplay().showText($"Beat: {(int)music.PositionBeats + (int)(music.PositionBeats * 100) / 25 % 4 * 25 * 0.01 }", 10, 50, 12, 255, 255, 255);
         }
 
         public override int getTargetFrameRate()
         {
-            return 100;
+            return 75;
 
         }
-        public void createShip()
+        public void createBackground()
         {
-            GameObject ship = new Spaceship();
-            Random rand = new Random();
-            int offsetx = 0, offsety = 0;
-
-            GameObject asteroid;
-
-
-
-    
-//            asteroid.MyBody.Kinematic = true;
-     
-
-
             background = new GameObject();
             background.Transform.SpritePath = getAssetManager().getAssetPath ("background2.jpg");
             background.Transform.X = 0;
@@ -52,41 +67,32 @@ namespace Shard
             background.Layer = 0;
         }
 
-        public override void initialize()
+        public void handleInput(InputEvent ie)
         {
-            Bootstrap.getInput().addListener(this);
-            createShip();
-
-            asteroids = new List<GameObject>();
-
-            Bootstrap.getSound().PlayMusic("clocks.wav");
-        }
-
-        public void handleInput(InputEvent inp, string eventType)
-        {
-
-            if (eventType == "MouseDown") {
-                Console.WriteLine ("Pressing button " + inp.Button);
-            }
-
-            if (eventType == "MouseDown" && inp.Button == 1)
+            switch (ie.Type)
             {
-                Asteroid asteroid = new Asteroid();
-                asteroid.Transform.X = inp.X;
-                asteroid.Transform.Y = inp.Y;
-                asteroids.Add (asteroid);
+                case InputEventType.MouseDown:
+                    break;
+                    Console.WriteLine ("Pressing button " + ie.Button);
+
+                    if (ie.Button == 1)
+                    {
+                        Asteroid asteroid = new Asteroid();
+                        asteroid.Transform.X = ie.X;
+                        asteroid.Transform.Y = ie.Y;
+                        asteroids.Add (asteroid);
+                    }
+                    
+                    if (ie.Button == 3)
+                    {
+                        foreach (GameObject ast in asteroids) {
+                            ast.ToBeDestroyed = true;
+                        }
+
+                        asteroids.Clear();
+                    }
+                    break;
             }
-
-            if (eventType == "MouseDown" && inp.Button == 3)
-            {
-                foreach (GameObject ast in asteroids) {
-                    ast.ToBeDestroyed = true;
-                }
-
-                asteroids.Clear();
-            }
-
-
         }
     }
 }

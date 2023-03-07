@@ -10,6 +10,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Threading;
+using SDL2;
 
 namespace Shard
 {
@@ -208,7 +209,7 @@ namespace Shard
 
 
 
-            Debug.Log ("Frametimes is " + frameTimes.Count);
+            // Debug.Log ("Frametimes is " + frameTimes.Count);
 
             if (frameTimes.Count == 0) {
                 return -1;
@@ -334,7 +335,9 @@ namespace Shard
                     // FPS.  Milliseconds just aren't precise enough.
                     //
                     //  (I'm hinting if this bothers you, you might have found an engine modification to make...)
-                    Thread.Sleep(sleep);
+
+                    //Thread.Sleep(sleep);
+                    //SDL.SDL_Delay((uint)sleep);
                 }
 
                 timeInMillisecondsEnd = getCurrentMillis();

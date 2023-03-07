@@ -59,67 +59,57 @@ namespace GameTest
             Bootstrap.getSound().PlaySound("fire.wav");
         }
 
-        public void handleInput(InputEvent inp, string eventType)
+        public void handleInput(InputEvent ie)
         {
-
-
-
-            if (eventType == "KeyDown")
+            switch (ie.Type)
             {
-                if (inp.Key == (int)SDL.SDL_Scancode.SDL_SCANCODE_W)
-                {
-                    up = true;
-                }
+                case InputEventType.KeyDown:
+                    if (ie.Key == (int)SDL.SDL_Scancode.SDL_SCANCODE_W)
+                    {
+                        up = true;
+                    }
 
-                if (inp.Key == (int)SDL.SDL_Scancode.SDL_SCANCODE_S)
-                {
-                    down = true;
-                }
+                    if (ie.Key == (int)SDL.SDL_Scancode.SDL_SCANCODE_S)
+                    {
+                        down = true;
+                    }
 
-                if (inp.Key == (int)SDL.SDL_Scancode.SDL_SCANCODE_D)
-                {
-                    turnRight = true;
-                }
+                    if (ie.Key == (int)SDL.SDL_Scancode.SDL_SCANCODE_D)
+                    {
+                        turnRight = true;
+                    }
 
-                if (inp.Key == (int)SDL.SDL_Scancode.SDL_SCANCODE_A)
-                {
-                    turnLeft = true;
-                }
+                    if (ie.Key == (int)SDL.SDL_Scancode.SDL_SCANCODE_A)
+                    {
+                        turnLeft = true;
+                    }
+                    break;
 
-            }
-            else if (eventType == "KeyUp")
-            {
-                if (inp.Key == (int)SDL.SDL_Scancode.SDL_SCANCODE_W)
-                {
-                    up = false;
-                }
+                case InputEventType.KeyUp:
+                    if (ie.Key == (int)SDL.SDL_Scancode.SDL_SCANCODE_W)
+                    {
+                        up = false;
+                    }
 
-                if (inp.Key == (int)SDL.SDL_Scancode.SDL_SCANCODE_S)
-                {
-                    down = false;
-                }
+                    if (ie.Key == (int)SDL.SDL_Scancode.SDL_SCANCODE_S)
+                    {
+                        down = false;
+                    }
 
-                if (inp.Key == (int)SDL.SDL_Scancode.SDL_SCANCODE_D)
-                {
-                    turnRight = false;
-                }
+                    if (ie.Key == (int)SDL.SDL_Scancode.SDL_SCANCODE_D)
+                    {
+                        turnRight = false;
+                    }
 
-                if (inp.Key == (int)SDL.SDL_Scancode.SDL_SCANCODE_A)
-                {
-                    turnLeft = false;
-                }
-
-
-            }
-
-
-
-            if (eventType == "KeyUp")
-            {
-                if (inp.Key == (int)SDL.SDL_Scancode.SDL_SCANCODE_SPACE)
-                {
-                    fireBullet();
-                }
+                    if (ie.Key == (int)SDL.SDL_Scancode.SDL_SCANCODE_A)
+                    {
+                        turnLeft = false;
+                    }
+                    if (ie.Key == (int)SDL.SDL_Scancode.SDL_SCANCODE_SPACE)
+                    {
+                        fireBullet();
+                    }
+                    break;
             }
         }
 

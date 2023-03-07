@@ -6,12 +6,12 @@ namespace GameTest
     class Asteroid : GameObject, CollisionHandler, InputListener
     {
         int torqueCounter = 0;
-        public void handleInput(InputEvent inp, string eventType)
+        public void handleInput(InputEvent ie)
         {
 
-            if (eventType == "MouseDown" && inp.Button == 2)
+            if (ie.Type == InputEventType.MouseDown && ie.Button == 2)
             {
-                if (MyBody.checkCollisions(new Vector2(inp.X, inp.Y)) != null)
+                if (MyBody.checkCollisions(new Vector2(ie.X, ie.Y)) != null)
                 {
                     torqueCounter += 10;
                 }

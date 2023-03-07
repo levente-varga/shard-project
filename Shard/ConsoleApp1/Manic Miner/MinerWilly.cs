@@ -35,50 +35,44 @@ namespace ManicMiner
         }
 
 
-        public void handleInput(InputEvent inp, string eventType)
+        public void handleInput(InputEvent ie)
         {
-            if (eventType == "KeyDown")
+            switch (ie.Type)
             {
+                case InputEventType.KeyDown:
+                    if (ie.Key == (int)SDL.SDL_Scancode.SDL_SCANCODE_D)
+                    {
+                        right = true;
+                        spriteName = "right";
 
-                if (inp.Key == (int)SDL.SDL_Scancode.SDL_SCANCODE_D)
-                {
-                    right = true;
-                    spriteName = "right";
+                    }
 
-                }
+                    if (ie.Key == (int)SDL.SDL_Scancode.SDL_SCANCODE_A)
+                    {
+                        left = true;
+                        spriteName = "left";
+                    }
 
-                if (inp.Key == (int)SDL.SDL_Scancode.SDL_SCANCODE_A)
-                {
-                    left = true;
-                    spriteName = "left";
-                }
+                    if (ie.Key == (int)SDL.SDL_Scancode.SDL_SCANCODE_SPACE && canJump == true)
+                    {
+                        jumpUp = true;
+                        Debug.Log("Jumping up");
+                    }
+                    break;
 
-                if (inp.Key == (int)SDL.SDL_Scancode.SDL_SCANCODE_SPACE && canJump == true)
-                {
-                    jumpUp = true;
-                    Debug.Log ("Jumping up");
-                }
-
-            }
-
-            else if (eventType == "KeyUp")
-                {
-
-                    if (inp.Key == (int)SDL.SDL_Scancode.SDL_SCANCODE_D)
+                case InputEventType.KeyUp:
+                    if (ie.Key == (int)SDL.SDL_Scancode.SDL_SCANCODE_D)
                     {
                         right = false;
 
                     }
 
-                    if (inp.Key == (int)SDL.SDL_Scancode.SDL_SCANCODE_A)
+                    if (ie.Key == (int)SDL.SDL_Scancode.SDL_SCANCODE_A)
                     {
                         left = false;
                     }
-
-                   
-
+                    break;
             }
-
         }
 
         public override void update()
