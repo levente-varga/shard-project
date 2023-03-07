@@ -39,7 +39,7 @@ namespace Shard
             myListeners.Remove(il);
         }
 
-        public void informListeners(InputEvent ie, string eventType)
+        public void informListeners(InputEvent ie)
         {
             InputListener il;
             for (int i = 0; i < myListeners.Count; i++)
@@ -51,7 +51,7 @@ namespace Shard
                     continue;
                 }
 
-                il.handleInput(ie, eventType);
+                il.handleInput(ie);
             }
         }
         public abstract void getInput();

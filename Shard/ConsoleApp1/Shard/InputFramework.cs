@@ -55,8 +55,9 @@ namespace Shard
 
                     ie.X = mot.x;
                     ie.Y = mot.y;
+                    ie.Type = InputEventType.MouseMotion;
 
-                    informListeners(ie, "MouseMotion");
+                    informListeners(ie);
                 }
 
                 if (ev.type == SDL.SDL_EventType.SDL_MOUSEBUTTONDOWN)
@@ -68,8 +69,9 @@ namespace Shard
                     ie.Button = (int)butt.button;
                     ie.X = butt.x;
                     ie.Y = butt.y;
+                    ie.Type = InputEventType.MouseDown;
 
-                    informListeners(ie, "MouseDown");
+                    informListeners(ie);
                 }
 
                 if (ev.type == SDL.SDL_EventType.SDL_MOUSEBUTTONUP)
@@ -81,8 +83,9 @@ namespace Shard
                     ie.Button = (int)butt.button;
                     ie.X = butt.x;
                     ie.Y = butt.y;
+                    ie.Type = InputEventType.MouseUp;
 
-                    informListeners(ie, "MouseUp");
+                    informListeners(ie);
                 }
 
                 if (ev.type == SDL.SDL_EventType.SDL_MOUSEWHEEL)
@@ -93,22 +96,26 @@ namespace Shard
 
                     ie.X = (int)wh.direction * wh.x;
                     ie.Y = (int)wh.direction * wh.y;
+                    ie.Type = InputEventType.MouseWheel;
 
-                    informListeners(ie, "MouseWheel");
+                    informListeners(ie);
                 }
 
 
                 if (ev.type == SDL.SDL_EventType.SDL_KEYDOWN)
                 {
                     ie.Key = (int)ev.key.keysym.scancode;
-                    Debug.getInstance().log("Keydown: " + ie.Key);
-                    informListeners(ie, "KeyDown");
+                    ie.Type = InputEventType.KeyDown;
+
+                    informListeners(ie);
                 }
 
                 if (ev.type == SDL.SDL_EventType.SDL_KEYUP)
                 {
                     ie.Key = (int)ev.key.keysym.scancode;
-                    informListeners(ie, "KeyUp");
+                    ie.Type = InputEventType.KeyUp;
+
+                    informListeners(ie);
                 }
 
                 tick -= timeInterval;
