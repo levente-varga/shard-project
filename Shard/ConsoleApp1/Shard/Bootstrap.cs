@@ -10,6 +10,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Threading;
+using SDL2;
 
 namespace Shard
 {
@@ -336,6 +337,7 @@ namespace Shard
                     //  (I'm hinting if this bothers you, you might have found an engine modification to make...)
 
                     //Thread.Sleep(sleep);
+                    //SDL.SDL_Delay((uint)sleep);
                 }
 
                 timeInMillisecondsEnd = getCurrentMillis();

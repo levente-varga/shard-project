@@ -152,68 +152,67 @@ namespace Shard
         }
 
 
-        public void handleInput(InputEvent inp, string eventType)
+        public void handleInput(InputEvent ie)
         {
             Arsenal a;
             int which = -1;
-            if (eventType == "MouseDown")
+
+            switch (ie.Type)
             {
+                case InputEventType.MouseDown:
+                    if (ie.Button == 3)
+                    {
+                        // Right mouse button.
+                        which = 2;
+                    }
 
-                if (inp.Button == 3)
-                {
-                    // Right mouse button.
-                    which = 2;
-                }
+                    if (ie.Button == 2)
+                    {
+                        // Middle mouse button.
+                        which = 1;
+                    }
 
-                if (inp.Button == 2)
-                {
-                    // Middle mouse button.
-                    which = 1;
-                }
+                    if (ie.Button == 1)
+                    {
+                        // Middle mouse button.
+                        which = 0;
+                    }
 
-                if (inp.Button == 1)
-                {
-                    // Middle mouse button.
-                    which = 0;
-                }
+                    if (which == -1)
+                    {
+                        // Who knows?
+                        which = rand.Next(0, 2);
+                    }
 
-                if (which == -1)
-                {
-                    // Who knows?
-                    which = rand.Next(0, 2);
-                }
+                    Missile m = new Missile();
 
-                Missile m = new Missile();
+                    Debug.Log("Pressed button " + ie.Button);
+                    a = myArsenals[which];
 
-                Debug.Log("Pressed button " + inp.Button);
-                a = myArsenals[which];
+                    if (a.canFireMissile() == false)
+                    {
+                        return;
+                    }
 
-                if (a.canFireMissile() == false)
-                {
-                    return;
-                }
+                    a.fireMissile();
 
-                a.fireMissile();
+                    m.Originx = (float)a.Transform.Centre.X;
+                    m.Originy = (float)a.Transform.Centre.Y;
 
-                m.Originx = (float)a.Transform.Centre.X;
-                m.Originy = (float)a.Transform.Centre.Y;
+                    m.Transform.translate(m.Originx, m.Originy);
 
-                m.Transform.translate(m.Originx, m.Originy);
+                    m.Transform.X = m.Originx;
+                    m.Transform.Y = m.Originy;
 
-                m.Transform.X = m.Originx;
-                m.Transform.Y = m.Originy;
+                    m.Targetx = ie.X;
+                    m.Targety = ie.Y;
 
-                m.Targetx = inp.X;
-                m.Targety = inp.Y;
+                    m.addTag("PlayerMissile");
+                    m.TargetTag = "EnemyMissile";
 
-                m.addTag("PlayerMissile");
-                m.TargetTag = "EnemyMissile";
-
-                m.Speed = 1000;
-                m.MyColor = Color.Green;
-
-
-
+                    m.Speed = 1000;
+                    m.MyColor = Color.Green;
+                    break;
             }
         }
     }

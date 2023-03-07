@@ -25,11 +25,16 @@ namespace Shard
             cki = Console.ReadKey(true);
 
             ie = new InputEvent();
-
             ie.Key = (int)cki.KeyChar;
+            ie.Type = InputEventType.KeyDown;
 
-            informListeners(ie, "KeyDown");
-            informListeners(ie, "KeyUp");
+            informListeners(ie);
+
+            ie = new InputEvent();
+            ie.Key = (int)cki.KeyChar;
+            ie.Type = InputEventType.KeyUp;
+
+            informListeners(ie);
 
             Debug.getInstance().log("Key is " + ie.Key);
         }

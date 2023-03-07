@@ -19,14 +19,14 @@ namespace Shard
         public override void initialize()
         {
             Bootstrap.getInput().addListener(this);
-            createShip();
+            createBackground();
 
             asteroids = new List<GameObject>();
             notes = new List<Note>();
 
             for (int i = 0; i < 100; i++)
             {
-                notes.Add(new Note(i * 2, new Point(Bootstrap.getDisplay().getWidth() / 2, Bootstrap.getDisplay().getHeight() / 2), 200, 3));
+                notes.Add(new Note(i * 2, new Point(Bootstrap.getDisplay().getWidth() / 2, Bootstrap.getDisplay().getHeight() / 2), 50, 25, 3));
             }
 
             beatPerMinute = 131.0;
@@ -50,23 +50,16 @@ namespace Shard
 
         public override int getTargetFrameRate()
         {
-            return 60;
+            return 75;
 
         }
-        public void createShip()
+        public void createBackground()
         {
             GameObject ship = new Spaceship();
             Random rand = new Random();
             int offsetx = 0, offsety = 0;
 
             GameObject asteroid;
-
-
-
-    
-//            asteroid.MyBody.Kinematic = true;
-     
-
 
             background = new GameObject();
             background.Transform.SpritePath = getAssetManager().getAssetPath ("background2.jpg");
@@ -76,31 +69,31 @@ namespace Shard
             background.Layer = 0;
         }
 
-        public void handleInput(InputEvent inp, string eventType)
+        public void handleInput(InputEvent ie)
         {
-
-            if (eventType == "MouseDown") {
-                Console.WriteLine ("Pressing button " + inp.Button);
-            }
-
-            if (eventType == "MouseDown" && inp.Button == 1)
+            switch (ie.Type)
             {
-                Asteroid asteroid = new Asteroid();
-                asteroid.Transform.X = inp.X;
-                asteroid.Transform.Y = inp.Y;
-                asteroids.Add (asteroid);
+                case InputEventType.MouseDown:
+                    Console.WriteLine ("Pressing button " + ie.Button);
+
+                    if (ie.Button == 1)
+                    {
+                        Asteroid asteroid = new Asteroid();
+                        asteroid.Transform.X = ie.X;
+                        asteroid.Transform.Y = ie.Y;
+                        asteroids.Add (asteroid);
+                    }
+                    
+                    if (ie.Button == 3)
+                    {
+                        foreach (GameObject ast in asteroids) {
+                            ast.ToBeDestroyed = true;
+                        }
+
+                        asteroids.Clear();
+                    }
+                    break;
             }
-
-            if (eventType == "MouseDown" && inp.Button == 3)
-            {
-                foreach (GameObject ast in asteroids) {
-                    ast.ToBeDestroyed = true;
-                }
-
-                asteroids.Clear();
-            }
-
-
         }
     }
 }

@@ -38,41 +38,34 @@ namespace GameBreakout
             wid = Bootstrap.getDisplay().getWidth();
         }
 
-        public void handleInput(InputEvent inp, string eventType)
+        public void handleInput(InputEvent ie)
         {
-
-
-
-            if (eventType == "KeyDown")
+            switch (ie.Type)
             {
-                if (inp.Key == (int)SDL.SDL_Scancode.SDL_SCANCODE_D)
-                {
-                    right = true;
-                }
+                case InputEventType.KeyDown:
+                    if (ie.Key == (int)SDL.SDL_Scancode.SDL_SCANCODE_D)
+                    {
+                        right = true;
+                    }
 
-                if (inp.Key == (int)SDL.SDL_Scancode.SDL_SCANCODE_A)
-                {
-                    left = true;
-                }
+                    if (ie.Key == (int)SDL.SDL_Scancode.SDL_SCANCODE_A)
+                    {
+                        left = true;
+                    }
+                    break;
 
+                case InputEventType.KeyUp:
+                    if (ie.Key == (int)SDL.SDL_Scancode.SDL_SCANCODE_D)
+                    {
+                        right = false;
+                    }
+
+                    if (ie.Key == (int)SDL.SDL_Scancode.SDL_SCANCODE_A)
+                    {
+                        left = false;
+                    }
+                    break;
             }
-            else if (eventType == "KeyUp")
-            {
-                if (inp.Key == (int)SDL.SDL_Scancode.SDL_SCANCODE_D)
-                {
-                    right = false;
-                }
-
-                if (inp.Key == (int)SDL.SDL_Scancode.SDL_SCANCODE_A)
-                {
-                    left = false;
-                }
-
-
-            }
-
-
-
         }
 
         public override void update()
