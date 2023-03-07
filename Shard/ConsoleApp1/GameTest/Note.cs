@@ -21,7 +21,7 @@ namespace Shard
         }
 
         const int HIGHLIGHT_SIZE = 120;
-        const int FLARE_SIZE = 120;
+        const int FLARE_SIZE = 160;
         const int NOTE_SIZE = 50;
         const double DEFAULT_FADE_IN_DURATION_BEATS = 2;
         const double DEFAULT_FADE_OUT_DURATION_BEATS = 0.5;
@@ -105,7 +105,7 @@ namespace Shard
 
             flare.Transform.SetSize((int)currentFlareSize, (int)currentFlareSize);
             flare.Transform.Centre = Transform.Centre;
-            flare.Alpha = (int)(255 * Math.Pow((1 - ratio), 2));
+            flare.Alpha = (int)(255 * 2 * Math.Pow((1 - ratio), 2));
         }
 
         public override void update()
