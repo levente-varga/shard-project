@@ -8,19 +8,14 @@ using System.Threading.Tasks;
 
 namespace Shard
 {
-    internal class Note : GameObject, InputListener
+    class Note : GameObject, InputListener
     {
         double positionBeats;
         int markerStartSize;
         double fadeInDurationBeats;
         double fadeOutDurationBeats;
-        double currentBeat;
         bool fired = false;
-
-        public double CurrentBeat
-        {
-            set => currentBeat = value;
-        }
+        Music music;
 
         public double FadeInDurationBeats
         {
@@ -32,17 +27,17 @@ namespace Shard
             set => fadeOutDurationBeats = value > 0 ? value : 1;
         }
 
-        public Note(double positionBeat, Point position, int markerStartSize = 50, double fadeInDurationBeats = 2, double fadeOutDurationBeats = 0.5)
+        public Note(Music music, double positionBeat, Point position, int markerStartSize = 50, double fadeInDurationBeats = 2, double fadeOutDurationBeats = 0.5)
         {
-            Transform.X = position.X;
-            Transform.Y = position.Y;
+            this.music = music;
             this.positionBeats = positionBeat;
             this.markerStartSize = markerStartSize;
             this.FadeInDurationBeats = fadeInDurationBeats;
             this.FadeOutDurationBeats = fadeOutDurationBeats;
-            Layer = 3;
-
+            Transform.X = position.X;
+            Transform.Y = position.Y;
             Transform.SpritePath = Bootstrap.getAssetManager().getAssetPath("note.png");
+            Layer = 3;
 
             Debug.Log($"Note at {Transform.X}, {Transform.Y} with a size of {Transform.Wid} x {Transform.Ht} was created");
 
@@ -53,11 +48,11 @@ namespace Shard
         {
             double fadeInStart = positionBeats - fadeInDurationBeats;
             double fadeOutEnd  = positionBeats + fadeOutDurationBeats;
-            Visible = fadeInStart < currentBeat && currentBeat < fadeOutEnd;
+            Visible = fadeInStart < music.PositionBeats && music.PositionBeats < fadeOutEnd;
             
             if (!Visible) return;
 
-            double diffBeat = currentBeat - positionBeats;
+            double diffBeat = music.PositionBeats - positionBeats;
 
             if (diffBeat < 0) // Music is BEFORE this note
             {   
@@ -82,7 +77,9 @@ namespace Shard
         {
             if (fired) return;
             fired = true;
-            Debug.Log("Hit!");
+            double positionSeconds = positionBeats / music.BeatPerSecond + music.OffsetSeconds;
+
+            Debug.Log($"Hit! Accuracy: {(Math.Abs(positionSeconds - music.PositionSeconds) * 1000).ToString("0")} ms");
         }
 
         public void handleInput(InputEvent ie)

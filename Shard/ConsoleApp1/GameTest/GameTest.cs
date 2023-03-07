@@ -11,10 +11,7 @@ namespace Shard
         List<GameObject> asteroids;
         List<Note> notes;
 
-        double beatPerMinute;
-        double beatPerSecond;
-        double offsetSeconds;
-        double beat;
+        Music music;
 
         public override void initialize()
         {
@@ -22,44 +19,37 @@ namespace Shard
             createBackground();
 
             asteroids = new List<GameObject>();
-            notes = new List<Note>();
 
             int displayWidth = Bootstrap.getDisplay().getWidth();
             int displayHeight = Bootstrap.getDisplay().getHeight();
             Random random = new Random();
-
-            for (int i = 0; i < 307; i += 4)
+            
+            music = new Music("Music", 131.0, 0.24);
+            for (int i = 0; i < 600; i += 4)
             {
-                notes.Add(new Note(i, new Point(
+                music.AddNote(new Note(music, i, new Point(
                     random.Next(displayWidth / 2) + displayWidth / 4,
                     random.Next(displayHeight / 2) + displayHeight / 4)));
 
-                notes.Add(new Note(i + 1.5, new Point(
+                music.AddNote(new Note(music, i + 1.5, new Point(
                     random.Next(displayWidth / 2) + displayWidth / 4,
                     random.Next(displayHeight / 2) + displayHeight / 4)));
 
-                notes.Add(new Note(i + 3, new Point(
+                music.AddNote(new Note(music, i + 3, new Point(
                     random.Next(displayWidth / 2) + displayWidth / 4,
                     random.Next(displayHeight / 2) + displayHeight / 4)));
             }
-
-            beatPerMinute = 131.0;
-            beatPerSecond = beatPerMinute / 60;
-            offsetSeconds = 0.64;
 
             Bootstrap.getSound().PlayMusic("clocks.wav");
         }
 
         public override void update()
         {
-            beat = Bootstrap.getSound().MusicPosition * beatPerSecond - offsetSeconds;
-
-            notes.ForEach(note => { note.CurrentBeat = beat; });
+            music.PositionSeconds = Bootstrap.getSound().MusicPosition;
             
             Bootstrap.getDisplay().showText("FPS: " + Bootstrap.getSecondFPS() + " / " + Bootstrap.getFPS(), 10, 10, 12, 255, 255, 255);
             Bootstrap.getDisplay().showText($"Position: {Bootstrap.getSound().MusicPosition} / {Bootstrap.getSound().MusicLength}", 10, 30, 12, 255, 255, 255);
-
-            Bootstrap.getDisplay().showText($"Beat: {(int)beat + (int)(beat * 100) / 25 % 4 * 25 * 0.01 }", 10, 50, 12, 255, 255, 255);
+            Bootstrap.getDisplay().showText($"Beat: {(int)music.PositionBeats + (int)(music.PositionBeats * 100) / 25 % 4 * 25 * 0.01 }", 10, 50, 12, 255, 255, 255);
         }
 
         public override int getTargetFrameRate()
