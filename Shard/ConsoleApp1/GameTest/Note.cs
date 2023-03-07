@@ -10,51 +10,79 @@ namespace Shard
 {
     internal class Note : GameObject, InputListener
     {
-        double positionBeat;
-        int markerEndSize;
+        double positionBeats;
         int markerStartSize;
-        double visibilityPeriodBeat;
+        double fadeInDurationBeats;
+        double fadeOutDurationBeats;
         double currentBeat;
-
-        List<double> updates;
+        bool fired = false;
 
         public double CurrentBeat
         {
             set => currentBeat = value;
         }
 
-        public double VisibilityPeriodBeat
+        public double FadeInDurationBeats
         {
-            set => visibilityPeriodBeat = value > 0 ? value : 1;
+            set => fadeInDurationBeats = value > 0 ? value : 1;
         }
 
-        public Note(double positionBeat, Point position, int markerStartSize = 50, int markerEndSize = 25, double visibilityPeriodBeat = 2)
+        public double FadeOutDurationBeats
+        {
+            set => fadeOutDurationBeats = value > 0 ? value : 1;
+        }
+
+        public Note(double positionBeat, Point position, int markerStartSize = 50, double fadeInDurationBeats = 2, double fadeOutDurationBeats = 0.5)
         {
             Transform.X = position.X;
             Transform.Y = position.Y;
-            this.positionBeat = positionBeat;
+            this.positionBeats = positionBeat;
             this.markerStartSize = markerStartSize;
-            this.markerEndSize = markerEndSize;
-            this.VisibilityPeriodBeat = visibilityPeriodBeat;
+            this.FadeInDurationBeats = fadeInDurationBeats;
+            this.FadeOutDurationBeats = fadeOutDurationBeats;
             Layer = 3;
-            updates = new List<double>();
 
-            Transform.SpritePath = Bootstrap.getAssetManager().getAssetPath("note.png"); ;
+            Transform.SpritePath = Bootstrap.getAssetManager().getAssetPath("note.png");
+
+            Debug.Log($"Note at {Transform.X}, {Transform.Y} with a size of {Transform.Wid} x {Transform.Ht} was created");
+
+            Bootstrap.getInput().addListener(this);
         }
 
         public override void update()
         {
-            double diffBeat = positionBeat - currentBeat;
-            if (0 > diffBeat || diffBeat > visibilityPeriodBeat) return;
+            double fadeInStart = positionBeats - fadeInDurationBeats;
+            double fadeOutEnd  = positionBeats + fadeOutDurationBeats;
+            Visible = fadeInStart < currentBeat && currentBeat < fadeOutEnd;
+            
+            if (!Visible) return;
 
-            double ratio = diffBeat / visibilityPeriodBeat;
+            double diffBeat = currentBeat - positionBeats;
+
+            if (diffBeat < 0) // Music is BEFORE this note
+            {   
+                double ratio = -diffBeat / fadeInDurationBeats;
+                Alpha = (int)(255 * Math.Pow((1 - ratio), 2));
+                Bootstrap.getDisplay().drawCircle(
+                    (int)Transform.Centre.X, 
+                    (int)Transform.Centre.Y, 
+                    (int)(Transform.Wid / 2 + ratio * (markerStartSize - Transform.Wid / 2)),
+                    255, 204, 85, Alpha);
+            }
+            else
+            {
+                double ratio = diffBeat / fadeOutDurationBeats;
+                Alpha = (int)(255 * Math.Pow((1 - ratio), 2));
+            }
 
             Bootstrap.getDisplay().addToDraw(this);
-            Bootstrap.getDisplay().drawCircle((int)Transform.Centre.X, (int)Transform.Centre.Y, (int)(markerEndSize + ratio * (markerStartSize - markerEndSize)), 255, 255, 255, (int)((1 - ratio) * 255));
+        }
 
-            double time = Bootstrap.TimeElapsed;
-            if (updates.Count == 0 || updates[0] != time) updates.Add(time);
-            while (updates[0] < time - 1) updates.RemoveAt(0);
+        private void Fire()
+        {
+            if (fired) return;
+            fired = true;
+            Debug.Log("Hit!");
         }
 
         public void handleInput(InputEvent ie)
@@ -62,8 +90,9 @@ namespace Shard
             switch (ie.Type)
             {
                 case InputEventType.MouseDown:
-                    if (Math.Abs(ie.X - Transform.Centre.X) < Transform.Wid && Math.Abs(ie.Y - Transform.Centre.Y) < Transform.Ht) {
-                        Debug.Log("Hit!");
+                    if (!Visible) break;
+                    if (Math.Abs(ie.X - Transform.Centre.X) < Transform.Wid / 2 && Math.Abs(ie.Y - Transform.Centre.Y) < Transform.Ht / 2) {
+                        Fire();
                     }
                     break;
             }

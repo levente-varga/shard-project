@@ -24,9 +24,23 @@ namespace Shard
             asteroids = new List<GameObject>();
             notes = new List<Note>();
 
-            for (int i = 0; i < 100; i++)
+            int displayWidth = Bootstrap.getDisplay().getWidth();
+            int displayHeight = Bootstrap.getDisplay().getHeight();
+            Random random = new Random();
+
+            for (int i = 0; i < 307; i += 4)
             {
-                notes.Add(new Note(i * 2, new Point(Bootstrap.getDisplay().getWidth() / 2, Bootstrap.getDisplay().getHeight() / 2), 50, 25, 3));
+                notes.Add(new Note(i, new Point(
+                    random.Next(displayWidth / 2) + displayWidth / 4,
+                    random.Next(displayHeight / 2) + displayHeight / 4)));
+
+                notes.Add(new Note(i + 1.5, new Point(
+                    random.Next(displayWidth / 2) + displayWidth / 4,
+                    random.Next(displayHeight / 2) + displayHeight / 4)));
+
+                notes.Add(new Note(i + 3, new Point(
+                    random.Next(displayWidth / 2) + displayWidth / 4,
+                    random.Next(displayHeight / 2) + displayHeight / 4)));
             }
 
             beatPerMinute = 131.0;
@@ -55,12 +69,6 @@ namespace Shard
         }
         public void createBackground()
         {
-            GameObject ship = new Spaceship();
-            Random rand = new Random();
-            int offsetx = 0, offsety = 0;
-
-            GameObject asteroid;
-
             background = new GameObject();
             background.Transform.SpritePath = getAssetManager().getAssetPath ("background2.jpg");
             background.Transform.X = 0;
@@ -74,6 +82,7 @@ namespace Shard
             switch (ie.Type)
             {
                 case InputEventType.MouseDown:
+                    break;
                     Console.WriteLine ("Pressing button " + ie.Button);
 
                     if (ie.Button == 1)

@@ -21,6 +21,7 @@ namespace Shard
         private bool transient;
         private bool toBeDestroyed;
         private bool visible;
+        private int alpha = 255;
         private PhysicsBody myBody;
         private List<string> tags;
 
@@ -86,6 +87,11 @@ namespace Shard
         {
             get => visible;
             set => visible = value;
+        }
+        public int Alpha
+        {
+            get => alpha;
+            set => alpha = Math.Min(255, Math.Max(0, value));
         }
         public bool Transient { get => transient; set => transient = value; }
         public bool ToBeDestroyed { get => toBeDestroyed; set => toBeDestroyed = value; }
@@ -172,6 +178,10 @@ namespace Shard
             tRect.y = (int)transform.Y;
             tRect.w = sRect.w;
             tRect.h = sRect.h;
+
+            SDL.SDL_SetTextureBlendMode(sprite, SDL.SDL_BlendMode.SDL_BLENDMODE_BLEND);//This sets the texture in blendmode
+
+            SDL.SDL_SetTextureAlphaMod(sprite, (byte)alpha); //sets the alpha into the texture
 
             SDL.SDL_RenderCopyEx(renderer, sprite, ref sRect, ref tRect, (int)transform.Rotz, IntPtr.Zero, SDL.SDL_RendererFlip.SDL_FLIP_NONE);
         }
