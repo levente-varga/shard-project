@@ -21,25 +21,7 @@ namespace Shard
 
             asteroids = new List<GameObject>();
 
-            int displayWidth = Bootstrap.getDisplay().getWidth();
-            int displayHeight = Bootstrap.getDisplay().getHeight();
-            Random random = new Random();
-            
-            music = new Music("Music", 131.0, 0.24);
-            for (int i = 0; i < 600; i += 4)
-            {
-                music.AddNote(new Note(music, i, new Vector2(
-                    random.Next(displayWidth / 2) + displayWidth / 4,
-                    random.Next(displayHeight / 2) + displayHeight / 4)));
-
-                music.AddNote(new Note(music, i + 1.5, new Vector2(
-                    random.Next(displayWidth / 2) + displayWidth / 4,
-                    random.Next(displayHeight / 2) + displayHeight / 4)));
-
-                music.AddNote(new Note(music, i + 3, new Vector2(
-                    random.Next(displayWidth / 2) + displayWidth / 4,
-                    random.Next(displayHeight / 2) + displayHeight / 4)));
-            }
+            SetupMusic();
 
             Bootstrap.getSound().PlayMusic("clocks.wav");
         }
@@ -96,6 +78,282 @@ namespace Shard
                         asteroids.Clear();
                     }
                     break;
+            }
+        }
+
+        private void SetupOldMusic()
+        {
+            int displayWidth = Bootstrap.getDisplay().getWidth();
+            int displayHeight = Bootstrap.getDisplay().getHeight();
+            Random random = new Random();
+
+            music.StartCreating();
+
+            music = new Music("Music", 131.0, 0.24);
+            for (int i = 0; i < 600; i += 4)
+            {
+                music.AddNoteAndPause(1.5);
+                music.AddNoteAndPause(1.5);
+                music.AddNoteAndPause(1);
+            }
+        }
+
+        private void SetupMusic()
+        {
+            int displayWidth = Bootstrap.getDisplay().getWidth();
+            int displayHeight = Bootstrap.getDisplay().getHeight();
+            Random random = new Random();
+
+            music = new Music("Music", 131.0, 0.24);
+
+            music.StartCreating();
+
+            music.AddPause(4);
+
+            for (int i = 0; i < 80; i++)
+            {
+                music.AddNoteAndPause(1, 0 + i * 20, 300);
+            }
+
+            music.AddPause(16);
+            music.AddNoteAndPause(4);
+            music.AddNoteAndPause(4);
+            music.AddNoteAndPause(4);
+            music.AddNoteAndPause(4);
+
+            for (int i = 0; i < 8; i++)
+            {
+                music.AddNoteAndPause(1.5, 300, 300);
+                music.AddNoteAndPause(1.5, 500, 300);
+                music.AddNoteAndPause(1.0, 600, 300);
+            }
+
+            // Refrain 1
+
+            music.AddNoteAndPause(1.0, 1000, 1000);
+            music.AddNoteAndPause(1.0, 1000, 1000);
+            music.AddNoteAndPause(1.0, 1000, 1000);
+            music.AddNoteAndPause(0.5, 1000, 1000);
+            music.AddNoteAndPause(0.5, 1000, 1000);
+
+            music.AddNoteAndPause(0.5, 1000, 1000);
+            music.AddNoteAndPause(1.0, 1000, 1000);
+            music.AddNoteAndPause(2.5, 1000, 1000);
+
+
+
+            music.AddNoteAndPause(1.0, 1000, 1000);
+            music.AddNoteAndPause(0.5, 1000, 1000);
+            music.AddNoteAndPause(0.5, 1000, 1000);
+            music.AddNoteAndPause(1.5, 1000, 1000);
+            music.AddNoteAndPause(0.5, 1000, 1000);
+
+            music.AddNoteAndPause(0.5, 1000, 1000);
+            music.AddNoteAndPause(1.0, 1000, 1000);
+            music.AddNoteAndPause(2.5, 1000, 1000);
+
+
+
+            music.AddNoteAndPause(1.0, 1000, 1000);
+            music.AddNoteAndPause(1.0, 1000, 1000);
+            music.AddNoteAndPause(1.5, 1000, 1000);
+            music.AddNoteAndPause(0.5, 1000, 1000);
+
+            music.AddNoteAndPause(0.5, 1000, 1000);
+            music.AddNoteAndPause(1.0, 1000, 1000);
+            music.AddNoteAndPause(2.5, 1000, 1000);
+
+
+
+            music.AddNoteAndPause(1.5, 1000, 1000);
+            music.AddNoteAndPause(0.5, 1000, 1000);
+            music.AddNoteAndPause(1.5, 1000, 1000);
+            music.AddNoteAndPause(0.5, 1000, 1000);
+
+            music.AddNoteAndPause(0.5, 1000, 1000);
+            music.AddNoteAndPause(1.0, 1000, 1000);
+            music.AddNoteAndPause(1.5, 1000, 1000);
+            music.AddNoteAndPause(0.5, 1000, 1000);
+            music.AddNoteAndPause(0.5, 1000, 1000);
+            
+
+
+            music.AddPause(1.0);
+            music.AddNoteAndPause(1.0, 1000, 1000);
+            music.AddNoteAndPause(1.5, 1000, 1000);
+            music.AddNoteAndPause(0.5, 1000, 1000);
+
+            music.AddNoteAndPause(0.5, 1000, 1000);
+            music.AddNoteAndPause(1.0, 1000, 1000);
+            music.AddNoteAndPause(2.5, 1000, 1000);
+
+
+
+            music.AddNoteAndPause(1.5, 1000, 1000);
+            music.AddNoteAndPause(0.5, 1000, 1000);
+            music.AddNoteAndPause(1.5, 1000, 1000);
+            music.AddNoteAndPause(0.5, 1000, 1000);
+
+            music.AddNoteAndPause(0.5, 1000, 1000);
+            music.AddNoteAndPause(1.0, 1000, 1000);
+            music.AddNoteAndPause(1.5, 1000, 1000);
+            music.AddNoteAndPause(0.5, 1000, 1000);
+            music.AddNoteAndPause(0.5, 1000, 1000);
+
+
+
+            music.AddPause(1.0);
+            music.AddNoteAndPause(1.0, 1000, 1000);
+            music.AddNoteAndPause(1.5, 1000, 1000);
+            music.AddNoteAndPause(0.5, 1000, 1000);
+
+            music.AddNoteAndPause(0.5, 1000, 1000);
+            music.AddNoteAndPause(1.0, 1000, 1000);
+            music.AddNoteAndPause(2.5, 1000, 1000);
+
+
+
+            music.AddNoteAndPause(1.0, 1000, 1000);
+            music.AddNoteAndPause(1.0, 1000, 1000);
+            music.AddNoteAndPause(1.5, 1000, 1000);
+            music.AddNoteAndPause(0.5, 1000, 1000);
+
+            music.AddNoteAndPause(0.5, 1000, 1000);
+            music.AddNoteAndPause(1.0, 1000, 1000);
+            music.AddNoteAndPause(1.5, 1000, 1000);
+            music.AddNoteAndPause(0.5, 1000, 1000);
+            music.AddNoteAndPause(0.5, 1000, 1000);
+
+
+
+            for (int i = 0; i < 16; i++)
+            {
+                music.AddNoteAndPause(1.5);
+                music.AddNoteAndPause(1.5);
+                music.AddNoteAndPause(1.0);
+            }
+
+
+
+            // Refrain 2
+
+            music.AddNoteAndPause(1.0);
+            music.AddNoteAndPause(1.0);
+            music.AddNoteAndPause(2.0);
+
+
+            music.AddNoteAndPause(0.5);
+            music.AddNoteAndPause(1.0);
+            music.AddNoteAndPause(2.5);
+
+
+
+            music.AddNoteAndPause(1.0);
+            music.AddNoteAndPause(1.0);
+            music.AddNoteAndPause(1.5);
+            music.AddNoteAndPause(0.5);
+
+            music.AddNoteAndPause(0.5);
+            music.AddNoteAndPause(1.0);
+            music.AddNoteAndPause(1.5);
+            music.AddNoteAndPause(0.5);
+            music.AddNoteAndPause(0.5);
+
+
+
+            music.AddPause(1.0);
+            music.AddNoteAndPause(1.0);
+            music.AddNoteAndPause(1.5);
+            music.AddNoteAndPause(0.5);
+
+            music.AddNoteAndPause(0.5);
+            music.AddNoteAndPause(1.0);
+            music.AddNoteAndPause(2.0);
+            music.AddNoteAndPause(0.5);
+
+
+
+            music.AddNoteAndPause(1.0);
+            music.AddNoteAndPause(1.0);
+            music.AddNoteAndPause(1.5);
+            music.AddNoteAndPause(0.5);
+
+            music.AddNoteAndPause(0.5);
+            music.AddNoteAndPause(1.0);
+            music.AddNoteAndPause(1.5);
+            music.AddNoteAndPause(0.5);
+            music.AddNoteAndPause(0.5);
+
+
+
+            music.AddPause(1.0);
+            music.AddNoteAndPause(1.0);
+            music.AddNoteAndPause(1.5);
+            music.AddNoteAndPause(0.5);
+
+            music.AddNoteAndPause(0.5);
+            music.AddNoteAndPause(1.0);
+            music.AddNoteAndPause(2.5);
+
+
+
+            music.AddNoteAndPause(1.0);
+            music.AddNoteAndPause(1.0);
+            music.AddNoteAndPause(1.5);
+            music.AddNoteAndPause(0.5);
+
+            music.AddNoteAndPause(0.5);
+            music.AddNoteAndPause(1.0);
+            music.AddNoteAndPause(1.5);
+            music.AddNoteAndPause(0.5);
+            music.AddNoteAndPause(0.5);
+
+
+
+            music.AddPause(1.0);
+            music.AddNoteAndPause(1.0);
+            music.AddNoteAndPause(1.5);
+            music.AddNoteAndPause(0.5);
+
+            music.AddNoteAndPause(0.5);
+            music.AddNoteAndPause(1.0);
+            music.AddNoteAndPause(2.0);
+            music.AddNoteAndPause(0.5);
+
+
+
+            music.AddNoteAndPause(1.0);
+            music.AddNoteAndPause(1.0);
+            music.AddNoteAndPause(1.5);
+            music.AddNoteAndPause(0.5);
+
+            music.AddNoteAndPause(0.5);
+            music.AddNoteAndPause(1.0);
+            music.AddNoteAndPause(1.5);
+            music.AddNoteAndPause(0.5);
+            music.AddNoteAndPause(0.5);
+
+
+
+            for (int i = 0; i < 16; i++)
+            {
+                music.AddNoteAndPause(1.5);
+                music.AddNoteAndPause(1.5);
+                music.AddNoteAndPause(1.0);
+            }
+
+
+
+            for (int i = 0; i < 16; i++)
+            {
+                music.AddNoteAndPause(0.5, 300, 300);
+                music.AddNoteAndPause(0.5, 400, 300);
+                music.AddNoteAndPause(0.5, 500, 300);
+                music.AddNoteAndPause(0.5, 300, 300);
+                music.AddNoteAndPause(0.5, 400, 300);
+                music.AddNoteAndPause(0.5, 500, 300);
+                music.AddNoteAndPause(0.5, 300, 300);
+                music.AddNoteAndPause(0.5, 500, 300);
             }
         }
     }

@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Shard
 {
-    class Note : GameObject, InputListener
+    class Note : GameObject
     {
         enum Score
         {
@@ -50,6 +50,8 @@ namespace Shard
             set => fadeOutDurationBeats = value > 0 ? value : 1;
         }
 
+        public double PositionBeats { get => positionBeats; }
+
         public Note(Music music, double positionBeat, Vector2 position) 
         {
             this.music = music;
@@ -65,8 +67,6 @@ namespace Shard
             Layer = 3;
 
             SetupHighlight();
-
-            Bootstrap.getInput().addListener(this);
         }
 
         private void SetupHighlight()
@@ -140,7 +140,7 @@ namespace Shard
             Bootstrap.getDisplay().addToDraw(this);
         }
 
-        private void Fire()
+        public void Fire()
         {
             if (fired) return;
             fired = true;
@@ -170,20 +170,6 @@ namespace Shard
             SetupFlare();
         }
 
-        public void handleInput(InputEvent ie)
-        {
-            switch (ie.Type)
-            {
-                case InputEventType.MouseDown:
-                    if (!Visible) break;
-
-                    if (IsPositionInsideNote(ie.X, ie.Y)) {
-                        Fire();
-                    }
-                    break;
-            }
-        }
-
-        private bool IsPositionInsideNote(int x, int y) => Math.Pow(x - Transform.Centre.X, 2) + Math.Pow(y - Transform.Centre.Y, 2) < Math.Pow(NOTE_SIZE / 2, 2);
+        public bool IsPositionInsideArea(int x, int y) => Math.Pow(x - Transform.Centre.X, 2) + Math.Pow(y - Transform.Centre.Y, 2) < Math.Pow(NOTE_SIZE / 2, 2);
     }
 }
