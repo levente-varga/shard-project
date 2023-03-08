@@ -30,9 +30,9 @@ namespace Shard
         {
             music.PositionSeconds = Bootstrap.getSound().MusicPosition;
             
-            Bootstrap.getDisplay().showText("FPS: " + Bootstrap.getSecondFPS() + " / " + Bootstrap.getFPS(), 10, 10, 12, 255, 255, 255);
-            Bootstrap.getDisplay().showText($"Position: {Bootstrap.getSound().MusicPosition} / {Bootstrap.getSound().MusicLength}", 10, 30, 12, 255, 255, 255);
-            Bootstrap.getDisplay().showText($"Beat: {(int)music.PositionBeats + (int)(music.PositionBeats * 100) / 25 % 4 * 25 * 0.01 }", 10, 50, 12, 255, 255, 255);
+            //Bootstrap.getDisplay().showText("FPS: " + Bootstrap.getSecondFPS() + " / " + Bootstrap.getFPS(), 10, 10, 12, 255, 255, 255);
+            //Bootstrap.getDisplay().showText($"Position: {Bootstrap.getSound().MusicPosition} / {Bootstrap.getSound().MusicLength}", 10, 30, 12, 255, 255, 255);
+            //Bootstrap.getDisplay().showText($"Beat: {(int)music.PositionBeats + (int)(music.PositionBeats * 100) / 25 % 4 * 25 * 0.01 }", 10, 50, 12, 255, 255, 255);
         }
 
         public override int getTargetFrameRate()
@@ -43,7 +43,7 @@ namespace Shard
         public void createBackground()
         {
             background = new GameObject();
-            background.Transform.SpritePath = getAssetManager().getAssetPath ("rhythm_game_background.png");
+            background.Transform.SpritePath = getAssetManager().getAssetPath ("rhythm_game_background.jpg");
             background.Transform.X = 0;
             background.Transform.Y = 0;
             background.Visible = true;
@@ -58,25 +58,7 @@ namespace Shard
             switch (ie.Type)
             {
                 case InputEventType.MouseDown:
-                    break;
-                    Console.WriteLine ("Pressing button " + ie.Button);
 
-                    if (ie.Button == 1)
-                    {
-                        Asteroid asteroid = new Asteroid();
-                        asteroid.Transform.X = ie.X;
-                        asteroid.Transform.Y = ie.Y;
-                        asteroids.Add (asteroid);
-                    }
-                    
-                    if (ie.Button == 3)
-                    {
-                        foreach (GameObject ast in asteroids) {
-                            ast.ToBeDestroyed = true;
-                        }
-
-                        asteroids.Clear();
-                    }
                     break;
             }
         }
