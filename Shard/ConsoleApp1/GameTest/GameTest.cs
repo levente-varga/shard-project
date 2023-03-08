@@ -108,13 +108,6 @@ namespace Shard
 
             music.StartCreating();
 
-            music.AddPause(4);
-
-            for (int i = 0; i < 80; i++)
-            {
-                music.AddNoteAndPause(1, 0 + i * 20, 300);
-            }
-
             music.AddPause(16);
             music.AddNoteAndPause(4);
             music.AddNoteAndPause(4);
