@@ -116,106 +116,106 @@ namespace Shard
 
             for (int i = 0; i < 8; i++)
             {
-                music.AddNoteAndPause(1.5, 300, 300);
-                music.AddNoteAndPause(1.5, 500, 300);
-                music.AddNoteAndPause(1.0, 600, 300);
+                music.AddNoteAndPause(1.5, 500, 400);
+                music.AddNoteAndPause(1.5, 600, 400);
+                music.AddNoteAndPause(1.0, 700, 400);
             }
 
             // Refrain 1
 
-            music.AddNoteAndPause(1.0, 1000, 1000);
-            music.AddNoteAndPause(1.0, 1000, 1000);
-            music.AddNoteAndPause(1.0, 1000, 1000);
-            music.AddNoteAndPause(0.5, 1000, 1000);
-            music.AddNoteAndPause(0.5, 1000, 1000);
+            music.AddNoteAndPause(1.0);
+            music.AddNoteAndPause(1.0);
+            music.AddNoteAndPause(1.0);
+            music.AddNoteAndPause(0.5);
+            music.AddNoteAndPause(0.5);
 
-            music.AddNoteAndPause(0.5, 1000, 1000);
-            music.AddNoteAndPause(1.0, 1000, 1000);
-            music.AddNoteAndPause(2.5, 1000, 1000);
-
-
-
-            music.AddNoteAndPause(1.0, 1000, 1000);
-            music.AddNoteAndPause(0.5, 1000, 1000);
-            music.AddNoteAndPause(0.5, 1000, 1000);
-            music.AddNoteAndPause(1.5, 1000, 1000);
-            music.AddNoteAndPause(0.5, 1000, 1000);
-
-            music.AddNoteAndPause(0.5, 1000, 1000);
-            music.AddNoteAndPause(1.0, 1000, 1000);
-            music.AddNoteAndPause(2.5, 1000, 1000);
+            music.AddNoteAndPause(0.5);
+            music.AddNoteAndPause(1.0);
+            music.AddNoteAndPause(2.5);
 
 
 
-            music.AddNoteAndPause(1.0, 1000, 1000);
-            music.AddNoteAndPause(1.0, 1000, 1000);
-            music.AddNoteAndPause(1.5, 1000, 1000);
-            music.AddNoteAndPause(0.5, 1000, 1000);
+            music.AddNoteAndPause(1.0);
+            music.AddNoteAndPause(0.5);
+            music.AddNoteAndPause(0.5);
+            music.AddNoteAndPause(1.5);
+            music.AddNoteAndPause(0.5);
 
-            music.AddNoteAndPause(0.5, 1000, 1000);
-            music.AddNoteAndPause(1.0, 1000, 1000);
-            music.AddNoteAndPause(2.5, 1000, 1000);
+            music.AddNoteAndPause(0.5);
+            music.AddNoteAndPause(1.0);
+            music.AddNoteAndPause(2.5);
 
 
 
-            music.AddNoteAndPause(1.5, 1000, 1000);
-            music.AddNoteAndPause(0.5, 1000, 1000);
-            music.AddNoteAndPause(1.5, 1000, 1000);
-            music.AddNoteAndPause(0.5, 1000, 1000);
+            music.AddNoteAndPause(1.0);
+            music.AddNoteAndPause(1.0);
+            music.AddNoteAndPause(1.5);
+            music.AddNoteAndPause(0.5);
 
-            music.AddNoteAndPause(0.5, 1000, 1000);
-            music.AddNoteAndPause(1.0, 1000, 1000);
-            music.AddNoteAndPause(1.5, 1000, 1000);
-            music.AddNoteAndPause(0.5, 1000, 1000);
-            music.AddNoteAndPause(0.5, 1000, 1000);
-            
+            music.AddNoteAndPause(0.5);
+            music.AddNoteAndPause(1.0);
+            music.AddNoteAndPause(2.5);
+
+
+
+            music.AddNoteAndPause(1.5);
+            music.AddNoteAndPause(0.5);
+            music.AddNoteAndPause(1.5);
+            music.AddNoteAndPause(0.5);
+
+            music.AddNoteAndPause(0.5);
+            music.AddNoteAndPause(1.0);
+            music.AddNoteAndPause(1.5);
+            music.AddNoteAndPause(0.5);
+            music.AddNoteAndPause(0.5);
+
+
+
+            music.AddPause(1.0);     
+            music.AddNoteAndPause(1.0);
+            music.AddNoteAndPause(1.5);
+            music.AddNoteAndPause(0.5);
+
+            music.AddNoteAndPause(0.5);
+            music.AddNoteAndPause(1.0);
+            music.AddNoteAndPause(2.5);
+
+
+
+            music.AddNoteAndPause(1.5);
+            music.AddNoteAndPause(0.5);
+            music.AddNoteAndPause(1.5);
+            music.AddNoteAndPause(0.5);
+
+            music.AddNoteAndPause(0.5);
+            music.AddNoteAndPause(1.0);
+            music.AddNoteAndPause(1.5);
+            music.AddNoteAndPause(0.5);
+            music.AddNoteAndPause(0.5);
+
 
 
             music.AddPause(1.0);
-            music.AddNoteAndPause(1.0, 1000, 1000);
-            music.AddNoteAndPause(1.5, 1000, 1000);
-            music.AddNoteAndPause(0.5, 1000, 1000);
+            music.AddNoteAndPause(1.0);
+            music.AddNoteAndPause(1.5);
+            music.AddNoteAndPause(0.5);
 
-            music.AddNoteAndPause(0.5, 1000, 1000);
-            music.AddNoteAndPause(1.0, 1000, 1000);
-            music.AddNoteAndPause(2.5, 1000, 1000);
-
-
-
-            music.AddNoteAndPause(1.5, 1000, 1000);
-            music.AddNoteAndPause(0.5, 1000, 1000);
-            music.AddNoteAndPause(1.5, 1000, 1000);
-            music.AddNoteAndPause(0.5, 1000, 1000);
-
-            music.AddNoteAndPause(0.5, 1000, 1000);
-            music.AddNoteAndPause(1.0, 1000, 1000);
-            music.AddNoteAndPause(1.5, 1000, 1000);
-            music.AddNoteAndPause(0.5, 1000, 1000);
-            music.AddNoteAndPause(0.5, 1000, 1000);
+            music.AddNoteAndPause(0.5);
+            music.AddNoteAndPause(1.0);
+            music.AddNoteAndPause(2.5);
 
 
 
-            music.AddPause(1.0);
-            music.AddNoteAndPause(1.0, 1000, 1000);
-            music.AddNoteAndPause(1.5, 1000, 1000);
-            music.AddNoteAndPause(0.5, 1000, 1000);
+            music.AddNoteAndPause(1.0);
+            music.AddNoteAndPause(1.0);
+            music.AddNoteAndPause(1.5);
+            music.AddNoteAndPause(0.5);
 
-            music.AddNoteAndPause(0.5, 1000, 1000);
-            music.AddNoteAndPause(1.0, 1000, 1000);
-            music.AddNoteAndPause(2.5, 1000, 1000);
-
-
-
-            music.AddNoteAndPause(1.0, 1000, 1000);
-            music.AddNoteAndPause(1.0, 1000, 1000);
-            music.AddNoteAndPause(1.5, 1000, 1000);
-            music.AddNoteAndPause(0.5, 1000, 1000);
-
-            music.AddNoteAndPause(0.5, 1000, 1000);
-            music.AddNoteAndPause(1.0, 1000, 1000);
-            music.AddNoteAndPause(1.5, 1000, 1000);
-            music.AddNoteAndPause(0.5, 1000, 1000);
-            music.AddNoteAndPause(0.5, 1000, 1000);
+            music.AddNoteAndPause(0.5);
+            music.AddNoteAndPause(1.0);
+            music.AddNoteAndPause(1.5);
+            music.AddNoteAndPause(0.5);
+            music.AddNoteAndPause(0.5);
 
 
 

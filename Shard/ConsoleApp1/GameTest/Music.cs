@@ -16,6 +16,7 @@ namespace Shard
         double musicPositionSeconds;
         double musicPositionBeats;
         double creatingAtBeat = 0; // the beat we are adding notes at with AddNoteAndPauseForBeat()
+        Vector2 mousePosition;
 
         public double PositionSeconds
         {
@@ -72,8 +73,8 @@ namespace Shard
             int displayHeight = Bootstrap.getDisplay().getHeight();
 
             AddNoteAndPause(pauseForBeats, new Vector2(
-                random.Next(displayWidth / 2) + displayWidth / 4,
-                random.Next(displayHeight / 2) + displayHeight / 4
+                (int)(random.Next(displayWidth / 4) + displayWidth * (3.0 / 8.0)),
+                (int)(random.Next(displayHeight / 4) + displayHeight * (3.0 / 8.0))
                 ));
         }
 
@@ -99,23 +100,32 @@ namespace Shard
 
         public void handleInput(InputEvent ie)
         {
-            if (ie.Type != InputEventType.MouseDown) return;
-            
-            List<Note> candidates = new List<Note>();
-
-            foreach (Note note in notes)
+            switch (ie.Type)
             {
-                if (note.Visible && note.IsPositionInsideArea(ie.X, ie.Y))
-                {
-                    candidates.Add(note);
-                }
+                case InputEventType.MouseMotion:
+                    mousePosition = new Vector2(ie.X, ie.Y);
+                    break;
+                case InputEventType.MouseDown:
+                case InputEventType.KeyDown:
+                    if (ie.Type == InputEventType.MouseDown) mousePosition = new Vector2(ie.X, ie.Y);
+
+                    List<Note> candidates = new List<Note>();
+
+                    foreach (Note note in notes)
+                    {
+                        if (note.Visible && !note.Fired && note.IsPositionInsideArea((int)mousePosition.X, (int)mousePosition.Y))
+                        {
+                            candidates.Add(note);
+                        }
+                    }
+
+                    if (candidates.Count == 0) return;
+
+                    if (candidates.Count > 1) candidates.Sort((a, b) => Math.Sign(a.PositionBeats - b.PositionBeats));
+
+                    candidates[0].Fire();
+                    break;
             }
-
-            if (candidates.Count == 0) return;
-
-            if (candidates.Count > 1) candidates.Sort((a, b) => Math.Sign(a.PositionBeats - b.PositionBeats));
-
-            candidates[0].Fire();
         }
     }
 }

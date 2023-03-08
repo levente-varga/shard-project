@@ -50,6 +50,11 @@ namespace Shard
             set => fadeOutDurationBeats = value > 0 ? value : 1;
         }
 
+        public bool Fired
+        {
+            get => fired;
+        }
+
         public double PositionBeats { get => positionBeats; }
 
         public Note(Music music, double positionBeat, Vector2 position) 
