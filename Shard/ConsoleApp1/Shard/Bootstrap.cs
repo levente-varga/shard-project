@@ -337,7 +337,7 @@ namespace Shard
                     //  (I'm hinting if this bothers you, you might have found an engine modification to make...)
 
                     //Thread.Sleep(sleep);
-                    //SDL.SDL_Delay((uint)sleep);
+                    SDL.SDL_Delay((uint)sleep);
                 }
 
                 timeInMillisecondsEnd = getCurrentMillis();

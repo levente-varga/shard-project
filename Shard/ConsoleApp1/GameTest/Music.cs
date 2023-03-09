@@ -13,6 +13,7 @@ namespace Shard
         double beatPerSecond;
         double offsetSeconds;
         string title;
+        string filePath;
         double musicPositionSeconds;
         double musicPositionBeats;
         double creatingAtBeat = 0; // the beat we are adding notes at with AddNoteAndPauseForBeat()
@@ -43,13 +44,16 @@ namespace Shard
         public double BeatPerSecond { get => beatPerSecond; }
         public double OffsetSeconds { get => offsetSeconds; }
         public string Title { get => title; }
+        public string FilePath { get => filePath; }
 
         List<Note> notes;
 
-        public Music(string title, double beatPerMinute, double offsetSeconds)
+        public Music(string title, string filePath, double beatPerMinute, double offsetSeconds)
         {
             this.beatPerMinute = beatPerMinute;
             this.offsetSeconds = offsetSeconds;
+            this.filePath = filePath;
+            this.title = title;
             beatPerSecond = beatPerMinute / 60.0;
             notes = new List<Note>();
 

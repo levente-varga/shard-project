@@ -50,9 +50,9 @@ namespace Shard
             }
         }
 
-        public void showText(string text, double x, double y, int size, Color col)
+        public void showText(string text, double x, double y, int size, Color col, TextAlignment alignmentHorizontal = TextAlignment.Start, TextAlignment alignmentVertical = TextAlignment.Start)
         {
-            showText(text, x, y, size, col.R, col.G, col.B);
+            showText(text, x, y, size, col.R, col.G, col.B, col.A, alignmentHorizontal, alignmentVertical);
         }
 
 
@@ -103,7 +103,7 @@ namespace Shard
         public abstract void clearDisplay();
         public abstract void display();
 
-        public abstract void showText(string text, double x, double y, int size, int r, int g, int b);
-        public abstract void showText(char[,] text, double x, double y, int size, int r, int g, int b);
+        public abstract void showText(string text, double x, double y, int size, int r, int g, int b, int a, TextAlignment alignmentHorizontal = TextAlignment.Start, TextAlignment alignmentVertical = TextAlignment.Start);
+        public abstract void showText(char[,] text, double x, double y, int size, int r, int g, int b, int a, TextAlignment alignmentHorizontal = TextAlignment.Start, TextAlignment alignmentVertical = TextAlignment.Start);
     }
 }

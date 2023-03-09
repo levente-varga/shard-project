@@ -14,6 +14,10 @@ using System.Collections.Generic;
 
 namespace Shard
 {
+    enum TextAlignment
+    {
+        Start, Center, End
+    }
 
     // We'll be using SDL2 here to provide our underlying graphics system.
     class TextDetails
@@ -24,17 +28,30 @@ namespace Shard
         int size;
         IntPtr font;
         IntPtr lblText;
+        TextAlignment alignmentHorizontal;
+        TextAlignment alignmentVertical;
 
-
-        public TextDetails(string text, double x, double y, SDL.SDL_Color col, int spacing)
+        public TextDetails(string text, double x, double y, SDL.SDL_Color col, int spacing, TextAlignment alignmentHorizontal, TextAlignment alignmentVertical)
         {
             this.text = text;
             this.x = x;
             this.y = y;
             this.col = col;
             this.size = spacing;
+            this.alignmentHorizontal = alignmentHorizontal;
+            this.alignmentVertical = alignmentVertical;
         }
 
+        public TextAlignment AlignmentHorizontal
+        {
+            get => alignmentHorizontal;
+            set => alignmentHorizontal = value;
+        }
+        public TextAlignment AlignmentVertical
+        {
+            get => alignmentVertical;
+            set => alignmentVertical = value;
+        }
         public string Text
         {
             get => text;
@@ -115,9 +132,36 @@ namespace Shard
                 sRect.y = (int)td.Y;
                 sRect.w = 0;
                 sRect.h = 0;
-
-
+                
                 SDL_ttf.TTF_SizeText(td.Font, td.Text, out sRect.w, out sRect.h);
+                
+                switch (td.AlignmentHorizontal)
+                {
+                    case TextAlignment.Start:
+                        sRect.x = (int)td.X;
+                        break;
+                    case TextAlignment.Center:
+                        sRect.x = (int)(td.X - sRect.w / 2.0);
+                        break;
+                    case TextAlignment.End:
+                        sRect.x = (int)td.X - sRect.w;
+                        break;
+                }
+
+                switch (td.AlignmentVertical)
+                {
+                    case TextAlignment.Start:
+                        sRect.y = (int)td.Y;
+                        break;
+                    case TextAlignment.Center:
+                        sRect.y = (int)(td.Y - sRect.h / 2.0);
+                        break;
+                    case TextAlignment.End:
+                        sRect.y = (int)td.Y - sRect.h;
+                        break;
+                }
+
+
                 SDL.SDL_RenderCopy(renderer, td.LblText, IntPtr.Zero, ref sRect);
 
             }
@@ -171,7 +215,7 @@ namespace Shard
 
 
 
-        public override void showText(string text, double x, double y, int size, int r, int g, int b)
+        public override void showText(string text, double x, double y, int size, int r, int g, int b, int a, TextAlignment alignmentHorizontal = TextAlignment.Start, TextAlignment alignmentVertical = TextAlignment.Start)
         {
             int nx, ny, w = 0, h = 0;
 
@@ -181,14 +225,14 @@ namespace Shard
             col.r = (byte)r;
             col.g = (byte)g;
             col.b = (byte)b;
-            col.a = (byte)255;
+            col.a = (byte)a;
 
             if (font == IntPtr.Zero)
             {
                 Debug.getInstance().log("TTF_OpenFont: " + SDL.SDL_GetError());
             }
 
-            TextDetails td = new TextDetails(text, x, y, col, 12);
+            TextDetails td = new TextDetails(text, x, y, col, 12, alignmentHorizontal, alignmentVertical);
 
             td.Font = font;
 
@@ -211,7 +255,7 @@ namespace Shard
 
 
         }
-        public override void showText(char[,] text, double x, double y, int size, int r, int g, int b)
+        public override void showText(char[,] text, double x, double y, int size, int r, int g, int b, int a, TextAlignment alignmentHorizontal = TextAlignment.Start, TextAlignment alignmentVertical = TextAlignment.Start)
         {
             string str = "";
             int row = 0;
@@ -225,7 +269,7 @@ namespace Shard
                 }
 
 
-                showText(str, x, y + (row * size), size, r, g, b);
+                showText(str, x, y + (row * size), size, r, g, b, a, alignmentHorizontal, alignmentVertical);
                 row += 1;
 
             }

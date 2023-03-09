@@ -10,14 +10,20 @@ using System;
 
 namespace Shard
 {
-    abstract public class Sound
+    class Sound : GameObject
     {
-        abstract public double MusicPosition { get; }
+        virtual public double MusicPosition { get; }
 
-        abstract public double MusicLength { get; }
+        virtual public double MusicLength { get; }
 
-        abstract public void PlayMusic(string path);
+        virtual public void PlayMusic(string path)
+        {
 
-        abstract public void PlaySound(string path);
+        }
+
+        virtual public void PlaySound(string path)
+        {
+
+        }
     }
 }

@@ -39,6 +39,7 @@ namespace Shard
         Music music;
         GameObject highlight;
         GameObject flare;
+        string tag;
 
         public double FadeInDurationBeats
         {
@@ -111,6 +112,8 @@ namespace Shard
             flare.Transform.SetSize((int)currentFlareSize, (int)currentFlareSize);
             flare.Transform.Centre = Transform.Centre;
             flare.Alpha = (int)(255 * 2 * Math.Pow((1 - ratio), 2));
+
+            Bootstrap.getDisplay().showText(tag, Transform.Centre.X, Transform.Centre.Y, 12, 255, 255, 255, (int)(255 * (1 - ratio)), TextAlignment.Center, TextAlignment.Center);
         }
 
         public override void update()
@@ -142,6 +145,7 @@ namespace Shard
                 double ratio = diffBeat / fadeOutDurationBeats;
                 Alpha = (int)(255 * Math.Pow((1 - ratio), 2));
             }
+
             Bootstrap.getDisplay().addToDraw(this);
         }
 
@@ -159,7 +163,8 @@ namespace Shard
             else if (accuracy < 0.25) score = Score.Ok;
             else score = Score.Miss;
 
-            Debug.Log($"Hit! Accuracy: {(accuracy * 1000).ToString("0")} ms   {score.ToString()}");
+            tag = score.ToString();
+            Debug.Log($"Hit! Accuracy: {(accuracy * 1000).ToString("0")} ms   {tag}");
 
             SetupFlare();
         }
@@ -171,6 +176,8 @@ namespace Shard
 
             score = Score.Miss;
             Debug.Log($"Miss!");
+
+            tag = "Miss";
 
             SetupFlare();
         }

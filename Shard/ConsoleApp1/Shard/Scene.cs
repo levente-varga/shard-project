@@ -17,7 +17,15 @@ namespace Shard
 
         public void Load()
         {
+            foreach (GameObject obj in gameObjects)
+            {
+                obj.initialize();
+            }
+        }
 
+        public void AddGameObject(GameObject gameObject)
+        {
+            gameObjects.Add(gameObject);
         }
     }
 }

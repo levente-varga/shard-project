@@ -9,30 +9,37 @@ namespace Shard
     class GameTest : Game, InputListener
     {
         GameObject background;
-        List<GameObject> asteroids;
-        List<Note> notes;
-
         Music music;
+
+        GameObject go;
 
         public override void initialize()
         {
             Bootstrap.getInput().addListener(this);
             createBackground();
 
-            asteroids = new List<GameObject>();
-
             SetupMusic();
 
-            Bootstrap.getSound().PlayMusic("clocks.wav");
+            go = new GameObject();
+            go.Transform.SpritePath = getAssetManager().getAssetPath("note.png");
+            go.Transform.SetSize(50, 50);
+            go.Transform.Y = 400;
+
+            Bootstrap.getSound().PlayMusic(music.FilePath);
         }
 
         public override void update()
         {
             music.PositionSeconds = Bootstrap.getSound().MusicPosition;
-            
-            //Bootstrap.getDisplay().showText("FPS: " + Bootstrap.getSecondFPS() + " / " + Bootstrap.getFPS(), 10, 10, 12, 255, 255, 255);
-            //Bootstrap.getDisplay().showText($"Position: {Bootstrap.getSound().MusicPosition} / {Bootstrap.getSound().MusicLength}", 10, 30, 12, 255, 255, 255);
-            //Bootstrap.getDisplay().showText($"Beat: {(int)music.PositionBeats + (int)(music.PositionBeats * 100) / 25 % 4 * 25 * 0.01 }", 10, 50, 12, 255, 255, 255);
+
+            go.Transform.X = (float)Bootstrap.getSound().MusicPosition * 50f;
+            Bootstrap.getDisplay().showText("???", go.Transform.X + 16, 385, 12, 255, 255, 255, 255);
+
+            Debug.Log(Bootstrap.getSound().MusicPosition + " / " + Bootstrap.getSound().MusicLength);
+
+            //Bootstrap.getDisplay().showText("FPS: " + Bootstrap.getSecondFPS() + " / " + Bootstrap.getFPS(), 10, 10, 12, 255, 255, 255, 255);
+            //Bootstrap.getDisplay().showText($"Position: {Bootstrap.getSound().MusicPosition} / {Bootstrap.getSound().MusicLength}", 10, 30, 12, 255, 255, 255, 255);
+            //Bootstrap.getDisplay().showText($"Beat: {(int)music.PositionBeats + (int)(music.PositionBeats * 100) / 25 % 4 * 25 * 0.01 }", 10, 50, 12, 255, 255, 255, 255);
         }
 
         public override int getTargetFrameRate()
@@ -43,7 +50,7 @@ namespace Shard
         public void createBackground()
         {
             background = new GameObject();
-            background.Transform.SpritePath = getAssetManager().getAssetPath ("rhythm_game_background.jpg");
+            background.Transform.SpritePath = getAssetManager().getAssetPath ("rhythm_game_background.png");
             background.Transform.X = 0;
             background.Transform.Y = 0;
             background.Visible = true;
@@ -71,7 +78,7 @@ namespace Shard
 
             music.StartCreating();
 
-            music = new Music("Music", 131.0, 0.24);
+            music = new Music("Coldplay - Clocks", "clocks.wav", 131.0, 0.24);
             for (int i = 0; i < 600; i += 4)
             {
                 music.AddNoteAndPause(1.5);
@@ -86,7 +93,7 @@ namespace Shard
             int displayHeight = Bootstrap.getDisplay().getHeight();
             Random random = new Random();
 
-            music = new Music("Music", 131.0, 0.24);
+            music = new Music("Coldplay - Clocks", "clocks.wav", 131.0, 0.24);
 
             music.StartCreating();
 

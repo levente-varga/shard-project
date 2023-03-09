@@ -13,7 +13,7 @@ using System.IO;
 
 namespace Shard
 {
-    public class SoundSystem : Sound
+    class SoundSystem : Sound
     {
         IntPtr music;
 
@@ -22,7 +22,11 @@ namespace Shard
         int audio_channels = SDL_mixer.MIX_DEFAULT_CHANNELS;
         int audio_buffers = 4096;
 
+        double musicPosition;
+        double lastQueriedMusicPosition;
+
         bool audioOpen = false;
+        bool musicPlaying = false;
 
         public SoundSystem()
         {
@@ -40,12 +44,40 @@ namespace Shard
 
         public override double MusicPosition
         {
-            get => SDL_mixer.Mix_GetMusicPosition(music);
+            get => musicPosition;
         }
 
         public override double MusicLength
         {
             get => SDL_mixer.Mix_MusicDuration(music);
+        }
+
+        public override void update()
+        {
+            if (!musicPlaying) return;
+
+            double queriedMusicPosition = SDL_mixer.Mix_GetMusicPosition(music);
+
+            if (queriedMusicPosition == lastQueriedMusicPosition)
+            {
+                Debug.Log($"Music position: {musicPosition} + {Bootstrap.getDeltaTime()} / {MusicLength}");
+                musicPosition += Bootstrap.getDeltaTime();
+                
+            }
+            else
+            {
+                Debug.Log($"Music got new playhead position: {queriedMusicPosition} vs {lastQueriedMusicPosition}");
+
+                musicPosition = queriedMusicPosition;
+                lastQueriedMusicPosition = musicPosition;
+            }
+
+            if (musicPosition >= MusicLength)
+            {
+                Debug.Log("Music reached end");
+                musicPlaying = false;
+                musicPosition = MusicLength;
+            }
         }
 
         public override void PlaySound(string path)
@@ -62,9 +94,13 @@ namespace Shard
             string file = Bootstrap.getAssetManager().getAssetPath(path);
             if (!audioOpen || !File.Exists(file)) return;
 
-            SDL_mixer.Mix_VolumeMusic(SDL_mixer.MIX_MAX_VOLUME / 2);
+            SDL_mixer.Mix_VolumeMusic(SDL_mixer.MIX_MAX_VOLUME / 32);
             music = SDL_mixer.Mix_LoadMUS(file);
             SDL_mixer.Mix_PlayMusic(music, 1);
+
+            musicPlaying = true;
+            musicPosition = 0;
+            lastQueriedMusicPosition = SDL_mixer.Mix_GetMusicPosition(music);
         }
     }
 }
