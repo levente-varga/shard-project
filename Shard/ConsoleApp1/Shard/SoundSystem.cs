@@ -82,14 +82,21 @@ namespace Shard
             double playheadPosition = SDL_mixer.Mix_GetMusicPosition(music);
 
             lastMusicPosition = musicPosition;
-            musicPosition += Bootstrap.getDeltaTime();
+            if (smoothen)
+            {
+                musicPosition += Bootstrap.getDeltaTime();
+            }
 
             if (playheadPosition != lastPlayheadPosition)
             {
                 double difference = playheadPosition - musicPosition;
                 correction += difference / correctionFactor;
 
-                if (!smoothen) musicPosition = playheadPosition;
+                if (!smoothen)
+                {
+                    musicPosition = playheadPosition;
+                }
+                
                 lastPlayheadPosition = playheadPosition;
 
                 //Debug.Log($"Difference: {difference}");
