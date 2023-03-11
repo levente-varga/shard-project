@@ -11,8 +11,6 @@ namespace Shard
         GameObject background;
         Music music;
 
-        GameObject go;
-
         public override void initialize()
         {
             Bootstrap.getInput().addListener(this);
@@ -20,21 +18,12 @@ namespace Shard
 
             SetupMusic();
 
-            go = new GameObject();
-            go.Transform.SpritePath = getAssetManager().getAssetPath("note.png");
-            go.Transform.SetSize(50, 50);
-            go.Transform.Y = 400;
-            go.Layer = 1;
-
             Bootstrap.getSound().PlayMusic(music.FilePath);
         }
 
         public override void update()
         {
             music.PositionSeconds = Bootstrap.getSound().MusicPosition;
-
-            go.Transform.X = (float)Bootstrap.getSound().MusicPosition * 50f;
-            Bootstrap.getDisplay().showText("???", go.Transform.X + 16, 385, 12, 255, 255, 255, 255);
 
             //Debug.Log(Bootstrap.getSound().MusicPosition + " / " + Bootstrap.getSound().MusicLength);
 

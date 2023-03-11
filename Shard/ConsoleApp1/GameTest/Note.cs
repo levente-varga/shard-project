@@ -23,7 +23,7 @@ namespace Shard
         const int HIGHLIGHT_SIZE = 120;
         const int FLARE_SIZE = 160;
         const int NOTE_SIZE = 50;
-        const double DEFAULT_FADE_IN_DURATION_BEATS = 2;
+        const double DEFAULT_FADE_IN_DURATION_BEATS = 1.9;
         const double DEFAULT_FADE_OUT_DURATION_BEATS = 0.5;
         const double DEFAULT_FLARE_DURATION_BEATS = 1;
         
@@ -133,7 +133,7 @@ namespace Shard
             if (music.PositionBeats < positionBeats)
             {
                 double ratio = -diffBeat / fadeInDurationBeats;
-                Alpha = (int)(255 * Math.Pow((1 - ratio), 2.5));
+                Alpha = (int)(255 * Math.Pow((1 - ratio), 2));
 
                 highlight.Alpha = Alpha;
                 int currentHighlightSize = NOTE_SIZE + (int)(ratio * (HIGHLIGHT_SIZE - NOTE_SIZE));

@@ -31,9 +31,10 @@ namespace Shard
         bool musicPlaying = false;
 
         double correction = 0.0;
-        double correctionFactor = 2000;
+        double correctionFactor = 10;
 
         bool smoothen = true;
+        bool debug = false;
 
         public bool Smoothen
         {
@@ -86,20 +87,23 @@ namespace Shard
             if (playheadPosition != lastPlayheadPosition)
             {
                 double difference = playheadPosition - musicPosition;
-                correction += difference;
+                correction += difference / correctionFactor;
 
                 //musicPosition = playheadPosition;
                 lastPlayheadPosition = playheadPosition;
 
-                Debug.Log($"Difference: {difference}");
+                //Debug.Log($"Difference: {difference}");
             }
 
             double currentCorrection = correction / correctionFactor;
             correction -= currentCorrection;
 
-            if (smoothen) musicPosition += currentCorrection;
+            if (smoothen)
+            {
+                musicPosition += currentCorrection;
+            }
 
-            //Debug.Log($"Correction: {currentCorrection} / {correction}");
+            
 
             if (musicPosition >= MusicLength)
             {
@@ -108,19 +112,22 @@ namespace Shard
                 musicPosition = MusicLength;
             }
 
-            AddSample(musicPositionChangeSamples, musicPosition - lastMusicPosition);
-            AddSample(correctionSamples, correction);
-
-            
-
-            for (int i = 0; i < musicPositionChangeSamples.Count; i++)
+            if (debug)
             {
-                Bootstrap.getDisplay().drawLine(100, i, 100 + (int)(musicPositionChangeSamples[i] * 2000), i, 255, 255, 255, 30);
-            }
+                Debug.Log($"Correction: {currentCorrection} \t/ {correction}");
+                
+                AddSample(musicPositionChangeSamples, musicPosition - lastMusicPosition);
+                AddSample(correctionSamples, correction);
 
-            for (int i = 0; i < correctionSamples.Count; i++)
-            {
-                Bootstrap.getDisplay().drawLine(300, i, 400 + (int)(correctionSamples[i] * 100), i, 255, 255, 255, 10);
+                for (int i = 0; i < musicPositionChangeSamples.Count; i++)
+                {
+                    Bootstrap.getDisplay().drawLine(100, i, 100 + (int)(musicPositionChangeSamples[i] * 2000), i, 255, 255, 255, 30);
+                }
+
+                for (int i = 0; i < correctionSamples.Count; i++)
+                {
+                    Bootstrap.getDisplay().drawLine(300, i, 400 + (int)(correctionSamples[i] * 100), i, 255, 255, 255, 10);
+                }
             }
         }
 
@@ -163,6 +170,10 @@ namespace Shard
                     if (ie.Key == (int)SDL.SDL_Scancode.SDL_SCANCODE_S)
                     {
                         smoothen = !smoothen;
+                    }
+                    if (ie.Key == (int)SDL.SDL_Scancode.SDL_SCANCODE_D)
+                    {
+                        debug = !debug;
                     }
                     break;
             }
