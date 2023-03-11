@@ -9,11 +9,12 @@
 using SDL2;
 using SpaceInvaders;
 using System;
+using System.Collections.Generic;
 using System.IO;
 
 namespace Shard
 {
-    class SoundSystem : Sound
+    class SoundSystem : Sound, InputListener
     {
         IntPtr music;
 
@@ -23,10 +24,28 @@ namespace Shard
         int audio_buffers = 4096;
 
         double musicPosition;
-        double lastQueriedMusicPosition;
+        double lastMusicPosition;
+        double lastPlayheadPosition;
 
         bool audioOpen = false;
         bool musicPlaying = false;
+
+        double correction = 0.0;
+        double correctionFactor = 2000;
+
+        bool smoothen = true;
+
+        public bool Smoothen
+        {
+            get => smoothen;
+            set => smoothen = value;
+        }
+
+
+        // Debugging
+        List<double> correctionSamples = new List<double>();
+        List<double> musicPositionChangeSamples = new List<double>();
+        int maxSampleCount = 864;
 
         public SoundSystem()
         {
@@ -40,6 +59,9 @@ namespace Shard
                 SDL_mixer.Mix_QuerySpec(out audio_rate, out audio_format, out audio_channels);
                 audioOpen = true;
             }
+
+            Visible = true;
+            Layer = 100;
         } 
 
         public override double MusicPosition
@@ -56,21 +78,28 @@ namespace Shard
         {
             if (!musicPlaying) return;
 
-            double queriedMusicPosition = SDL_mixer.Mix_GetMusicPosition(music);
+            double playheadPosition = SDL_mixer.Mix_GetMusicPosition(music);
 
-            if (queriedMusicPosition == lastQueriedMusicPosition)
-            {
-                Debug.Log($"Music position: {musicPosition} + {Bootstrap.getDeltaTime()} / {MusicLength}");
-                musicPosition += Bootstrap.getDeltaTime();
-                
-            }
-            else
-            {
-                Debug.Log($"Music got new playhead position: {queriedMusicPosition} vs {lastQueriedMusicPosition}");
+            lastMusicPosition = musicPosition;
+            musicPosition += Bootstrap.getDeltaTime();
 
-                musicPosition = queriedMusicPosition;
-                lastQueriedMusicPosition = musicPosition;
+            if (playheadPosition != lastPlayheadPosition)
+            {
+                double difference = playheadPosition - musicPosition;
+                correction += difference;
+
+                //musicPosition = playheadPosition;
+                lastPlayheadPosition = playheadPosition;
+
+                Debug.Log($"Difference: {difference}");
             }
+
+            double currentCorrection = correction / correctionFactor;
+            correction -= currentCorrection;
+
+            if (smoothen) musicPosition += currentCorrection;
+
+            //Debug.Log($"Correction: {currentCorrection} / {correction}");
 
             if (musicPosition >= MusicLength)
             {
@@ -78,6 +107,27 @@ namespace Shard
                 musicPlaying = false;
                 musicPosition = MusicLength;
             }
+
+            AddSample(musicPositionChangeSamples, musicPosition - lastMusicPosition);
+            AddSample(correctionSamples, correction);
+
+            
+
+            for (int i = 0; i < musicPositionChangeSamples.Count; i++)
+            {
+                Bootstrap.getDisplay().drawLine(100, i, 100 + (int)(musicPositionChangeSamples[i] * 2000), i, 255, 255, 255, 30);
+            }
+
+            for (int i = 0; i < correctionSamples.Count; i++)
+            {
+                Bootstrap.getDisplay().drawLine(300, i, 400 + (int)(correctionSamples[i] * 100), i, 255, 255, 255, 10);
+            }
+        }
+
+        private void AddSample(List<double> sampleList, double sample)
+        {
+            if (sampleList.Count == maxSampleCount) sampleList.RemoveAt(sampleList.Count - 1);
+            sampleList.Insert(0, sample);
         }
 
         public override void PlaySound(string path)
@@ -94,13 +144,28 @@ namespace Shard
             string file = Bootstrap.getAssetManager().getAssetPath(path);
             if (!audioOpen || !File.Exists(file)) return;
 
-            SDL_mixer.Mix_VolumeMusic(SDL_mixer.MIX_MAX_VOLUME / 32);
+            SDL_mixer.Mix_VolumeMusic(SDL_mixer.MIX_MAX_VOLUME / 16);
             music = SDL_mixer.Mix_LoadMUS(file);
             SDL_mixer.Mix_PlayMusic(music, 1);
 
             musicPlaying = true;
             musicPosition = 0;
-            lastQueriedMusicPosition = SDL_mixer.Mix_GetMusicPosition(music);
+            lastPlayheadPosition = SDL_mixer.Mix_GetMusicPosition(music);
+
+            Bootstrap.getInput().addListener(this);
+        }
+
+        public void handleInput(InputEvent ie)
+        {
+            switch (ie.Type)
+            {
+                case InputEventType.KeyDown:
+                    if (ie.Key == (int)SDL.SDL_Scancode.SDL_SCANCODE_S)
+                    {
+                        smoothen = !smoothen;
+                    }
+                    break;
+            }
         }
     }
 }

@@ -190,10 +190,11 @@ namespace Shard
             toDraw.Remove(renderable);
         }
 
-        public override void drawCircle(int x, int y, int rad, int r, int g, int b, int a)
+        public override void drawCircle(int x, int y, int rad, int r, int g, int b, int a, int layer = Renderable.MaxLayer)
         {
             Circle circle = new Circle();
 
+            circle.Layer = layer;
             circle.X = x;
             circle.Y = y;
             circle.Radius = rad;
@@ -205,9 +206,11 @@ namespace Shard
 
             toDraw.Add(circle);
         }
-        public override void drawLine(int x, int y, int x2, int y2, int r, int g, int b, int a)
+        public override void drawLine(int x, int y, int x2, int y2, int r, int g, int b, int a, int layer = Renderable.MaxLayer)
         {
             Line line = new Line();
+
+            line.Layer = layer;
             line.Sx = x;
             line.Sy = y;
             line.Ex = x2;

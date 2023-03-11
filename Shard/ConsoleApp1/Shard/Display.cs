@@ -17,35 +17,35 @@ namespace Shard
     {
         protected int _height, _width;
 
-        public virtual void drawLine(int x, int y, int x2, int y2, int r, int g, int b, int a)
+        public virtual void drawLine(int x, int y, int x2, int y2, int r, int g, int b, int a, int layer = Renderable.MaxLayer)
         {
         }
 
-        public virtual void drawLine(int x, int y, int x2, int y2, Color col)
+        public virtual void drawLine(int x, int y, int x2, int y2, Color col, int layer = Renderable.MaxLayer)
         {
-            drawLine(x, y, x2, y2, col.R, col.G, col.B, col.A);
+            drawLine(x, y, x2, y2, col.R, col.G, col.B, col.A, layer);
         }
 
 
-        public virtual void drawCircle(int x, int y, int rad, int r, int g, int b, int a)
+        public virtual void drawCircle(int x, int y, int rad, int r, int g, int b, int a, int layer = Renderable.MaxLayer)
         {
         }
 
-        public virtual void drawCircle(int x, int y, int rad, Color col)
+        public virtual void drawCircle(int x, int y, int rad, Color col, int layer = Renderable.MaxLayer)
         {
-            drawCircle(x, y, rad, col.R, col.G, col.B, col.A);
+            drawCircle(x, y, rad, col.R, col.G, col.B, col.A, layer);
         }
 
-        public virtual void drawFilledCircle(int x, int y, int rad, Color col)
+        public virtual void drawFilledCircle(int x, int y, int rad, Color col, int layer = Renderable.MaxLayer)
         {
-            drawFilledCircle(x, y, rad, col.R, col.G, col.B, col.A);
+            drawFilledCircle(x, y, rad, col.R, col.G, col.B, col.A, layer);
         }
 
-        public virtual void drawFilledCircle(int x, int y, int rad, int r, int g, int b, int a)
+        public virtual void drawFilledCircle(int x, int y, int rad, int r, int g, int b, int a, int layer = Renderable.MaxLayer)
         {
             while (rad > 0)
             {
-                drawCircle(x, y, rad, r, g, b, a);
+                drawCircle(x, y, rad, r, g, b, a, layer);
                 rad -= 1;
             }
         }

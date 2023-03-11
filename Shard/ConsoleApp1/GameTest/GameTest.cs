@@ -24,6 +24,7 @@ namespace Shard
             go.Transform.SpritePath = getAssetManager().getAssetPath("note.png");
             go.Transform.SetSize(50, 50);
             go.Transform.Y = 400;
+            go.Layer = 1;
 
             Bootstrap.getSound().PlayMusic(music.FilePath);
         }
@@ -35,7 +36,7 @@ namespace Shard
             go.Transform.X = (float)Bootstrap.getSound().MusicPosition * 50f;
             Bootstrap.getDisplay().showText("???", go.Transform.X + 16, 385, 12, 255, 255, 255, 255);
 
-            Debug.Log(Bootstrap.getSound().MusicPosition + " / " + Bootstrap.getSound().MusicLength);
+            //Debug.Log(Bootstrap.getSound().MusicPosition + " / " + Bootstrap.getSound().MusicLength);
 
             //Bootstrap.getDisplay().showText("FPS: " + Bootstrap.getSecondFPS() + " / " + Bootstrap.getFPS(), 10, 10, 12, 255, 255, 255, 255);
             //Bootstrap.getDisplay().showText($"Position: {Bootstrap.getSound().MusicPosition} / {Bootstrap.getSound().MusicLength}", 10, 30, 12, 255, 255, 255, 255);
