@@ -89,7 +89,7 @@ namespace Shard
                 double difference = playheadPosition - musicPosition;
                 correction += difference / correctionFactor;
 
-                //musicPosition = playheadPosition;
+                if (!smoothen) musicPosition = playheadPosition;
                 lastPlayheadPosition = playheadPosition;
 
                 //Debug.Log($"Difference: {difference}");
