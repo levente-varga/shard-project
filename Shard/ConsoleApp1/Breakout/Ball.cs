@@ -10,15 +10,15 @@ namespace GameBreakout
         internal Vector2 LastDir { get => lastDir; set => lastDir = value; }
         internal Vector2 Dir { get => dir; set => dir = value; }
 
-        public override void initialize()
+        public override void Initialize()
         {
 
 
-            this.Transform.SpritePath = Bootstrap.getAssetManager().getAssetPath("ball.png");
-            setPhysicsEnabled();
+            this.Transform.SpritePath = Bootstrap.GetAssetManager().GetAssetPath("ball.png");
+            SetPhysicsEnabled();
 
 
-            MyBody.addCircleCollider();
+            MyBody.AddCircleCollider();
 
             MyBody.Mass = 1;
             MyBody.MaxForce = 15;
@@ -31,33 +31,33 @@ namespace GameBreakout
             Transform.Scaley = 2;
 
 
-            Transform.rotate(90);
+            Transform.Rotate(90);
 
 
         }
 
-        public override void update()
+        public override void Update()
         {
             //            Debug.Log ("" + this);
 
-            Bootstrap.getDisplay().addToDraw(this);
+            Bootstrap.GetDisplay().AddToDraw(this);
 
         }
 
-        public void onCollisionStay(PhysicsBody other)
+        public void OnCollisionStay(PhysicsBody other)
         {
         }
 
-        public void onCollisionEnter(PhysicsBody other)
+        public void OnCollisionEnter(PhysicsBody other)
         {
             
-                        if (other.Parent.checkTag("Paddle"))
+                        if (other.Parent.CheckTag("Paddle"))
                         {
 //                            Debug.Log ("Hit the Paddle");
                             Dir = new Vector2(Transform.Centre.X - other.Trans.Centre.X, LastDir.Y * -1);
                         }
 
-                        if (other.Parent.checkTag("Brick"))
+                        if (other.Parent.CheckTag("Brick"))
                         {
 //                            Debug.Log("Hit the Brick");
 
@@ -95,41 +95,41 @@ namespace GameBreakout
         }
 
 
-        public override void physicsUpdate()
+        public override void PhysicsUpdate()
         {
 
 
-            if (Transform.Centre.Y - Transform.Ht <= 0)
+            if (Transform.Centre.Y - Transform.Height <= 0)
             {
                 changeDir(0, 1);
-                Transform.translate(0, -1 * Transform.Centre.Y);
+                Transform.Translate(0, -1 * Transform.Centre.Y);
 
                 Debug.Log("Top wall");
             }
 
-            if (Transform.Centre.Y + Transform.Ht >= Bootstrap.getDisplay().getHeight())
+            if (Transform.Centre.Y + Transform.Height >= Bootstrap.GetDisplay().GetHeight())
             {
                 changeDir(0, -1);
-                Transform.translate(0, Transform.Centre.Y - Bootstrap.getDisplay().getHeight());
+                Transform.Translate(0, Transform.Centre.Y - Bootstrap.GetDisplay().GetHeight());
 
                 Debug.Log("Bottom wall");
 
             }
 
 
-            if (Transform.Centre.X - Transform.Wid <= 0)
+            if (Transform.Centre.X - Transform.Width <= 0)
             {
                 changeDir(1, 0);
-                Transform.translate(-1 * Transform.Centre.X, 0);
+                Transform.Translate(-1 * Transform.Centre.X, 0);
 
                 Debug.Log("Left wall");
 
             }
 
-            if (Transform.Centre.X + Transform.Wid >= Bootstrap.getDisplay().getWidth())
+            if (Transform.Centre.X + Transform.Width >= Bootstrap.GetDisplay().GetWidth())
             {
                 changeDir(-1, 0);
-                Transform.translate(Transform.Centre.X - Bootstrap.getDisplay().getWidth(), 0);
+                Transform.Translate(Transform.Centre.X - Bootstrap.GetDisplay().GetWidth(), 0);
 
                 Debug.Log("Right wall");
 
@@ -158,15 +158,15 @@ namespace GameBreakout
                     dir.X = 0.2f;
                 }
 
-                MyBody.stopForces();
-                MyBody.addForce(Dir, 15);
+                MyBody.StopForces();
+                MyBody.AddForce(Dir, 15);
 
                 LastDir = Dir;
                 dir = Vector2.Zero;
             }
 
         }
-        public void onCollisionExit(PhysicsBody x)
+        public void OnCollisionExit(PhysicsBody x)
         {
 
         }

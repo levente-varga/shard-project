@@ -22,7 +22,7 @@ namespace Shard
             myObjects = new List<GameObject>();
         }
 
-        public static GameObjectManager getInstance()
+        public static GameObjectManager GetInstance()
         {
             if (me == null)
             {
@@ -32,40 +32,40 @@ namespace Shard
             return me;
         }
 
-        public void addGameObject(GameObject gob)
+        public void AddGameObject(GameObject gob)
         {
             myObjects.Add(gob);
 
         }
 
-        public void removeGameObject(GameObject gob)
+        public void RemoveGameObject(GameObject gob)
         {
             myObjects.Remove(gob);
         }
 
 
-        public void physicsUpdate()
+        public void PhysicsUpdate()
         {
             GameObject gob;
             for (int i = 0; i < myObjects.Count; i++)
             {
                 gob = myObjects[i];
-                gob.physicsUpdate();
+                gob.PhysicsUpdate();
             }
         }
 
-        public void prePhysicsUpdate()
+        public void PrePhysicsUpdate()
         {
             GameObject gob;
             for (int i = 0; i < myObjects.Count; i++)
             {
                 gob = myObjects[i];
 
-                gob.prePhysicsUpdate();
+                gob.PrePhysicsUpdate();
             }
         }
 
-        public void update()
+        public void Update()
         {
             List<int> toDestroy = new List<int>();
             GameObject gob;
@@ -73,9 +73,9 @@ namespace Shard
             {
                 gob = myObjects[i];
 
-                gob.update();
+                gob.Update();
 
-                gob.checkDestroyMe();
+                gob.CheckDestroyMe();
 
                 if (gob.ToBeDestroyed == true)
                 {
@@ -88,7 +88,7 @@ namespace Shard
                 for (int i = toDestroy.Count - 1; i >= 0; i--)
                 {
                     gob = myObjects[toDestroy[i]];
-                    myObjects[toDestroy[i]].killMe();
+                    myObjects[toDestroy[i]].OnDestroy();
                     myObjects.RemoveAt(toDestroy[i]);
 
                 }

@@ -23,14 +23,14 @@ namespace Shard
         private GameObject owner;
         private float x, y;
         private float lx, ly;
-        private float rotz;
-        private int wid, ht;
-        private float scalex, scaley;
+        private float rotationZ;
+        private int width, height;
+        private float scaleX, scaleY;
         private string spritePath;
         private Vector2 forward;
         private Vector2 right, centre;
 
-        public Vector2 getLastDirection()
+        public Vector2 GetLastDirection()
         {
             float dx, dy;
             dx = (X - Lx);
@@ -46,8 +46,8 @@ namespace Shard
             right = new Vector2();
             centre = new Vector2();
 
-            scalex = 1.0f;
-            scaley = 1.0f;
+            scaleX = 1.0f;
+            scaleY = 1.0f;
 
             x = 0;
             y = 0;
@@ -55,32 +55,32 @@ namespace Shard
             lx = 0;
             ly = 0;
 
-            rotate(0);
+            Rotate(0);
         }
 
         public void SetSize(int width, int height)
         {
-            wid = width;
-            ht = height;
-            recalculateCentre();
+            this.width = width;
+            this.height = height;
+            RecalculateCentre();
         }
 
-        public void recalculateCentre()
+        public void RecalculateCentre()
         {
 
-            centre.X = (float)(x + ((this.Wid * scalex) / 2));
-            centre.Y = (float)(y + ((this.Ht * scaley) / 2));
+            centre.X = (float)(x + ((this.Width * scaleX) / 2));
+            centre.Y = (float)(y + ((this.Height * scaleY) / 2));
 
         }
 
-        public void translate(double nx, double ny)
+        public void Translate(double nx, double ny)
         {
-            translate ((float)nx, (float)ny);
+            Translate ((float)nx, (float)ny);
         }
 
 
 
-        public void translate(float nx, float ny)
+        public void Translate(float nx, float ny)
         {
             Lx = X;
             Ly = Y;
@@ -89,23 +89,23 @@ namespace Shard
             y += (float)ny;
 
 
-            recalculateCentre();
+            RecalculateCentre();
         }
 
-        public void translate(Vector2 vect)
+        public void Translate(Vector2 vect)
         {
-            translate(vect.X, vect.Y);
+            Translate(vect.X, vect.Y);
         }
 
 
 
-        public void rotate(float dir)
+        public void Rotate(float dir)
         {
-            rotz += (float)dir;
+            rotationZ += (float)dir;
 
-            rotz %= 360;
+            rotationZ %= 360;
 
-            float angle = (float)(Math.PI * rotz / 180.0f);
+            float angle = (float)(Math.PI * rotationZ / 180.0f);
             float sin = (float)Math.Sin(angle);
             float cos = (float)Math.Cos(angle);
 
@@ -115,12 +115,7 @@ namespace Shard
 
             right.X = -1 * forward.Y;
             right.Y = forward.X;
-
-
-
-
         }
-
 
 
         public float X
@@ -134,10 +129,10 @@ namespace Shard
             set => y = value;
         }
 
-        public float Rotz
+        public float RotationZ
         {
-            get => rotz;
-            set => rotz = value;
+            get => rotationZ;
+            set => rotationZ = value;
         }
 
 
@@ -147,22 +142,22 @@ namespace Shard
             set => spritePath = value;
         }
         public ref Vector2 Forward { get => ref forward; }
-        public int Wid 
+        public int Width 
         { 
-            get => wid; 
+            get => width; 
             set
             {
-                wid = value;
-                recalculateCentre();
+                width = value;
+                RecalculateCentre();
             }
         }
-        public int Ht 
+        public int Height 
         { 
-            get => ht;
+            get => height;
             set 
             { 
-                ht = value;
-                recalculateCentre();
+                height = value;
+                RecalculateCentre();
             }
         }
         public ref Vector2 Right { get => ref right; }
@@ -173,12 +168,12 @@ namespace Shard
             set
             {
                 centre = value;
-                x = centre.X - wid * scalex / 2;
-                y = centre.Y - ht  * scaley / 2;
+                x = centre.X - width * scaleX / 2;
+                y = centre.Y - height  * scaleY / 2;
             }
         }
-        public float Scalex { get => scalex; set => scalex = value; }
-        public float Scaley { get => scaley; set => scaley = value; }
+        public float Scalex { get => scaleX; set => scaleX = value; }
+        public float Scaley { get => scaleY; set => scaleY = value; }
         public float Lx { get => lx; set => lx = value; }
         public float Ly { get => ly; set => ly = value; }
     }

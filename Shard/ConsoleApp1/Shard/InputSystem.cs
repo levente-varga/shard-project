@@ -17,7 +17,7 @@ namespace Shard
     {
         private List<InputListener> myListeners;
 
-        public virtual void initialize()
+        public virtual void Initialize()
         {
         }
 
@@ -26,7 +26,7 @@ namespace Shard
             myListeners = new List<InputListener>();
         }
 
-        public void addListener(InputListener il)
+        public void AddListener(InputListener il)
         {
             if (myListeners.Contains(il) == false)
             {
@@ -34,12 +34,12 @@ namespace Shard
             }
         }
 
-        public void removeListener(InputListener il)
+        public void RemoveListener(InputListener il)
         {
             myListeners.Remove(il);
         }
 
-        public void informListeners(InputEvent ie)
+        public void InformListeners(InputEvent ie)
         {
             InputListener il;
             for (int i = 0; i < myListeners.Count; i++)
@@ -51,9 +51,9 @@ namespace Shard
                     continue;
                 }
 
-                il.handleInput(ie);
+                il.HandleInput(ie);
             }
         }
-        public abstract void getInput();
+        public abstract bool GetInput();
     }
 }

@@ -16,34 +16,34 @@ namespace SpaceInvaders
         {
             this.Transform.X = x;
             this.Transform.Y = y;
-            this.Transform.Wid = 1;
-            this.Transform.Ht = 20;
+            this.Transform.Width = 1;
+            this.Transform.Height = 20;
 
 
-            setPhysicsEnabled();
+            SetPhysicsEnabled();
 
-            MyBody.addRectCollider();
+            MyBody.AddRectCollider();
 
-            addTag("Bullet");
+            AddTag("Bullet");
 
             MyBody.PassThrough = true;
 
         }
 
-        public override void initialize()
+        public override void Initialize()
         {
             this.Transient = true;
         }
 
 
-        public override void update()
+        public override void Update()
         {
             Random r = new Random();
             Color col = Color.FromArgb(r.Next(0, 256), r.Next(0, 256), 0);
 
-            this.Transform.translate(0, dir * 400 * Bootstrap.getDeltaTime());
+            this.Transform.Translate(0, dir * 400 * Bootstrap.GetDeltaTime());
 
-            Bootstrap.getDisplay().drawLine(
+            Bootstrap.GetDisplay().DrawLine(
                 (int)Transform.X,
                 (int)Transform.Y,
                 (int)Transform.X,
@@ -55,18 +55,18 @@ namespace SpaceInvaders
 
         }
 
-        public void onCollisionEnter(PhysicsBody x)
+        public void OnCollisionEnter(PhysicsBody x)
         {
             GameSpaceInvaders g;
 
-            if (x.Parent.checkTag(destroyTag) == true || x.Parent.checkTag("BunkerBit"))
+            if (x.Parent.CheckTag(destroyTag) == true || x.Parent.CheckTag("BunkerBit"))
             {
                 ToBeDestroyed = true;
                 x.Parent.ToBeDestroyed = true;
 
-                if (x.Parent.checkTag("Player"))
+                if (x.Parent.CheckTag("Player"))
                 {
-                    g = (GameSpaceInvaders)Bootstrap.getRunningGame();
+                    g = (GameSpaceInvaders)Bootstrap.GetRunningGame();
 
                     g.Dead = true;
                 }
@@ -74,11 +74,11 @@ namespace SpaceInvaders
             }
         }
 
-        public void onCollisionExit(PhysicsBody x)
+        public void OnCollisionExit(PhysicsBody x)
         {
         }
 
-        public void onCollisionStay(PhysicsBody x)
+        public void OnCollisionStay(PhysicsBody x)
         {
         }
 

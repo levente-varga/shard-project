@@ -17,56 +17,64 @@ namespace Shard
     {
         protected int _height, _width;
 
-        public virtual void drawLine(int x, int y, int x2, int y2, int r, int g, int b, int a, int layer = Renderable.MaxLayer)
+        public virtual void DrawLine(int x, int y, int x2, int y2, int r, int g, int b, int a, int layer = Renderable.MaxLayer)
         {
         }
 
-        public virtual void drawLine(int x, int y, int x2, int y2, Color col, int layer = Renderable.MaxLayer)
+        public virtual void DrawLine(int x, int y, int x2, int y2, Color col, int layer = Renderable.MaxLayer)
         {
-            drawLine(x, y, x2, y2, col.R, col.G, col.B, col.A, layer);
+            DrawLine(x, y, x2, y2, col.R, col.G, col.B, col.A, layer);
         }
 
-
-        public virtual void drawCircle(int x, int y, int rad, int r, int g, int b, int a, int layer = Renderable.MaxLayer)
+        public virtual void DrawCircle(int x, int y, int rad, int r, int g, int b, int a, int layer = Renderable.MaxLayer)
         {
         }
 
-        public virtual void drawCircle(int x, int y, int rad, Color col, int layer = Renderable.MaxLayer)
+        public virtual void DrawCircle(int x, int y, int rad, Color col, int layer = Renderable.MaxLayer)
         {
-            drawCircle(x, y, rad, col.R, col.G, col.B, col.A, layer);
+            DrawCircle(x, y, rad, col.R, col.G, col.B, col.A, layer);
         }
 
-        public virtual void drawFilledCircle(int x, int y, int rad, Color col, int layer = Renderable.MaxLayer)
+        public virtual void DrawFilledCircle(int x, int y, int rad, Color col, int layer = Renderable.MaxLayer)
         {
-            drawFilledCircle(x, y, rad, col.R, col.G, col.B, col.A, layer);
+            DrawFilledCircle(x, y, rad, col.R, col.G, col.B, col.A, layer);
         }
 
-        public virtual void drawFilledCircle(int x, int y, int rad, int r, int g, int b, int a, int layer = Renderable.MaxLayer)
+        public virtual void DrawFilledCircle(int x, int y, int rad, int r, int g, int b, int a, int layer = Renderable.MaxLayer)
         {
             while (rad > 0)
             {
-                drawCircle(x, y, rad, r, g, b, a, layer);
+                DrawCircle(x, y, rad, r, g, b, a, layer);
                 rad -= 1;
             }
         }
 
-        public void showText(string text, double x, double y, int size, Color col, TextAlignment alignmentHorizontal = TextAlignment.Start, TextAlignment alignmentVertical = TextAlignment.Start)
+        public virtual void DrawRectangle(int x, int y, int x2, int y2, int r, int g, int b, int a, int layer = Renderable.MaxLayer)
         {
-            showText(text, x, y, size, col.R, col.G, col.B, col.A, alignmentHorizontal, alignmentVertical);
+        }
+
+        public virtual void DrawRectangle(int x, int y, int x2, int y2, Color col, int layer = Renderable.MaxLayer)
+        {
+            DrawRectangle(x, y, x2, y2, col.R, col.G, col.B, col.A, layer);
+        }
+
+        public void ShowText(string text, double x, double y, int size, Color col, TextAlignment alignmentHorizontal = TextAlignment.Start, TextAlignment alignmentVertical = TextAlignment.Start)
+        {
+            ShowText(text, x, y, size, col.R, col.G, col.B, col.A, alignmentHorizontal, alignmentVertical);
         }
 
 
 
-        public virtual void setFullscreen()
+        public virtual void SetFullscreen()
         {
         }
 
-        public virtual IntPtr loadTexture(string path)
+        public virtual IntPtr LoadTexture(string path)
         {
             return IntPtr.Zero;
         }
 
-        public virtual IntPtr loadTexture(Transform transform)
+        public virtual IntPtr LoadTexture(Transform transform)
         {
             return IntPtr.Zero;
         }
@@ -76,34 +84,34 @@ namespace Shard
             return new Vector2();
         }
 
-        public virtual void addToDraw(Renderable renderable)
+        public virtual void AddToDraw(Renderable renderable)
         {
         }
 
-        public virtual void removeToDraw(Renderable renderable)
+        public virtual void RemoveToDraw(Renderable renderable)
         {
         }
-        public int getHeight()
+        public int GetHeight()
         {
             return _height;
         }
 
-        public int getWidth()
+        public int GetWidth()
         {
             return _width;
         }
 
-        public virtual void setSize(int w, int h)
+        public virtual void SetSize(int w, int h)
         {
             _height = h;
             _width = w;
         }
 
-        public abstract void initialize();
-        public abstract void clearDisplay();
-        public abstract void display();
+        public abstract void Initialize();
+        public abstract void Clear();
+        public abstract void Present();
 
-        public abstract void showText(string text, double x, double y, int size, int r, int g, int b, int a, TextAlignment alignmentHorizontal = TextAlignment.Start, TextAlignment alignmentVertical = TextAlignment.Start);
-        public abstract void showText(char[,] text, double x, double y, int size, int r, int g, int b, int a, TextAlignment alignmentHorizontal = TextAlignment.Start, TextAlignment alignmentVertical = TextAlignment.Start);
+        public abstract void ShowText(string text, double x, double y, int size, int r, int g, int b, int a, TextAlignment alignmentHorizontal = TextAlignment.Start, TextAlignment alignmentVertical = TextAlignment.Start);
+        public abstract void ShowText(char[,] text, double x, double y, int size, int r, int g, int b, int a, TextAlignment alignmentHorizontal = TextAlignment.Start, TextAlignment alignmentVertical = TextAlignment.Start);
     }
 }

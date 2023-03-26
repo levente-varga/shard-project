@@ -10,8 +10,8 @@ namespace Shard
 {
     interface CollisionHandler
     {
-        public abstract void onCollisionEnter(PhysicsBody x);
-        public abstract void onCollisionExit(PhysicsBody x);
-        public abstract void onCollisionStay(PhysicsBody x);
+        public abstract void OnCollisionEnter(PhysicsBody x);
+        public abstract void OnCollisionExit(PhysicsBody x);
+        public abstract void OnCollisionStay(PhysicsBody x);
     }
 }

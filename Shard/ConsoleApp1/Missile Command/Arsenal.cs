@@ -56,19 +56,19 @@ namespace MissileCommand
 
         }
 
-        public override void initialize()
+        public override void Initialize()
         {
             myMissiles = new List<ArsenalSprite>();
 
 
             numMissiles = 10;
-            Transform.Wid = 64;
-            Transform.Ht = 32;
+            Transform.Width = 64;
+            Transform.Height = 32;
 
 
         }
 
-        public override void update()
+        public override void Update()
         {
 
         }

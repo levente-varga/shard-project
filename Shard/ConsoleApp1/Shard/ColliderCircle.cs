@@ -24,7 +24,7 @@ namespace Shard
             this.MyRect = t;
             fromTrans = true;
             RotateAtOffset = false;
-            calculateBoundingBox();
+            CalculateBoundingBox();
         }
 
         public ColliderCircle(CollisionHandler gob, Transform t, float x, float y, float rad) : base(gob)
@@ -41,7 +41,7 @@ namespace Shard
 
             fromTrans = false;
 
-            calculateBoundingBox();
+            CalculateBoundingBox();
 
         }
 
@@ -49,15 +49,15 @@ namespace Shard
         {
         }
 
-        public void calculateBoundingBox()
+        public void CalculateBoundingBox()
         {
             float x1, x2, y1, y2;
             float intWid;
-            float angle = (float)(Math.PI * MyRect.Rotz / 180.0f);
+            float angle = (float)(Math.PI * MyRect.RotationZ / 180.0f);
 
             if (fromTrans)
             {
-                intWid = MyRect.Wid * (float)MyRect.Scalex;
+                intWid = MyRect.Width * (float)MyRect.Scalex;
                 Rad = (float)(intWid / 2);
                 X = (float)MyRect.X + Xoff + Rad;
                 Y = (float)MyRect.Y + Yoff + Rad;
@@ -101,12 +101,12 @@ namespace Shard
         public float Xoff { get => xoff; set => xoff = value; }
         public float Yoff { get => yoff; set => yoff = value; }
 
-        public override void recalculate()
+        public override void Recalculate()
         {
-            calculateBoundingBox();
+            CalculateBoundingBox();
         }
 
-        public override Vector2? checkCollision(ColliderRect other)
+        public override Vector2? CheckCollision(ColliderRect other)
         {
 
             double tx = X;
@@ -158,7 +158,7 @@ namespace Shard
                     // it is hopefully fine for us to push it there.
 
 
-                    dir = MyRect.getLastDirection();
+                    dir = MyRect.GetLastDirection();
 
                     dir = Vector2.Normalize(dir);
 
@@ -180,15 +180,15 @@ namespace Shard
             return null;
         }
 
-        public override void drawMe(Color col)
+        public override void DrawMe(Color col)
         {
-            Display d = Bootstrap.getDisplay();
+            Display d = Bootstrap.GetDisplay();
 
-            d.drawCircle((int)X, (int)Y, (int)Rad, col);
+            d.DrawCircle((int)X, (int)Y, (int)Rad, col);
 
         }
 
-        public override Vector2? checkCollision(ColliderCircle c)
+        public override Vector2? CheckCollision(ColliderCircle c)
         {
             double dist, depth, radsq;
             double xpen, ypen;
@@ -218,17 +218,17 @@ namespace Shard
             return null;
         }
 
-        public override float[] getMinAndMaxX()
+        public override float[] GetMinAndMaxX()
         {
             return MinAndMaxX;
         }
 
-        public override float[] getMinAndMaxY()
+        public override float[] GetMinAndMaxY()
         {
             return MinAndMaxY;
         }
 
-        public override Vector2? checkCollision(Vector2 c)
+        public override Vector2? CheckCollision(Vector2 c)
         {
 
             if (c.X >= Left &&

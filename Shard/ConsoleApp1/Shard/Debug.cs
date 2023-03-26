@@ -25,7 +25,7 @@ namespace Shard
             debugLevel = DEBUG_LEVEL_ALL;
         }
 
-        public static Debug getInstance()
+        public static Debug GetInstance()
         {
             if (me == null)
             {
@@ -35,12 +35,12 @@ namespace Shard
             return me;
         }
 
-        public void setDebugLevel(int d)
+        public void SetDebugLevel(int d)
         {
             debugLevel = d;
         }
 
-        public void log(string message, int level)
+        public void Log(string message, int level)
         {
             if (debugLevel == DEBUG_LEVEL_NONE)
             {
@@ -55,13 +55,13 @@ namespace Shard
 
         public void log(string message)
         {
-            log(message, DEBUG_LEVEL_ALL);
+            Log(message, DEBUG_LEVEL_ALL);
         }
 
 
         public static void Log(string message)
         {
-            getInstance().log(message, DEBUG_LEVEL_ALL);
+            GetInstance().Log(message, DEBUG_LEVEL_ALL);
         }
 
     }

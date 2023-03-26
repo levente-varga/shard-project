@@ -23,8 +23,8 @@ namespace Shard
         const int HIGHLIGHT_SIZE = 120;
         const int FLARE_SIZE = 160;
         const int NOTE_SIZE = 50;
-        const double DEFAULT_FADE_IN_DURATION_BEATS = 1.9;
-        const double DEFAULT_FADE_OUT_DURATION_BEATS = 0.5;
+        const double DEFAULT_FADE_IN_DURATION_BEATS = 2.9;
+        const double DEFAULT_FADE_OUT_DURATION_BEATS = 0.75;
         const double DEFAULT_FLARE_DURATION_BEATS = 1;
         
         double positionBeats;
@@ -58,7 +58,7 @@ namespace Shard
 
         public double PositionBeats { get => positionBeats; }
 
-        public Note(Music music, double positionBeat, Vector2 position) 
+        public Note(Music music, double positionBeat, Vector2 position) : base()
         {
             this.music = music;
             this.positionBeats = positionBeat;
@@ -69,7 +69,7 @@ namespace Shard
 
             Transform.SetSize(NOTE_SIZE, NOTE_SIZE);
             Transform.Centre = position;
-            Transform.SpritePath = Bootstrap.getAssetManager().getAssetPath("note.png");
+            Transform.SpritePath = Bootstrap.GetAssetManager().GetAssetPath("note.png");
             Layer = 3;
 
             SetupHighlight();
@@ -80,7 +80,7 @@ namespace Shard
             highlight = new GameObject();
             highlight.Transform.SetSize(HIGHLIGHT_SIZE, HIGHLIGHT_SIZE);
             highlight.Transform.Centre = Transform.Centre;
-            highlight.Transform.SpritePath = Bootstrap.getAssetManager().getAssetPath("highlight.png");
+            highlight.Transform.SpritePath = Bootstrap.GetAssetManager().GetAssetPath("highlight.png");
             highlight.Layer = 2;
         }
 
@@ -92,7 +92,7 @@ namespace Shard
 
             string flareName = score.ToString().ToLower() + "_flare.png";
 
-            flare.Transform.SpritePath = Bootstrap.getAssetManager().getAssetPath(flareName);
+            flare.Transform.SpritePath = Bootstrap.GetAssetManager().GetAssetPath(flareName);
             flare.Layer = 2;
 
             flareStart = music.PositionBeats;
@@ -113,11 +113,13 @@ namespace Shard
             flare.Transform.Centre = Transform.Centre;
             flare.Alpha = (int)(255 * 2 * Math.Pow((1 - ratio), 2));
 
-            Bootstrap.getDisplay().showText(tag, Transform.Centre.X, Transform.Centre.Y, 12, 255, 255, 255, (int)(255 * (1 - ratio)), TextAlignment.Center, TextAlignment.Center);
+            Bootstrap.GetDisplay().ShowText(tag, Transform.Centre.X, Transform.Centre.Y, 12, 255, 255, 255, (int)(255 * Math.Max((1 - ratio), 0)), TextAlignment.Center, TextAlignment.Center);
         }
 
-        public override void update()
-        {
+        public override void Update()
+        {   
+            double diffBeat = music.PositionBeats - positionBeats;
+            Debug.Log($"Difference: {diffBeat}");
             UpdateFlare();
 
             bool visibleBefore = Visible;
@@ -128,7 +130,7 @@ namespace Shard
 
             if (!Visible) return;
 
-            double diffBeat = music.PositionBeats - positionBeats;
+            
 
             if (music.PositionBeats < positionBeats)
             {
@@ -146,7 +148,7 @@ namespace Shard
                 Alpha = (int)(255 * Math.Pow((1 - ratio), 2));
             }
 
-            Bootstrap.getDisplay().addToDraw(this);
+            Bootstrap.GetDisplay().AddToDraw(this);
         }
 
         public void Fire()
@@ -165,6 +167,8 @@ namespace Shard
 
             tag = score.ToString();
             Debug.Log($"Hit! Accuracy: {(accuracy * 1000).ToString("0")} ms   {tag}");
+
+            Bootstrap.GetSound().PlaySound("hit.wav");
 
             SetupFlare();
         }

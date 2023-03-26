@@ -11,6 +11,6 @@ namespace Shard
 {
     interface InputListener
     {
-        public void handleInput(InputEvent ie);
+        public void HandleInput(InputEvent ie);
     }
 }

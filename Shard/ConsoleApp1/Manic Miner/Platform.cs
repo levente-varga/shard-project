@@ -17,15 +17,15 @@ namespace ManicMiner
         public int MoveDirY { get => moveDirY; set => moveDirY = value; }
         public int MoveSpeed { get => moveSpeed; set => moveSpeed = value; }
 
-        public override void initialize()
+        public override void Initialize()
         {
-            setPhysicsEnabled();
-            MyBody.addRectCollider();
+            SetPhysicsEnabled();
+            MyBody.AddRectCollider();
             MyBody.Mass = 10;
             MyBody.Kinematic = true;
             
 
-            this.Transform.SpritePath = Bootstrap.getAssetManager().getAssetPath("platform.png");
+            this.Transform.SpritePath = Bootstrap.GetAssetManager().GetAssetPath("platform.png");
 
 
 
@@ -45,27 +45,27 @@ namespace ManicMiner
 
             MoveSpeed = speed;
 
-            Transform.translate (x, y);
+            Transform.Translate (x, y);
         }
 
-        public void onCollisionEnter(PhysicsBody x)
+        public void OnCollisionEnter(PhysicsBody x)
         {
         }
 
-        public void onCollisionExit(PhysicsBody x)
+        public void OnCollisionExit(PhysicsBody x)
         {
         }
 
-        public void onCollisionStay(PhysicsBody x)
+        public void OnCollisionStay(PhysicsBody x)
         {
         }
 
-        public override void update()
+        public override void Update()
         {
 
             if (moveDirY != 0)
             {
-                Transform.translate(0, moveSpeed * moveDirY * Bootstrap.getDeltaTime());
+                Transform.Translate(0, moveSpeed * moveDirY * Bootstrap.GetDeltaTime());
 
                 if (Transform.Y > maxY) {
                     MoveDirY = -1;
@@ -80,7 +80,7 @@ namespace ManicMiner
 
             if (moveDirX != 0)
             {
-                Transform.translate(moveSpeed * moveDirX * Bootstrap.getDeltaTime(), 0);
+                Transform.Translate(moveSpeed * moveDirX * Bootstrap.GetDeltaTime(), 0);
 
                 if (Transform.X > maxX)
                 {
@@ -96,7 +96,7 @@ namespace ManicMiner
 
 
 
-            Bootstrap.getDisplay().addToDraw(this);
+            Bootstrap.GetDisplay().AddToDraw(this);
         }
 
     }

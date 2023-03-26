@@ -19,7 +19,7 @@ namespace Shard
         private float[] minAndMaxY;
         private bool rotateAtOffset;
 
-        public abstract void recalculate();
+        public abstract void Recalculate();
         public Collider(CollisionHandler gob)
         {
             gameObject = gob;
@@ -33,34 +33,34 @@ namespace Shard
         internal float[] MinAndMaxY { get => minAndMaxY; set => minAndMaxY = value; }
         public bool RotateAtOffset { get => rotateAtOffset; set => rotateAtOffset = value; }
 
-        public abstract Vector2? checkCollision(ColliderRect c);
+        public abstract Vector2? CheckCollision(ColliderRect c);
 
-        public abstract Vector2? checkCollision(Vector2 c);
+        public abstract Vector2? CheckCollision(Vector2 c);
 
-        public abstract Vector2? checkCollision(ColliderCircle c);
+        public abstract Vector2? CheckCollision(ColliderCircle c);
 
-        public virtual Vector2? checkCollision(Collider c)
+        public virtual Vector2? CheckCollision(Collider c)
         {
 
             if (c is ColliderRect)
             {
-                return checkCollision((ColliderRect)c);
+                return CheckCollision((ColliderRect)c);
             }
 
             if (c is ColliderCircle)
             {
-                return checkCollision((ColliderCircle)c);
+                return CheckCollision((ColliderCircle)c);
             }
 
-            Debug.getInstance().log("Bug");
+            Debug.GetInstance().log("Bug");
             // Not sure how we got here but c'est la vie
             return null;
         }
 
-        public abstract void drawMe(Color col);
+        public abstract void DrawMe(Color col);
 
-        public abstract float[] getMinAndMaxX();
-        public abstract float[] getMinAndMaxY();
+        public abstract float[] GetMinAndMaxX();
+        public abstract float[] GetMinAndMaxY();
 
     }
 }

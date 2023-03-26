@@ -16,14 +16,12 @@ namespace Shard
 
         virtual public double MusicLength { get; }
 
-        virtual public void PlayMusic(string path)
-        {
+        virtual public void PlayMusic(string path) { }
 
-        }
+        virtual public void PauseMusic() { }
 
-        virtual public void PlaySound(string path)
-        {
+        virtual public void ResumeMusic() { }
 
-        }
+        virtual public void PlaySound(string path) { }
     }
 }

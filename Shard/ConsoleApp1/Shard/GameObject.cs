@@ -16,7 +16,7 @@ using System.Numerics;
 
 namespace Shard
 {
-    class GameObject : Renderable
+    class GameObject : Renderable, InputListener
     {
         private Transform3D transform;
         private bool transient;
@@ -25,8 +25,9 @@ namespace Shard
         private int alpha = 255;
         private PhysicsBody myBody;
         private List<string> tags;
+        private string name;
 
-        public void addTag(string str)
+        public void AddTag(string str)
         {
             if (tags.Contains(str))
             {
@@ -36,17 +37,17 @@ namespace Shard
             tags.Add(str);
         }
 
-        public void removeTag(string str)
+        public void RemoveTag(string str)
         {
             tags.Remove(str);
         }
 
-        public bool checkTag(string tag)
+        public bool CheckTag(string tag)
         {
             return tags.Contains(tag);
         }
 
-        public String getTags()
+        public String GetTags()
         {
             string str = "";
 
@@ -59,13 +60,13 @@ namespace Shard
             return str;
         }
 
-        public void setPhysicsEnabled()
+        public void SetPhysicsEnabled()
         {
             MyBody = new PhysicsBody(this);
         }
 
 
-        public bool queryPhysicsEnabled()
+        public bool QueryPhysicsEnabled()
         {
             if (MyBody == null)
             {
@@ -94,30 +95,38 @@ namespace Shard
             get => alpha;
             set => alpha = Math.Min(255, Math.Max(0, value));
         }
+
+        public string Name
+        {
+            get => name;
+            set => name = value;
+        }
+
         public bool Transient { get => transient; set => transient = value; }
         public bool ToBeDestroyed { get => toBeDestroyed; set => toBeDestroyed = value; }
         internal PhysicsBody MyBody { get => myBody; set => myBody = value; }
 
-        public virtual void initialize()
+        public virtual void Initialize()
         {
         }
 
-        public virtual void update()
+        public virtual void Update()
         {
-            if (visible) Bootstrap.getDisplay().addToDraw(this);
+            if (visible) Bootstrap.GetDisplay().AddToDraw(this);
         }
 
-        public virtual void physicsUpdate()
+        public virtual void PhysicsUpdate()
         {
         }
 
-        public virtual void prePhysicsUpdate()
+        public virtual void PrePhysicsUpdate()
         {
         }
 
         public GameObject()
         {
-            GameObjectManager.getInstance().addGameObject(this);
+            //GameObjectManager.getInstance().addGameObject(this);
+            SceneManager.GetInstance().AskForAddGameObject(this);
 
             transform = new Transform3D(this);
             visible = true;
@@ -125,11 +134,12 @@ namespace Shard
             ToBeDestroyed = false;
             tags = new List<string>();
 
-            this.initialize();
+            this.Initialize();
 
+            Bootstrap.GetInput().AddListener(this);
         }
 
-        public void checkDestroyMe()
+        public void CheckDestroyMe()
         {
 
             if (!transient)
@@ -137,9 +147,9 @@ namespace Shard
                 return;
             }
 
-            if (Transform.X > 0 && Transform.X < Bootstrap.getDisplay().getWidth())
+            if (Transform.X > 0 && Transform.X < Bootstrap.GetDisplay().GetWidth())
             {
-                if (Transform.Y > 0 && Transform.Y < Bootstrap.getDisplay().getHeight())
+                if (Transform.Y > 0 && Transform.Y < Bootstrap.GetDisplay().GetHeight())
                 {
                     return;
                 }
@@ -150,9 +160,9 @@ namespace Shard
 
         }
 
-        public virtual void killMe()
+        public virtual void OnDestroy()
         {
-            PhysicsManager.getInstance().removePhysicsObject(myBody);
+            PhysicsManager.GetInstance().RemovePhysicsObject(myBody);
 
             myBody = null;
             transform = null;
@@ -168,8 +178,8 @@ namespace Shard
             SDL.SDL_Rect sourceRect;
             SDL.SDL_Rect destinationRect;
 
-            IntPtr sprite = Bootstrap.getDisplay().loadTexture(transform.SpritePath);
-            Vector2 spriteSize = Bootstrap.getDisplay().GetTextureSize(sprite);
+            IntPtr sprite = Bootstrap.GetDisplay().LoadTexture(transform.SpritePath);
+            Vector2 spriteSize = Bootstrap.GetDisplay().GetTextureSize(sprite);
 
             sourceRect.x = 0;
             sourceRect.y = 0;
@@ -178,14 +188,18 @@ namespace Shard
 
             destinationRect.x = (int)transform.X;
             destinationRect.y = (int)transform.Y;
-            destinationRect.w = (int)(transform.Wid * transform.Scalex);
-            destinationRect.h = (int)(transform.Ht * transform.Scaley);
+            destinationRect.w = (int)(transform.Width * transform.Scalex);
+            destinationRect.h = (int)(transform.Height * transform.Scaley);
 
             SDL.SDL_SetTextureBlendMode(sprite, SDL.SDL_BlendMode.SDL_BLENDMODE_BLEND);//This sets the texture in blendmode
 
             SDL.SDL_SetTextureAlphaMod(sprite, (byte)alpha); //sets the alpha into the texture
 
-            SDL.SDL_RenderCopyEx(renderer, sprite, ref sourceRect, ref destinationRect, (int)transform.Rotz, IntPtr.Zero, SDL.SDL_RendererFlip.SDL_FLIP_NONE);
+            SDL.SDL_RenderCopyEx(renderer, sprite, ref sourceRect, ref destinationRect, (int)transform.RotationZ, IntPtr.Zero, SDL.SDL_RendererFlip.SDL_FLIP_NONE);
+        }
+
+        public virtual void HandleInput(InputEvent ie)
+        {
         }
     }
 }

@@ -13,7 +13,7 @@ namespace Shard
         MinerWilly player;
         List<Collectible> collect;
 
-        public override bool isRunning() {       
+        public override bool IsRunning() {       
 
             if (player == null || player.ToBeDestroyed) {
                 return false;
@@ -31,23 +31,23 @@ namespace Shard
 
         }
 
-        public override void update()
+        public override void Update()
         {
 
-            if (isRunning() == false)
+            if (IsRunning() == false)
             {
                 Color col = Color.FromArgb(rand.Next(0, 256), rand.Next(0, 256), rand.Next(0, 256));
-                Bootstrap.getDisplay().showText("GAME OVER!", 300, 300, 128, col);
+                Bootstrap.GetDisplay().ShowText("GAME OVER!", 300, 300, 128, col);
                 return;
             }
 
 
         }
 
-        public override void initialize()
+        public override void Initialize()
         {
             Platform p;
-            Bootstrap.getInput().addListener(this);
+            Bootstrap.GetInput().AddListener(this);
             rand = new Random();
         
             player = new MinerWilly();
@@ -95,22 +95,22 @@ namespace Shard
 
 
             Collectible c = new Collectible();
-            c.Transform.translate(100, 780);
+            c.Transform.Translate(100, 780);
             collect.Add(c);
 
 
             c = new Collectible();
-            c.Transform.translate (840, 560);
+            c.Transform.Translate (840, 560);
             collect.Add (c);
 
             c = new Collectible();
-            c.Transform.translate(840, 60);
+            c.Transform.Translate(840, 60);
             collect.Add(c);
 
         }
 
 
-        public void handleInput(InputEvent ie)
+        public void HandleInput(InputEvent ie)
         {            
         }
     }

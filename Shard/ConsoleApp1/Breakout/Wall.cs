@@ -5,40 +5,40 @@ namespace GameBreakout
     class Wall : GameObject, CollisionHandler
     {
 
-        public override void initialize()
+        public override void Initialize()
         {
 
 
-            setPhysicsEnabled();
+            SetPhysicsEnabled();
 
-            MyBody.addRectCollider();
+            MyBody.AddRectCollider();
 
             MyBody.Mass = 10;
 
 
-            addTag("Wall");
+            AddTag("Wall");
 
             MyBody.Kinematic = true;
 
         }
 
 
-        public override void update()
+        public override void Update()
         {
 
 
         }
 
-        public void onCollisionEnter(PhysicsBody x)
+        public void OnCollisionEnter(PhysicsBody x)
         {
 
         }
 
-        public void onCollisionExit(PhysicsBody x)
+        public void OnCollisionExit(PhysicsBody x)
         {
         }
 
-        public void onCollisionStay(PhysicsBody x)
+        public void OnCollisionStay(PhysicsBody x)
         {
         }
 

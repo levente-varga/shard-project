@@ -9,22 +9,22 @@ namespace GameBreakout
 
         public int Health { get => health; set => health = value; }
 
-        public override void initialize()
+        public override void Initialize()
         {
 
 
-            setPhysicsEnabled();
+            SetPhysicsEnabled();
 
             MyBody.Mass = 1;
             MyBody.Kinematic = true;
 
-            MyBody.addRectCollider();
+            MyBody.AddRectCollider();
 
-            addTag("Brick");
+            AddTag("Brick");
 
         }
 
-        public void handleInput(InputEvent ie)
+        public void HandleInput(InputEvent ie)
         {
 
 
@@ -33,15 +33,15 @@ namespace GameBreakout
         }
 
 
-        public override void update()
+        public override void Update()
         {
 
-            this.Transform.SpritePath = Bootstrap.getAssetManager().getAssetPath("brick" + Health + ".png");
+            this.Transform.SpritePath = Bootstrap.GetAssetManager().GetAssetPath("brick" + Health + ".png");
 
-            Bootstrap.getDisplay().addToDraw(this);
+            Bootstrap.GetDisplay().AddToDraw(this);
         }
 
-        public void onCollisionEnter(PhysicsBody x)
+        public void OnCollisionEnter(PhysicsBody x)
         {
             Health -= 1;
 
@@ -51,18 +51,18 @@ namespace GameBreakout
             }
         }
 
-        public void onCollisionExit(PhysicsBody x)
+        public void OnCollisionExit(PhysicsBody x)
         {
 
         }
 
-        public void onCollisionStay(PhysicsBody x)
+        public void OnCollisionStay(PhysicsBody x)
         {
         }
 
         public override string ToString()
         {
-            return "Brick: [" + Transform.X + ", " + Transform.Y + ", " + Transform.Wid + ", " + Transform.Ht + "]";
+            return "Brick: [" + Transform.X + ", " + Transform.Y + ", " + Transform.Width + ", " + Transform.Height + "]";
         }
 
     }

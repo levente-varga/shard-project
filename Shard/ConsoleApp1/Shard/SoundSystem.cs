@@ -75,7 +75,7 @@ namespace Shard
             get => SDL_mixer.Mix_MusicDuration(music);
         }
 
-        public override void update()
+        public override void Update()
         {
             if (!musicPlaying) return;
 
@@ -84,7 +84,7 @@ namespace Shard
             lastMusicPosition = musicPosition;
             if (smoothen)
             {
-                musicPosition += Bootstrap.getDeltaTime();
+                musicPosition += Bootstrap.GetDeltaTime();
             }
 
             if (playheadPosition != lastPlayheadPosition)
@@ -99,7 +99,7 @@ namespace Shard
                 
                 lastPlayheadPosition = playheadPosition;
 
-                //Debug.Log($"Difference: {difference}");
+                Debug.Log($"Difference: {difference}");
             }
 
             double currentCorrection = correction / correctionFactor;
@@ -128,12 +128,12 @@ namespace Shard
 
                 for (int i = 0; i < musicPositionChangeSamples.Count; i++)
                 {
-                    Bootstrap.getDisplay().drawLine(100, i, 100 + (int)(musicPositionChangeSamples[i] * 2000), i, 255, 255, 255, 30);
+                    Bootstrap.GetDisplay().DrawLine(100, i, 100 + (int)(musicPositionChangeSamples[i] * 2000), i, 255, 255, 255, 30);
                 }
 
                 for (int i = 0; i < correctionSamples.Count; i++)
                 {
-                    Bootstrap.getDisplay().drawLine(300, i, 400 + (int)(correctionSamples[i] * 100), i, 255, 255, 255, 10);
+                    Bootstrap.GetDisplay().DrawLine(300, i, 400 + (int)(correctionSamples[i] * 100), i, 255, 255, 255, 10);
                 }
             }
         }
@@ -146,7 +146,7 @@ namespace Shard
 
         public override void PlaySound(string path)
         {
-            string file = Bootstrap.getAssetManager().getAssetPath(path);
+            string file = Bootstrap.GetAssetManager().GetAssetPath(path);
             if (!audioOpen || !File.Exists(file)) return;
             
             IntPtr chunk = SDL_mixer.Mix_LoadWAV(file);
@@ -155,7 +155,7 @@ namespace Shard
 
         public override void PlayMusic(string path)
         {
-            string file = Bootstrap.getAssetManager().getAssetPath(path);
+            string file = Bootstrap.GetAssetManager().GetAssetPath(path);
             if (!audioOpen || !File.Exists(file)) return;
 
             SDL_mixer.Mix_VolumeMusic(SDL_mixer.MIX_MAX_VOLUME / 16);
@@ -166,10 +166,22 @@ namespace Shard
             musicPosition = 0;
             lastPlayheadPosition = SDL_mixer.Mix_GetMusicPosition(music);
 
-            Bootstrap.getInput().addListener(this);
+            //SDL_mixer.Mix_SetMusicPosition(60);
+
+            Bootstrap.GetInput().AddListener(this);
         }
 
-        public void handleInput(InputEvent ie)
+        public override void PauseMusic()
+        {
+            SDL_mixer.Mix_PauseMusic();
+        }
+
+        public override void ResumeMusic()
+        {
+            SDL_mixer.Mix_ResumeMusic();
+        }
+
+        public void HandleInput(InputEvent ie)
         {
             switch (ie.Type)
             {

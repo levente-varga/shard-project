@@ -13,13 +13,13 @@ namespace Shard
 {
     class InputBasic : InputSystem
     {
-        public override void getInput()
+        public override bool GetInput()
         {
             InputEvent ie;
             ConsoleKeyInfo cki;
             if (!Console.KeyAvailable)
             {
-                return;
+                return true;
             }
 
             cki = Console.ReadKey(true);
@@ -28,15 +28,17 @@ namespace Shard
             ie.Key = (int)cki.KeyChar;
             ie.Type = InputEventType.KeyDown;
 
-            informListeners(ie);
+            InformListeners(ie);
 
             ie = new InputEvent();
             ie.Key = (int)cki.KeyChar;
             ie.Type = InputEventType.KeyUp;
 
-            informListeners(ie);
+            InformListeners(ie);
 
-            Debug.getInstance().log("Key is " + ie.Key);
+            Debug.GetInstance().log("Key is " + ie.Key);
+
+            return true;
         }
     }
 }

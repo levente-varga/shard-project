@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Numerics;
 using System.Text;
@@ -7,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Shard
 {
-    class Music : InputListener
+    class Music : GameObject
     {
         double beatPerMinute;
         double beatPerSecond;
@@ -17,7 +18,12 @@ namespace Shard
         double musicPositionSeconds;
         double musicPositionBeats;
         double creatingAtBeat = 0; // the beat we are adding notes at with AddNoteAndPauseForBeat()
+
         Vector2 mousePosition;
+        bool mousePressed = false;
+        List<Vector2> trailPositions = new List<Vector2>();
+        List<double> trailTimeStamps = new List<double>();
+        const double trailDurationSeconds = 0.2;
 
         public double PositionSeconds
         {
@@ -57,7 +63,7 @@ namespace Shard
             beatPerSecond = beatPerMinute / 60.0;
             notes = new List<Note>();
 
-            Bootstrap.getInput().addListener(this);
+            Bootstrap.GetInput().AddListener(this);
         }
 
         /*
@@ -73,8 +79,8 @@ namespace Shard
         public void AddNoteAndPause(double pauseForBeats)
         {
             Random random = new Random();
-            int displayWidth = Bootstrap.getDisplay().getWidth();
-            int displayHeight = Bootstrap.getDisplay().getHeight();
+            int displayWidth = Bootstrap.GetDisplay().GetWidth();
+            int displayHeight = Bootstrap.GetDisplay().GetHeight();
 
             AddNoteAndPause(pauseForBeats, new Vector2(
                 (int)(random.Next(displayWidth / 4) + displayWidth * (3.0 / 8.0)),
@@ -99,35 +105,76 @@ namespace Shard
 
         public void UpdateNotes(double musicPosition)
         {
-            notes.ForEach(note => { note.update(); });
+            notes.ForEach(note => { note.Update(); });
         }
 
-        public void handleInput(InputEvent ie)
+        public override void Update()
+        {
+            for (int i = trailPositions.Count - 1; i > 0; i--)
+            {
+                double elapsedSeconds = Bootstrap.TimeElapsed - trailTimeStamps[i];
+
+                if (elapsedSeconds > trailDurationSeconds)
+                {
+                    trailTimeStamps.RemoveAt(i);
+                    trailPositions.RemoveAt(i);
+                    continue;
+                }
+            }
+
+            for (int i = 0; i < trailPositions.Count - 1; i++)
+            {
+                Vector2 start = trailPositions[i];
+                Vector2 end = trailPositions[i + 1];
+
+                double elapsedSeconds = Bootstrap.TimeElapsed - trailTimeStamps[i];
+                double strength = Math.Pow(1 - (elapsedSeconds / trailDurationSeconds), 2.0);
+                Bootstrap.GetDisplay().DrawLine((int)start.X, (int)start.Y, (int)end.X, (int)end.Y, 255, 255, 255, (int)(255 * strength));
+            }
+        }
+
+        private void HitNote(Vector2 p)
+        {
+            List<Note> candidates = new List<Note>();
+
+            foreach (Note note in notes)
+            {
+                if (note.Visible && !note.Fired && note.IsPositionInsideArea((int)p.X, (int)p.Y))
+                {
+                    candidates.Add(note);
+                }
+            }
+
+            if (candidates.Count == 0) return;
+
+            if (candidates.Count > 1) candidates.Sort((a, b) => Math.Sign(a.PositionBeats - b.PositionBeats));
+
+            candidates[0].Fire();
+        }
+
+        public override void HandleInput(InputEvent ie)
         {
             switch (ie.Type)
             {
-                case InputEventType.MouseMotion:
-                    mousePosition = new Vector2(ie.X, ie.Y);
-                    break;
                 case InputEventType.MouseDown:
-                case InputEventType.KeyDown:
-                    if (ie.Type == InputEventType.MouseDown) mousePosition = new Vector2(ie.X, ie.Y);
+                    mousePressed = true;
 
-                    List<Note> candidates = new List<Note>();
+                    mousePosition = new Vector2(ie.X, ie.Y);
+                    HitNote(mousePosition);
+                    break;
+                case InputEventType.MouseUp:
+                    mousePressed = false; 
+                    break;
+                case InputEventType.MouseMotion:
+                    break;
 
-                    foreach (Note note in notes)
-                    {
-                        if (note.Visible && !note.Fired && note.IsPositionInsideArea((int)mousePosition.X, (int)mousePosition.Y))
-                        {
-                            candidates.Add(note);
-                        }
-                    }
+                    if (!mousePressed) break;
 
-                    if (candidates.Count == 0) return;
+                    mousePosition = new Vector2(ie.X, ie.Y);
+                    trailPositions.Insert(0, mousePosition);
+                    trailTimeStamps.Insert(0, Bootstrap.TimeElapsed);
 
-                    if (candidates.Count > 1) candidates.Sort((a, b) => Math.Sign(a.PositionBeats - b.PositionBeats));
-
-                    candidates[0].Fire();
+                    HitNote(mousePosition);
                     break;
             }
         }

@@ -9,24 +9,24 @@ namespace NewGame
         bool up, down, turnLeft, turnRight;
 
 
-        public override void initialize()
+        public override void Initialize()
         {
 
             this.Transform.X = 500.0f;
             this.Transform.Y = 500.0f;
-            this.Transform.SpritePath = Bootstrap.getAssetManager().getAssetPath("ball.png");
+            this.Transform.SpritePath = Bootstrap.GetAssetManager().GetAssetPath("ball.png");
             this.Layer = 1;
 
-            Bootstrap.getInput().addListener(this);
+            Bootstrap.GetInput().AddListener(this);
 
             up = false;
             down = false;
 
-            setPhysicsEnabled();
+            SetPhysicsEnabled();
 
-            MyBody.addRectCollider();
+            MyBody.AddRectCollider();
 
-            addTag("Item");
+            AddTag("Item");
 
 
         }
@@ -35,7 +35,7 @@ namespace NewGame
         {
         }
 
-        public void handleInput(InputEvent ie)
+        public void HandleInput(InputEvent ie)
         {
 
 
@@ -48,7 +48,7 @@ namespace NewGame
             }
         }
 
-        public override void physicsUpdate()
+        public override void PhysicsUpdate()
         {
 
             if (turnLeft)
@@ -70,28 +70,28 @@ namespace NewGame
 
         }
 
-        public override void update()
+        public override void Update()
         {
-            Bootstrap.getDisplay().addToDraw(this);
+            Bootstrap.GetDisplay().AddToDraw(this);
         }
 
-        public void onCollisionEnter(PhysicsBody x)
-        {
-
-        }
-
-        public void onCollisionExit(PhysicsBody x)
+        public void OnCollisionEnter(PhysicsBody x)
         {
 
         }
 
-        public void onCollisionStay(PhysicsBody x)
+        public void OnCollisionExit(PhysicsBody x)
+        {
+
+        }
+
+        public void OnCollisionStay(PhysicsBody x)
         {
         }
 
         public override string ToString()
         {
-            return "Item: [" + Transform.X + ", " + Transform.Y + ", " + Transform.Wid + ", " + Transform.Ht + "]";
+            return "Item: [" + Transform.X + ", " + Transform.Y + ", " + Transform.Width + ", " + Transform.Height + "]";
         }
 
     }

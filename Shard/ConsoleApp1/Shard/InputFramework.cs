@@ -18,18 +18,18 @@ namespace Shard
     {
 
         double tick, timeInterval;
-        public override void getInput()
+        public override bool GetInput()
         {
 
             SDL.SDL_Event ev;
             int res;
             InputEvent ie;
 
-            tick += Bootstrap.getDeltaTime();
+            tick += Bootstrap.GetDeltaTime();
 
             if (tick < timeInterval)
             {
-                return;
+                return true;
             }
 
             while (tick >= timeInterval)
@@ -40,7 +40,7 @@ namespace Shard
 
                 if (res != 1)
                 {
-                    return;
+                    return true;
                 }
 
                 ie = new InputEvent();
@@ -57,7 +57,7 @@ namespace Shard
                     ie.Y = mot.y;
                     ie.Type = InputEventType.MouseMotion;
 
-                    informListeners(ie);
+                    InformListeners(ie);
                 }
 
                 if (ev.type == SDL.SDL_EventType.SDL_MOUSEBUTTONDOWN)
@@ -71,7 +71,7 @@ namespace Shard
                     ie.Y = butt.y;
                     ie.Type = InputEventType.MouseDown;
 
-                    informListeners(ie);
+                    InformListeners(ie);
                 }
 
                 if (ev.type == SDL.SDL_EventType.SDL_MOUSEBUTTONUP)
@@ -85,7 +85,7 @@ namespace Shard
                     ie.Y = butt.y;
                     ie.Type = InputEventType.MouseUp;
 
-                    informListeners(ie);
+                    InformListeners(ie);
                 }
 
                 if (ev.type == SDL.SDL_EventType.SDL_MOUSEWHEEL)
@@ -98,7 +98,7 @@ namespace Shard
                     ie.Y = (int)wh.direction * wh.y;
                     ie.Type = InputEventType.MouseWheel;
 
-                    informListeners(ie);
+                    InformListeners(ie);
                 }
 
 
@@ -107,7 +107,7 @@ namespace Shard
                     ie.Key = (int)ev.key.keysym.scancode;
                     ie.Type = InputEventType.KeyDown;
 
-                    informListeners(ie);
+                    InformListeners(ie);
                 }
 
                 if (ev.type == SDL.SDL_EventType.SDL_KEYUP)
@@ -115,16 +115,21 @@ namespace Shard
                     ie.Key = (int)ev.key.keysym.scancode;
                     ie.Type = InputEventType.KeyUp;
 
-                    informListeners(ie);
+                    InformListeners(ie);
+                }
+
+                if (ev.type == SDL.SDL_EventType.SDL_WINDOWEVENT && ev.window.windowEvent == SDL.SDL_WindowEventID.SDL_WINDOWEVENT_CLOSE)
+                {
+                    return false;
                 }
 
                 tick -= timeInterval;
             }
 
-
+            return true;
         }
 
-        public override void initialize()
+        public override void Initialize()
         {
             tick = 0;
             timeInterval = 1.0 / 60.0;

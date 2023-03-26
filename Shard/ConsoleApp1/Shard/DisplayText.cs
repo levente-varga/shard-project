@@ -88,7 +88,7 @@ namespace Shard
         int _access;
         private List<TextDetails> myTexts;
         private Dictionary<string, IntPtr> fontLibrary;
-        public override void clearDisplay()
+        public override void Clear()
         {
             foreach (TextDetails td in myTexts)
             {
@@ -101,7 +101,7 @@ namespace Shard
 
         }
 
-        public IntPtr loadFont(string path, int size)
+        public IntPtr LoadFont(string path, int size)
         {
             string key = path + "," + size;
 
@@ -114,13 +114,13 @@ namespace Shard
             return fontLibrary[key];
         }
 
-        private void update()
+        private void Update()
         {
 
 
         }
 
-        private void draw()
+        private void Draw()
         {
 
             foreach (TextDetails td in myTexts)
@@ -170,32 +170,32 @@ namespace Shard
 
         }
 
-        public override void display()
+        public override void Present()
         {
 
-            update();
-            draw();
+            Update();
+            Draw();
         }
 
-        public override void setFullscreen()
+        public override void SetFullscreen()
         {
             SDL.SDL_SetWindowFullscreen(_window,
                  (uint)SDL.SDL_WindowFlags.SDL_WINDOW_FULLSCREEN_DESKTOP);
         }
 
-        public override void initialize()
+        public override void Initialize()
         {
             fontLibrary = new Dictionary<string, IntPtr>();
 
-            setSize(1280, 864);
+            SetSize(1280, 864);
 
             SDL.SDL_Init(SDL.SDL_INIT_EVERYTHING);
             SDL_ttf.TTF_Init();
             _window = SDL.SDL_CreateWindow("Shard Game Engine",
                 SDL.SDL_WINDOWPOS_CENTERED,
                 SDL.SDL_WINDOWPOS_CENTERED,
-                getWidth(),
-                getHeight(),
+                GetWidth(),
+                GetHeight(),
                 0);
 
 
@@ -215,11 +215,11 @@ namespace Shard
 
 
 
-        public override void showText(string text, double x, double y, int size, int r, int g, int b, int a, TextAlignment alignmentHorizontal = TextAlignment.Start, TextAlignment alignmentVertical = TextAlignment.Start)
+        public override void ShowText(string text, double x, double y, int size, int r, int g, int b, int a, TextAlignment alignmentHorizontal = TextAlignment.Start, TextAlignment alignmentVertical = TextAlignment.Start)
         {
             int nx, ny, w = 0, h = 0;
 
-            IntPtr font = loadFont("Fonts/calibri.ttf", size);
+            IntPtr font = LoadFont("Fonts/calibri.ttf", size);
             SDL.SDL_Color col = new SDL.SDL_Color();
 
             col.r = (byte)r;
@@ -229,7 +229,7 @@ namespace Shard
 
             if (font == IntPtr.Zero)
             {
-                Debug.getInstance().log("TTF_OpenFont: " + SDL.SDL_GetError());
+                Debug.GetInstance().log("TTF_OpenFont: " + SDL.SDL_GetError());
             }
 
             TextDetails td = new TextDetails(text, x, y, col, 12, alignmentHorizontal, alignmentVertical);
@@ -255,7 +255,7 @@ namespace Shard
 
 
         }
-        public override void showText(char[,] text, double x, double y, int size, int r, int g, int b, int a, TextAlignment alignmentHorizontal = TextAlignment.Start, TextAlignment alignmentVertical = TextAlignment.Start)
+        public override void ShowText(char[,] text, double x, double y, int size, int r, int g, int b, int a, TextAlignment alignmentHorizontal = TextAlignment.Start, TextAlignment alignmentVertical = TextAlignment.Start)
         {
             string str = "";
             int row = 0;
@@ -269,7 +269,7 @@ namespace Shard
                 }
 
 
-                showText(str, x, y + (row * size), size, r, g, b, a, alignmentHorizontal, alignmentVertical);
+                ShowText(str, x, y + (row * size), size, r, g, b, a, alignmentHorizontal, alignmentVertical);
                 row += 1;
 
             }
