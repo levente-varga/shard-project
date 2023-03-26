@@ -9,9 +9,6 @@ namespace Shard
     class GameTest : Game, InputListener
     {
         GameObject background;
-        List<GameObject> asteroids;
-        List<Note> notes;
-
         Music music;
 
         public GameTest()
@@ -26,7 +23,7 @@ namespace Shard
             
             CreateBackground();
 
-            asteroids = new List<GameObject>();
+            SetupMusic();
 
             Bootstrap.GetSceneManager().CreateScene("Menu");
             Bootstrap.GetSceneManager().AskForLoadScene("Menu");
@@ -122,7 +119,6 @@ namespace Shard
             music.AddPause(16);
             
             music.AddNoteAndPause(4);
-            return;
             music.AddNoteAndPause(4);
             music.AddNoteAndPause(4);
             music.AddNoteAndPause(4);

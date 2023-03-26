@@ -289,6 +289,9 @@ namespace Shard
                 // Scene management
                 SceneManager.GetInstance().RunCommands();
 
+                // Sound
+                GetSound().Update();
+
                 //Debug.Log("> Game Update");
                 // Update 
                 runningGame.Update();

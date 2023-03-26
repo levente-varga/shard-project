@@ -10,7 +10,7 @@ using System;
 
 namespace Shard
 {
-    class Sound : GameObject
+    class Sound
     {
         virtual public double MusicPosition { get; }
 
@@ -23,5 +23,7 @@ namespace Shard
         virtual public void ResumeMusic() { }
 
         virtual public void PlaySound(string path) { }
+
+        virtual public void Update() { }
     }
 }

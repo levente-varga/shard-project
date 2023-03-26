@@ -119,7 +119,7 @@ namespace Shard
         public override void Update()
         {   
             double diffBeat = music.PositionBeats - positionBeats;
-            Debug.Log($"Difference: {diffBeat}");
+            //Debug.Log($"Difference: {diffBeat}");
             UpdateFlare();
 
             bool visibleBefore = Visible;

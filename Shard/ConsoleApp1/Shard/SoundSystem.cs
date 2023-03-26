@@ -60,9 +60,6 @@ namespace Shard
                 SDL_mixer.Mix_QuerySpec(out audio_rate, out audio_format, out audio_channels);
                 audioOpen = true;
             }
-
-            Visible = true;
-            Layer = 100;
         } 
 
         public override double MusicPosition
@@ -99,7 +96,7 @@ namespace Shard
                 
                 lastPlayheadPosition = playheadPosition;
 
-                Debug.Log($"Difference: {difference}");
+                if (debug) Debug.Log($"Difference: {difference}");
             }
 
             double currentCorrection = correction / correctionFactor;
@@ -114,7 +111,7 @@ namespace Shard
 
             if (musicPosition >= MusicLength)
             {
-                Debug.Log("Music reached end");
+                if (debug) Debug.Log("Music reached end");
                 musicPlaying = false;
                 musicPosition = MusicLength;
             }
