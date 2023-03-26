@@ -9,46 +9,20 @@ namespace Shard
     class SceneManager
     {
         List<Scene> scenes;
-        string loadedSceneName = "";
-        List<SceneCommand> commands;
-
-        private class SceneCommand
-        {
-            public enum CommandType
-            {
-                LoadScene,
-                UnloadScene,
-                AddGameObject,
-                RemoveGameObject,
-            }
-
-            string name;
-            CommandType type;
-            GameObject gameObject;
-
-            public SceneCommand(string name, CommandType type, GameObject gameObject)
-            {
-                this.name = name;
-                this.type = type;
-                this.gameObject = gameObject;
-            }
-
-            public string SceneName => name;
-            public CommandType Type => type;
-            public GameObject GameObject => gameObject;
-        }
-
+        Scene loadedScene;
+        List<SceneManagerCommand> commands;
+        
         private SceneManager() 
         { 
             scenes = new List<Scene>();
-            commands = new List<SceneCommand>();
+            commands = new List<SceneManagerCommand>();
         }
 
         private static SceneManager instance;
 
         public Scene LoadedScene
         {
-            get { return instance.GetScene(loadedSceneName); }
+            get => instance.loadedScene;
         }
 
         public static SceneManager GetInstance()
@@ -62,14 +36,14 @@ namespace Shard
             return instance;
         }
 
-        public Scene GetScene(string name)
+        public bool DoesContainScene(Scene scene)
         {
             for (int i = 0; i < scenes.Count; i++)
             {
-                if (scenes[i].Name == name) return scenes[i];
+                if (scenes[i] == scene) return true;
             }
 
-            return null;
+            return false;
         }
 
         public List<Scene> GetAllScenes()
@@ -77,162 +51,215 @@ namespace Shard
             return new List<Scene>(scenes);
         }
 
-        public void CreateScene(string name)
+        public void AddScene(Scene scene)
         {
-            try
-            {
-                if (SceneExists(name))
-                {
-                    throw new Exception($"A scene with the name '{name}' already exists!");
-                }
+            Debug.Log($"Added new scene called '{scene.Name}'");
 
-                if (name.Length == 0)
-                {
-                    throw new Exception($"A scene name must be at least 1 character long!");
-                }
-
-                foreach (char c in name)
-                {
-                    if (('a' > c || c > 'z') && ('A' > c || c > 'Z') && ('0' > c || c > '9'))
-                    {
-                        throw new Exception($"A scene name may only contain letters and numbers!");
-                    }
-                }
-            }
-            finally { }
-
-            scenes.Add(new Scene(name));
+            scenes.Add(scene);
         }
 
-        public void DeleteScene(string name)
+        public void RemoveScene(Scene scene)
         {
-            if (!SceneExists(name)) return;
-
-            for (int i = 0; i < scenes.Count; i++)
-            {
-                if (scenes[i].Name == name)
-                {
-                    scenes.RemoveAt(i);
-                    return;
-                }
-            }
+            scenes.Remove(scene);
         }
 
-        private void LoadScene(string name)
+        private void ImmediatelyLoadScene(Scene scene)
         {
-            if (!SceneExists(name) || name == loadedSceneName) return;
+            if (loadedScene != null) ImmediatelyUnloadScene(loadedScene);
 
-            if (loadedSceneName != "")
-            {
-                UnloadScene(loadedSceneName);
-            }
-
-            GetScene(name).Load();
-            loadedSceneName = name;
+            scene.Load();
 
             Debug.Log("Loaded scene changed! Status of scenes is the following:");
             List<Scene> scenes = GetInstance().GetAllScenes();
-            foreach (Scene scene in scenes) { Debug.Log($" {(scene.Name == loadedSceneName ? ">>>" : " - ")} {scene.ToString()}"); }
+            foreach (Scene s in scenes) { Debug.Log($" {(s == loadedScene ? ">>>" : " - ")} {s}"); }
+
+            loadedScene = scene;
         }
 
-        private void UnloadScene(string name)
+        private void ImmediatelyUnloadScene(Scene scene)
         {
-            if (!SceneExists(name)) return;
-
-            GetScene(name).Unload();
-            loadedSceneName = "";
+            scene.Unload();
+            loadedScene = null;
         }
 
-        private void AddGameObject(GameObject gameObject) => AddGameObject(gameObject, loadedSceneName);
-        private void AddGameObject(GameObject gameObject, string sceneName)
+        private void ImmediatelyAddGameObject(GameObject gameObject, Scene scene)
         {
-            if (!SceneExists(sceneName)) return;
+            scene.AddGameObject(gameObject);
 
-            GetScene(sceneName).AddGameObject(gameObject);
-            if (loadedSceneName == sceneName) Bootstrap.GetInput().AddListener(gameObject);
+            
+
+            //Debug.Log($"Game object {gameObject.GetType()} has been added to scene '{scene.Name}'");
         }
 
-        private void RemoveGameObject(GameObject gameObject) => RemoveGameObject(gameObject, loadedSceneName);
-        private void RemoveGameObject(GameObject gameObject, string sceneName)
+        private void ImmediatelyRemoveGameObject(GameObject gameObject, Scene scene)
         {
-            if (!SceneExists(sceneName)) return;
-
-            GetScene(sceneName).RemoveGameObject(gameObject);
-        }
-
-        private bool SceneExists(string name)
-        {
-            for (int i = 0; i < scenes.Count; i++)
-            {
-                if (scenes[i].Name == name)
-                {
-                    return true;
-                }
-            }
-
-            return false;
+            scene.RemoveGameObject(gameObject);
         }
 
         public void PhysicsUpdate()
         {
-            GetScene(loadedSceneName).PhysicsUpdate();
+            loadedScene.PhysicsUpdate();
         }
 
         public void PrePhysicsUpdate()
         {
-            GetScene(loadedSceneName).PrePhysicsUpdate();
+            loadedScene.PrePhysicsUpdate();
         }
 
         public void Update()
         {
             //Debug.Log($"Updating scene '{loadedScene}'");
-            GetScene(loadedSceneName).Update();
+            loadedScene.Update();
         }
 
 
 
-        public void AskForLoadScene(string name)
+        public void LoadScene(Scene scene)
         {
-            commands.Add(new SceneCommand(name, SceneCommand.CommandType.LoadScene, null));
+            commands.Add(new LoadSceneCommand(scene));
+            if (!scenes.Contains(scene)) AddScene(scene);
         }
 
-        public void AskForUnloadScene(string name)
+        public void UnloadScene(Scene scene)
         {
-            commands.Add(new SceneCommand(name, SceneCommand.CommandType.UnloadScene, null));
+            commands.Add(new UnloadSceneCommand(scene));
+        }
+        
+        public void AddGameObject(GameObject gameObject)
+        {
+            commands.Add(new AddGameObjectToCurrentSceneCommand(gameObject));
         }
 
-        public void AskForAddGameObject(GameObject gameObject)
+        public void AddGameObject(GameObject gameObject, Scene scene)
         {
-            commands.Add(new SceneCommand("", SceneCommand.CommandType.AddGameObject, gameObject));
+            Debug.Log($"ADD command added for {gameObject.GetType()}");
+            commands.Add(new AddGameObjectCommand(gameObject, scene));
         }
 
-        public void AskForRemoveGameObject(GameObject gameObject)
+        public void RemoveGameObject(GameObject gameObject)
         {
-            commands.Add(new SceneCommand("", SceneCommand.CommandType.RemoveGameObject, gameObject));
+            commands.Add(new RemoveGameObjectFromCurrentSceneCommand(gameObject));
         }
 
-        public void RunCommands()
+        public void RemoveGameObject(GameObject gameObject, Scene scene)
         {
-            List<SceneCommand> commands = new List<SceneCommand>(this.commands);
+            commands.Add(new RemoveGameObjectCommand(gameObject, scene));
+        }
+
+        public void ExecuteCommands()
+        {
+            List<SceneManagerCommand> commands = new List<SceneManagerCommand>(this.commands);
             this.commands.Clear();
 
-            foreach (SceneCommand command in commands)
+            foreach (SceneManagerCommand command in commands)
             {
-                switch (command.Type) 
-                {
-                    case SceneCommand.CommandType.LoadScene:
-                        LoadScene(command.SceneName);
-                        break;
-                    case SceneCommand.CommandType.UnloadScene:
-                        UnloadScene(command.SceneName);
-                        break;
-                    case SceneCommand.CommandType.AddGameObject:
-                        AddGameObject(command.GameObject);
-                        break;
-                    case SceneCommand.CommandType.RemoveGameObject:
-                        RemoveGameObject(command.GameObject);
-                        break;
-                }
+                command.Execute();
+            }
+
+            foreach (Scene scene in scenes)
+            {
+                scene.ExecuteCommands();
+            }
+        }
+
+
+
+        private abstract class SceneManagerCommand
+        {
+            public abstract void Execute();
+        }
+
+        private class AddGameObjectCommand : SceneManagerCommand
+        {
+            GameObject gameObject;
+            Scene scene;
+
+            public AddGameObjectCommand(GameObject gameObject, Scene scene)
+            {
+                this.gameObject = gameObject;
+                this.scene = scene;
+            }
+
+            public override void Execute()
+            {
+                instance.ImmediatelyAddGameObject(gameObject, scene);
+            }
+        }
+
+        private class AddGameObjectToCurrentSceneCommand : SceneManagerCommand
+        {
+            GameObject gameObject;
+
+            public AddGameObjectToCurrentSceneCommand(GameObject gameObject)
+            {
+                this.gameObject = gameObject;
+            }
+
+            public override void Execute()
+            {
+                instance.ImmediatelyAddGameObject(gameObject, instance.LoadedScene);
+            }
+        }
+
+        private class RemoveGameObjectCommand : SceneManagerCommand
+        {
+            GameObject gameObject;
+            Scene scene;
+
+            public RemoveGameObjectCommand(GameObject gameObject, Scene scene)
+            {
+                this.gameObject = gameObject;
+                this.scene = scene;
+            }
+
+            public override void Execute()
+            {
+                instance.ImmediatelyRemoveGameObject(gameObject, scene);
+            }
+        }
+
+        private class RemoveGameObjectFromCurrentSceneCommand : SceneManagerCommand
+        {
+            GameObject gameObject;
+
+            public RemoveGameObjectFromCurrentSceneCommand(GameObject gameObject)
+            {
+                this.gameObject = gameObject;
+            }
+
+            public override void Execute()
+            {
+                instance.ImmediatelyRemoveGameObject(gameObject, instance.loadedScene);
+            }
+        }
+
+        private class LoadSceneCommand : SceneManagerCommand
+        {
+            Scene scene;
+
+            public LoadSceneCommand(Scene scene)
+            {
+                this.scene = scene;
+            }
+
+            public override void Execute()
+            {
+                instance.ImmediatelyLoadScene(scene);
+            }
+        }
+
+        private class UnloadSceneCommand : SceneManagerCommand
+        {
+            Scene scene;
+
+            public UnloadSceneCommand(Scene scene)
+            {
+                this.scene = scene;
+            }
+
+            public override void Execute()
+            {
+                instance.ImmediatelyUnloadScene(scene);
             }
         }
     }

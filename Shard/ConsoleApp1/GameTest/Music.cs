@@ -20,7 +20,6 @@ namespace Shard
         double creatingAtBeat = 0; // the beat we are adding notes at with AddNoteAndPauseForBeat()
 
         Vector2 mousePosition;
-        bool mousePressed = false;
         List<Vector2> trailPositions = new List<Vector2>();
         List<double> trailTimeStamps = new List<double>();
         const double trailDurationSeconds = 0.2;
@@ -154,27 +153,15 @@ namespace Shard
 
         public override void HandleInput(InputEvent ie)
         {
+            Debug.Log($"Music HandleInput");
+
             switch (ie.Type)
             {
                 case InputEventType.MouseDown:
-                    mousePressed = true;
-
                     mousePosition = new Vector2(ie.X, ie.Y);
                     HitNote(mousePosition);
                     break;
                 case InputEventType.MouseUp:
-                    mousePressed = false; 
-                    break;
-                case InputEventType.MouseMotion:
-                    break;
-
-                    if (!mousePressed) break;
-
-                    mousePosition = new Vector2(ie.X, ie.Y);
-                    trailPositions.Insert(0, mousePosition);
-                    trailTimeStamps.Insert(0, Bootstrap.TimeElapsed);
-
-                    HitNote(mousePosition);
                     break;
             }
         }

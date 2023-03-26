@@ -35,6 +35,8 @@ namespace Shard
             while (tick >= timeInterval)
             {
 
+                Debug.Log($"Handling input...");
+
                 res = SDL.SDL_PollEvent(out ev);
 
 

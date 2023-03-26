@@ -11,31 +11,65 @@ namespace Shard
         GameObject background;
         Music music;
 
-        public GameTest()
-        {
-            Bootstrap.GetSceneManager().CreateScene("Game");
-            Bootstrap.GetSceneManager().AskForLoadScene("Game");
-        }
-
         public override void Initialize()
         {
-            
-            
+            LoadMenuScene();
+            Bootstrap.GetInput().AddListener(this);
+        }
+
+        public void LoadGameScene()
+        {
+            Scene gameScene = new Scene();
+
+            SceneManager.GetInstance().LoadScene(gameScene);
+
             CreateBackground();
 
             SetupMusic();
 
-            Bootstrap.GetSceneManager().CreateScene("Menu");
-            Bootstrap.GetSceneManager().AskForLoadScene("Menu");
+            Button backToMenuButton = new Button(
+                0, 0, 30, 30, "X", 20,
+                Color.FromArgb(255, 230, 230, 230),
+                Color.FromArgb(255, 255, 255, 255),
+                Color.FromArgb(255, 50, 50, 50),
+                Color.FromArgb(255, 80, 80, 80)
+                );
 
-            SetupMenu();
-            
-            Bootstrap.GetInput().AddListener(this);
+            backToMenuButton.OnClick += () =>
+            {
+                SceneManager.GetInstance().RemoveScene(gameScene);
+                Bootstrap.GetSound().PauseMusic(); 
+                LoadMenuScene();
+            };
+
+            Bootstrap.GetSound().PlayMusic(music.FilePath);
+        }
+
+        public void LoadMenuScene()
+        {
+            Scene menuScene = new Scene();
+
+            SceneManager.GetInstance().LoadScene(menuScene);
+
+            Button startButton = new Button(
+                Bootstrap.GetDisplay().GetWidth() / 2 - 40,
+                Bootstrap.GetDisplay().GetHeight() / 2 - 15,
+                80, 30, "start", 16,
+                Color.FromArgb(255, 230, 230, 230),
+                Color.FromArgb(255, 255, 255, 255),
+                Color.FromArgb(255, 50, 50, 50),
+                Color.FromArgb(255, 80, 80, 80)
+                );
+
+            startButton.OnClick += () => {
+                SceneManager.GetInstance().RemoveScene(menuScene);
+                LoadGameScene();
+            };
         }
 
         public override void Update()
         {
-            music.PositionSeconds = Bootstrap.GetSound().MusicPosition;
+            if (music != null) music.PositionSeconds = Bootstrap.GetSound().MusicPosition;
 
             //Debug.Log(Bootstrap.getSound().MusicPosition + " / " + Bootstrap.getSound().MusicLength);
 
@@ -88,24 +122,6 @@ namespace Shard
             }
         }
 
-        private void SetupMenu()
-        {
-            Button startButton = new Button(
-                Bootstrap.GetDisplay().GetWidth() / 2 - 40, 
-                Bootstrap.GetDisplay().GetHeight() / 2 - 15, 
-                80, 30, "start", 16, 
-                Color.FromArgb(255, 230, 230, 230), 
-                Color.FromArgb(255, 255, 255, 255), 
-                Color.FromArgb(255, 50, 50, 50), 
-                Color.FromArgb(255, 80, 80, 80)
-                );
-
-            startButton.OnClick += () => {
-                SceneManager.GetInstance().AskForLoadScene("Game");
-                Bootstrap.GetSound().PlayMusic(music.FilePath);
-            };
-        }
-
         private void SetupMusic()
         {
             int displayWidth = Bootstrap.GetDisplay().GetWidth();
@@ -118,10 +134,17 @@ namespace Shard
 
             music.AddPause(16);
             
+            music.AddNoteAndPause(
+                4, 
+                Bootstrap.GetDisplay().GetWidth() / 2,
+                Bootstrap.GetDisplay().GetHeight() / 2
+                );
+
             music.AddNoteAndPause(4);
             music.AddNoteAndPause(4);
             music.AddNoteAndPause(4);
-            music.AddNoteAndPause(4);
+
+            //return;
 
             for (int i = 0; i < 8; i++)
             {

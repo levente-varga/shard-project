@@ -25,7 +25,6 @@ namespace Shard
         private int alpha = 255;
         private PhysicsBody myBody;
         private List<string> tags;
-        private string name;
 
         public void AddTag(string str)
         {
@@ -96,12 +95,6 @@ namespace Shard
             set => alpha = Math.Min(255, Math.Max(0, value));
         }
 
-        public string Name
-        {
-            get => name;
-            set => name = value;
-        }
-
         public bool Transient { get => transient; set => transient = value; }
         public bool ToBeDestroyed { get => toBeDestroyed; set => toBeDestroyed = value; }
         internal PhysicsBody MyBody { get => myBody; set => myBody = value; }
@@ -126,7 +119,7 @@ namespace Shard
         public GameObject()
         {
             //GameObjectManager.getInstance().addGameObject(this);
-            SceneManager.GetInstance().AskForAddGameObject(this);
+            SceneManager.GetInstance().AddGameObject(this);
 
             transform = new Transform3D(this);
             visible = true;

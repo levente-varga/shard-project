@@ -3,17 +3,20 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static System.Formats.Asn1.AsnWriter;
 
 namespace Shard
 {
     class Scene
     {
         List<GameObject> gameObjects;
+        List<SceneCommand> commands;
         string name;
 
-        public Scene(string name)
+        public Scene(string name = "")
         {
             gameObjects = new List<GameObject>();
+            commands = new List<SceneCommand>();
             this.name = name;
         }
 
@@ -30,16 +33,37 @@ namespace Shard
             }
         }
 
-        public void AddGameObject(GameObject gameObject)
+        private void ImmediatelyAddGameObject(GameObject gameObject)
         {
             gameObjects.Add(gameObject);
-            Debug.Log($"Game object '{gameObject.GetType().ToString()}' added to scene");
+            //Debug.Log($"Game object '{gameObject.GetType()}' added to scene");
 
+        }
+
+        private void ImmediatelyRemoveGameObject(GameObject gameObject)
+        {
+            gameObjects.Remove(gameObject);
+        }
+
+        public void AddGameObject(GameObject gameObject)
+        {
+            commands.Add(new AddGameObjectCommand(gameObject, this));
+
+            Bootstrap.GetInput().RemoveListener(gameObject);
+            if (SceneManager.GetInstance().LoadedScene == this)
+            {
+                Bootstrap.GetInput().AddListener(gameObject);
+            }
         }
 
         public void RemoveGameObject(GameObject gameObject)
         {
-            gameObjects.Remove(gameObject);
+            commands.Add(new RemoveGameObjectCommand(gameObject, this));
+
+            if (SceneManager.GetInstance().LoadedScene == this)
+            {
+                Bootstrap.GetInput().RemoveListener(gameObject);
+            }
         }
 
         public void Update()
@@ -98,6 +122,63 @@ namespace Shard
         public override string ToString()
         {
             return $"Scene '{name}' contains {gameObjects.Count} game objects";
+        }
+
+        public void ExecuteCommands()
+        {
+            List<SceneCommand> commands = new List<SceneCommand>(this.commands);
+            this.commands.Clear();
+
+            foreach (SceneCommand command in commands)
+            {
+                command.Execute();
+            }
+        }
+
+
+
+        private abstract class SceneCommand
+        {
+            protected Scene scene;
+
+            public SceneCommand(Scene scene)
+            {
+                this.scene = scene;
+            }
+
+            public abstract void Execute();
+        }
+
+        private class AddGameObjectCommand : SceneCommand
+        {
+            GameObject gameObject;
+            
+
+            public AddGameObjectCommand(GameObject gameObject, Scene scene) : base(scene)
+            {
+                this.gameObject = gameObject;
+            }
+
+            public override void Execute()
+            {
+                scene.ImmediatelyAddGameObject(gameObject);
+            }
+        }
+
+        private class RemoveGameObjectCommand : SceneCommand
+        {
+            GameObject gameObject;
+            string sceneName;
+
+            public RemoveGameObjectCommand(GameObject gameObject, Scene scene) : base(scene)
+            {
+                this.gameObject = gameObject;
+            }
+
+            public override void Execute()
+            {
+                scene.ImmediatelyRemoveGameObject(gameObject);
+            }
         }
     }
 }

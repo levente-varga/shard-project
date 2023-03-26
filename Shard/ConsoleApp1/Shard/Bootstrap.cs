@@ -287,7 +287,7 @@ namespace Shard
 
                 //Debug.Log("> Scene Management");
                 // Scene management
-                SceneManager.GetInstance().RunCommands();
+                SceneManager.GetInstance().ExecuteCommands();
 
                 // Sound
                 GetSound().Update();
@@ -301,13 +301,13 @@ namespace Shard
                 {
                     // Get input, which works at 50 FPS to make sure it doesn't interfere with the 
                     // variable frame rates.
-                    //Debug.Log("> Input");
+                    Debug.Log("> Input");
                     running = input.GetInput();
 
                     // Update runs as fast as the system lets it.  Any kind of movement or counter 
                     // increment should be based then on the deltaTime variable.
                     //GameObjectManager.GetInstance().Update();
-                    //Debug.Log("> Update");
+                    Debug.Log("> Scene Management");
                     SceneManager.GetInstance().Update();
 
                     // This will update every 20 milliseconds or thereabouts.  Our physics system aims 

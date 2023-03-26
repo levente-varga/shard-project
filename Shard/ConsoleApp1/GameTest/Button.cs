@@ -30,7 +30,6 @@ namespace GameTest
             this.backgroundHoverColor = backgroundHoverColor;
             this.textColor = textColor;
             this.textHoverColor = textHoverColor;
-            this.Name = "Button";
         }
 
         public override void Initialize()
@@ -42,11 +41,13 @@ namespace GameTest
 
         public override void HandleInput(InputEvent ie)
         {
-            switch(ie.Type)
+            Debug.Log($"Button HandleInput");
+            switch (ie.Type)
             {
                 case InputEventType.MouseDown:
                     if (IsHovered(ie.X, ie.Y))
                     {
+                        Debug.Log($"Button pressed!");
                         OnClick();
                     }
                     break;

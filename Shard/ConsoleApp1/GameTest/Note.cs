@@ -154,6 +154,9 @@ namespace Shard
         public void Fire()
         {
             if (fired) return;
+
+            Debug.Log($"Note fired!");
+
             fired = true;
 
             double positionSeconds = positionBeats / music.BeatPerSecond + music.OffsetSeconds;
@@ -166,7 +169,7 @@ namespace Shard
             else score = Score.Miss;
 
             tag = score.ToString();
-            Debug.Log($"Hit! Accuracy: {(accuracy * 1000).ToString("0")} ms   {tag}");
+            Debug.Log($"Hit! Accuracy: {(accuracy * 1000).ToString("0")} ms \t{tag}");
 
             Bootstrap.GetSound().PlaySound("hit.wav");
 
