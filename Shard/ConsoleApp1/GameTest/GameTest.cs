@@ -28,11 +28,13 @@ namespace Shard
             SetupMusic();
 
             Button backToMenuButton = new Button(
-                0, 0, 30, 30, "X", 20,
-                Color.FromArgb(255, 230, 230, 230),
-                Color.FromArgb(255, 255, 255, 255),
-                Color.FromArgb(255, 50, 50, 50),
-                Color.FromArgb(255, 80, 80, 80)
+                 Bootstrap.GetDisplay().GetWidth() / 2 - 550,
+                 Bootstrap.GetDisplay().GetHeight() / 2 - 300,
+                 120, 44, "Back to menu", 16,
+                Color.FromArgb(255, 255, 87, 51),
+                Color.FromArgb(255, 255, 136, 34),
+                Color.FromArgb(255, 102, 153, 204),
+                Color.FromArgb(255, 178, 102, 255)
                 );
 
             backToMenuButton.OnClick += () =>
@@ -51,14 +53,16 @@ namespace Shard
 
             SceneManager.GetInstance().LoadScene(menuScene);
 
+            CreateBackground();
+
             Button startButton = new Button(
-                Bootstrap.GetDisplay().GetWidth() / 2 - 40,
-                Bootstrap.GetDisplay().GetHeight() / 2 - 15,
-                80, 30, "start", 16,
-                Color.FromArgb(255, 230, 230, 230),
-                Color.FromArgb(255, 255, 255, 255),
-                Color.FromArgb(255, 50, 50, 50),
-                Color.FromArgb(255, 80, 80, 80)
+                    Bootstrap.GetDisplay().GetWidth() / 2 - 60,
+                    Bootstrap.GetDisplay().GetHeight() / 2 - 22,
+                    120, 44, "start", 24,
+                    Color.FromArgb(255, 255, 87, 51),
+                    Color.FromArgb(255, 255, 136, 34),
+                    Color.FromArgb(255, 102, 153, 204),
+                    Color.FromArgb(255, 178, 102, 255)
                 );
 
             startButton.OnClick += () => {
