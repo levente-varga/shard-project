@@ -40,6 +40,8 @@ namespace Shard
         GameObject highlight;
         GameObject flare;
         string tag;
+        private GameTest gameTest;
+        public int scorePoints = 0;
 
         public double FadeInDurationBeats
         {
@@ -167,6 +169,22 @@ namespace Shard
             else if (accuracy < 0.18) score = Score.Good;
             else if (accuracy < 0.25) score = Score.Ok;
             else score = Score.Miss;
+            
+            switch (score)
+            {
+                case Score.Perfect:
+                    scorePoints += 100;
+                    break;
+                case Score.Great:
+                    scorePoints += 75;
+                    break;
+                case Score.Good:
+                    scorePoints += 50;
+                    break;
+                case Score.Ok:
+                    scorePoints += 25;
+                    break;
+            }
 
             tag = score.ToString();
             Debug.Log($"Hit! Accuracy: {(accuracy * 1000).ToString("0")} ms \t{tag}");

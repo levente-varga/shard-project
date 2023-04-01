@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Numerics;
+using System.Security.Cryptography.X509Certificates;
 
 namespace Shard
 {
@@ -17,7 +18,7 @@ namespace Shard
             Bootstrap.GetInput().AddListener(this);
         }
 
-        public void LoadGameScene()
+        public void LoadGameScene(int scorePoints = 0)
         {
             Scene gameScene = new Scene();
 
@@ -28,9 +29,19 @@ namespace Shard
             SetupMusic();
 
             Button backToMenuButton = new Button(
-                 Bootstrap.GetDisplay().GetWidth() / 2 - 550,
-                 Bootstrap.GetDisplay().GetHeight() / 2 - 300,
-                 120, 44, "Back to menu", 16,
+                Bootstrap.GetDisplay().GetWidth() / 2 - 550,
+                Bootstrap.GetDisplay().GetHeight() / 2 - 300,
+                120, 44, "Back to menu", 16,
+                Color.FromArgb(255, 255, 87, 51),
+                Color.FromArgb(255, 255, 136, 34),
+                Color.FromArgb(255, 102, 153, 204),
+                Color.FromArgb(255, 178, 102, 255)
+                );
+
+            Button scoreButton = new Button(
+                Bootstrap.GetDisplay().GetWidth() / 2 + 450,
+                Bootstrap.GetDisplay().GetHeight() / 2 - 300,
+                120, 44, "Score: " + scorePoints.ToString(), 16,
                 Color.FromArgb(255, 255, 87, 51),
                 Color.FromArgb(255, 255, 136, 34),
                 Color.FromArgb(255, 102, 153, 204),
@@ -58,7 +69,7 @@ namespace Shard
             Button startButton = new Button(
                     Bootstrap.GetDisplay().GetWidth() / 2 - 60,
                     Bootstrap.GetDisplay().GetHeight() / 2 - 22,
-                    120, 44, "start", 24,
+                    120, 44, "New game", 20,
                     Color.FromArgb(255, 255, 87, 51),
                     Color.FromArgb(255, 255, 136, 34),
                     Color.FromArgb(255, 102, 153, 204),
