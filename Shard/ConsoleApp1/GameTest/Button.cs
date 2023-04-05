@@ -41,7 +41,7 @@ namespace GameTest
 
         public override void HandleInput(InputEvent ie)
         {
-            Debug.Log($"Button HandleInput");
+            //Debug.Log($"Button HandleInput");
             switch (ie.Type)
             {
                 case InputEventType.MouseDown:

@@ -41,7 +41,7 @@ namespace Shard
         GameObject flare;
         string tag;
         private GameTest gameTest;
-        public int scorePoints = 0;
+        public int scorePoints;
 
         public double FadeInDurationBeats
         {
@@ -164,30 +164,16 @@ namespace Shard
             double positionSeconds = positionBeats / music.BeatPerSecond + music.OffsetSeconds;
             accuracy = Math.Abs(positionSeconds - music.PositionSeconds);
 
-            if (accuracy < 0.05) score = Score.Perfect;
-            else if (accuracy < 0.11) score = Score.Great;
-            else if (accuracy < 0.18) score = Score.Good;
-            else if (accuracy < 0.25) score = Score.Ok;
+            scorePoints = 0;
+
+            if (accuracy < 0.05) score = Score.Perfect & scorePoints += 100;
+            else if (accuracy < 0.11) score = Score.Great & scorePoints += 75;
+            else if (accuracy < 0.18) score = Score.Good & scorePoints += 50;
+            else if (accuracy < 0.25) score = Score.Ok & scorePoints += 25;
             else score = Score.Miss;
-            
-            switch (score)
-            {
-                case Score.Perfect:
-                    scorePoints += 100;
-                    break;
-                case Score.Great:
-                    scorePoints += 75;
-                    break;
-                case Score.Good:
-                    scorePoints += 50;
-                    break;
-                case Score.Ok:
-                    scorePoints += 25;
-                    break;
-            }
 
             tag = score.ToString();
-            Debug.Log($"Hit! Accuracy: {(accuracy * 1000).ToString("0")} ms \t{tag}");
+            Debug.Log($"Hit! Accuracy: {(accuracy * 1000).ToString("0")} Ms \t{tag} Score: \t{scorePoints}");
 
             Bootstrap.GetSound().PlaySound("hit.wav");
 
