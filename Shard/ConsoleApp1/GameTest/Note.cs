@@ -41,8 +41,8 @@ namespace Shard
         GameObject flare;
         string tag;
         private GameTest gameTest;
-        int scorePoints;
-        int totalScorePoints += scorePoints
+        public int scorePoints;
+        public int totalScorePoints += scorePoints;
 
         public double FadeInDurationBeats
         {
