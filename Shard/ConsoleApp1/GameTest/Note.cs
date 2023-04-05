@@ -41,7 +41,8 @@ namespace Shard
         GameObject flare;
         string tag;
         private GameTest gameTest;
-        public int scorePoints;
+        int scorePoints;
+        int totalScorePoints += scorePoints
 
         public double FadeInDurationBeats
         {
@@ -189,7 +190,7 @@ namespace Shard
             else score = Score.Miss;
 
             tag = score.ToString();
-            Debug.Log($"Hit! Accuracy: {(accuracy * 1000).ToString("0")} ms \t{tag} \t Score:{scorePoints}");
+            Debug.Log($"Hit! Accuracy: {(accuracy * 1000).ToString("0")} ms \t{tag} \t Score:{totalScorePoints}");
 
             Bootstrap.GetSound().PlaySound("hit.wav");
 
