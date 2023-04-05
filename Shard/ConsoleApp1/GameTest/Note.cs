@@ -166,14 +166,30 @@ namespace Shard
 
             scorePoints = 0;
 
-            if (accuracy < 0.05) score = Score.Perfect & scorePoints += 100;
-            else if (accuracy < 0.11) score = Score.Great & scorePoints += 75;
-            else if (accuracy < 0.18) score = Score.Good & scorePoints += 50;
-            else if (accuracy < 0.25) score = Score.Ok & scorePoints += 25;
+            if (accuracy < 0.05)
+            {
+                score = Score.Perfect;
+                scorePoints += 100;
+            }
+            else if (accuracy < 0.11)
+            {
+                score = Score.Great;
+                scorePoints += 75;
+            }
+            else if (accuracy < 0.18)
+            {
+                score = Score.Good;
+                scorePoints += 50;
+            }
+            else if (accuracy < 0.25)
+            {
+                score = Score.Ok;
+                scorePoints += 25;
+            }
             else score = Score.Miss;
 
             tag = score.ToString();
-            Debug.Log($"Hit! Accuracy: {(accuracy * 1000).ToString("0")} Ms \t{tag} Score: \t{scorePoints}");
+            Debug.Log($"Hit! Accuracy: {(accuracy * 1000).ToString("0")} ms \t{tag} \t Score:{scorePoints}");
 
             Bootstrap.GetSound().PlaySound("hit.wav");
 
