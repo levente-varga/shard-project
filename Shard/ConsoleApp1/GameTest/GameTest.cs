@@ -11,6 +11,7 @@ namespace Shard
     {
         GameObject background;
         Music music;
+        private Button scoreButton;
 
         public override void Initialize()
         {
@@ -38,7 +39,7 @@ namespace Shard
                 Color.FromArgb(255, 178, 102, 255)
                 );
 
-            Button scoreButton = new Button(
+            scoreButton = new Button(
                 Bootstrap.GetDisplay().GetWidth() / 2 + 450,
                 Bootstrap.GetDisplay().GetHeight() / 2 - 300,
                 120, 44, "Score: " + ScoreManager.totalScorePoints.ToString(), 16,
@@ -56,6 +57,18 @@ namespace Shard
             };
 
             Bootstrap.GetSound().PlayMusic(music.FilePath);
+
+            ScoreManager.OnScoreChanged += UpdateScoreText;
+        }
+
+        void UpdateScoreText(int newScore)
+        {
+            if (scoreButton == null)
+            {
+                return;
+            }
+            Console.WriteLine($"Updating score text to: {newScore}");
+            scoreButton.SetText("Score: " + newScore.ToString());
         }
 
         public void LoadMenuScene()
