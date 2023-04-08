@@ -18,7 +18,7 @@ namespace Shard
             Bootstrap.GetInput().AddListener(this);
         }
 
-        public void LoadGameScene(int scorePoints = Note.totalScorePoints)
+        public void LoadGameScene()
         {
             Scene gameScene = new Scene();
 
@@ -41,7 +41,7 @@ namespace Shard
             Button scoreButton = new Button(
                 Bootstrap.GetDisplay().GetWidth() / 2 + 450,
                 Bootstrap.GetDisplay().GetHeight() / 2 - 300,
-                120, 44, "Score: " + scorePoints.ToString(), 16,
+                120, 44, "Score: " + ScoreManager.totalScorePoints.ToString(), 16,
                 Color.FromArgb(255, 255, 87, 51),
                 Color.FromArgb(255, 255, 136, 34),
                 Color.FromArgb(255, 102, 153, 204),
