@@ -18,7 +18,7 @@ namespace Shard
             Bootstrap.GetInput().AddListener(this);
         }
 
-        public void LoadGameScene(int scorePoints = 0)
+        public void LoadGameScene(int scorePoints = Note.totalScorePoints)
         {
             Scene gameScene = new Scene();
 
