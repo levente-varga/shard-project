@@ -191,7 +191,6 @@ namespace Shard
             }
 
             tag = score.ToString();
-            ScoreManager.totalScorePoints += scorePoints;
             ScoreManager.UpdateScore(scorePoints);
             Debug.Log($"Hit! Accuracy: {(accuracy * 1000).ToString("0")} ms \t{tag} \t Score:{ScoreManager.totalScorePoints}");
 
