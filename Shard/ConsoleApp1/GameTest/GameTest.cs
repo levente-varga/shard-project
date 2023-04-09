@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Numerics;
+using System.Security.Cryptography.X509Certificates;
 
 namespace Shard
 {
@@ -10,6 +11,7 @@ namespace Shard
     {
         GameObject background;
         Music music;
+        private Button scoreButton;
 
         public override void Initialize()
         {
@@ -28,9 +30,19 @@ namespace Shard
             SetupMusic();
 
             Button backToMenuButton = new Button(
-                 Bootstrap.GetDisplay().GetWidth() / 2 - 550,
-                 Bootstrap.GetDisplay().GetHeight() / 2 - 300,
-                 120, 44, "Back to menu", 16,
+                Bootstrap.GetDisplay().GetWidth() / 2 - 550,
+                Bootstrap.GetDisplay().GetHeight() / 2 - 300,
+                120, 44, "Back to menu", 16,
+                Color.FromArgb(255, 255, 87, 51),
+                Color.FromArgb(255, 255, 136, 34),
+                Color.FromArgb(255, 102, 153, 204),
+                Color.FromArgb(255, 178, 102, 255)
+                );
+
+            scoreButton = new Button(
+                Bootstrap.GetDisplay().GetWidth() / 2 + 450,
+                Bootstrap.GetDisplay().GetHeight() / 2 - 300,
+                120, 44, "Score: " + ScoreManager.totalScorePoints.ToString(), 16,
                 Color.FromArgb(255, 255, 87, 51),
                 Color.FromArgb(255, 255, 136, 34),
                 Color.FromArgb(255, 102, 153, 204),
@@ -45,6 +57,18 @@ namespace Shard
             };
 
             Bootstrap.GetSound().PlayMusic(music.FilePath);
+
+            ScoreManager.OnScoreChanged += UpdateScoreText;
+        }
+
+        void UpdateScoreText(int newScore)
+        {
+            if (scoreButton == null)
+            {
+                return;
+            }
+            Console.WriteLine($"Updating score text to: {newScore}");
+            scoreButton.SetText("Score: " + newScore.ToString());
         }
 
         public void LoadMenuScene()
@@ -58,7 +82,7 @@ namespace Shard
             Button startButton = new Button(
                     Bootstrap.GetDisplay().GetWidth() / 2 - 60,
                     Bootstrap.GetDisplay().GetHeight() / 2 - 22,
-                    120, 44, "start", 24,
+                    120, 44, "New game", 20,
                     Color.FromArgb(255, 255, 87, 51),
                     Color.FromArgb(255, 255, 136, 34),
                     Color.FromArgb(255, 102, 153, 204),

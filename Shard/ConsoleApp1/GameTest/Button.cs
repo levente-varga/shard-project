@@ -17,6 +17,7 @@ namespace GameTest
         string text;
         int fontSize;
         bool hovered = false;
+        private bool needsRedraw = true;
 
         public Button(int x, int y, int width, int height, string text, int fontSize, Color backgroundColor, Color backgroundHoverColor, Color textColor, Color textHoverColor)
         {
@@ -41,7 +42,7 @@ namespace GameTest
 
         public override void HandleInput(InputEvent ie)
         {
-            Debug.Log($"Button HandleInput");
+            //Debug.Log($"Button HandleInput");
             switch (ie.Type)
             {
                 case InputEventType.MouseDown:
@@ -81,6 +82,12 @@ namespace GameTest
 
             return (Transform.X <= x && x < Transform.X + Transform.Width
                  && Transform.Y <= y && y < Transform.Y + Transform.Height);
+        }
+
+        public void SetText(string text)
+        {
+            Console.WriteLine($"Setting button text to: {text}");
+            this.text = text;
         }
     }
 }

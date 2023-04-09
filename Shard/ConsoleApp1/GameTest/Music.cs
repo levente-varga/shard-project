@@ -153,7 +153,7 @@ namespace Shard
 
         public override void HandleInput(InputEvent ie)
         {
-            Debug.Log($"Music HandleInput");
+            //Debug.Log($"Music HandleInput");
 
             switch (ie.Type)
             {
