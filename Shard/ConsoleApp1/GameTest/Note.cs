@@ -184,10 +184,15 @@ namespace Shard
                 score = Score.Ok;
                 scorePoints += 25;
             }
-            else 
+            else if (accuracy < 0.5)
             {
                 score = Score.Miss;
                 scorePoints += 0;
+            }
+            else
+            {
+                fired = false;
+                return;
             }
 
             tag = score.ToString();
