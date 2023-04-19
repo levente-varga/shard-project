@@ -35,8 +35,8 @@ namespace Shard
                 120, 44, "Back to menu", 16,
                 Color.FromArgb(255, 255, 87, 51),
                 Color.FromArgb(255, 255, 136, 34),
-                Color.FromArgb(255, 102, 153, 204),
-                Color.FromArgb(255, 178, 102, 255)
+                Color.FromArgb(255, 255, 255, 255),
+                Color.FromArgb(255, 255, 255, 255)
                 );
 
             scoreButton = new Button(
@@ -45,8 +45,8 @@ namespace Shard
                 120, 44, "Score: " + ScoreManager.totalScorePoints.ToString(), 16,
                 Color.FromArgb(255, 255, 87, 51),
                 Color.FromArgb(255, 255, 136, 34),
-                Color.FromArgb(255, 102, 153, 204),
-                Color.FromArgb(255, 178, 102, 255)
+                Color.FromArgb(255, 255, 255, 255),
+                Color.FromArgb(255, 255, 255, 255)
                 );
 
             backToMenuButton.OnClick += () =>
@@ -54,6 +54,11 @@ namespace Shard
                 SceneManager.GetInstance().RemoveScene(gameScene);
                 Bootstrap.GetSound().PauseMusic(); 
                 LoadMenuScene();
+            };
+
+            scoreButton.OnClick += () =>
+            {
+                
             };
 
             Bootstrap.GetSound().PlayMusic(music.FilePath);
@@ -85,9 +90,9 @@ namespace Shard
                     120, 44, "New game", 20,
                     Color.FromArgb(255, 255, 87, 51),
                     Color.FromArgb(255, 255, 136, 34),
-                    Color.FromArgb(255, 102, 153, 204),
-                    Color.FromArgb(255, 178, 102, 255)
-                );
+                    Color.FromArgb(255, 255, 255, 255),
+                    Color.FromArgb(255, 255, 255, 255)
+                    );
 
             startButton.OnClick += () => {
                 SceneManager.GetInstance().RemoveScene(menuScene);
