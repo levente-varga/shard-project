@@ -55,7 +55,8 @@ namespace Shard
             backToMenuButton.OnClick += () =>
             {
                 SceneManager.GetInstance().RemoveScene(gameScene);
-                Bootstrap.GetSound().PauseMusic(); 
+                Bootstrap.GetSound().PauseMusic();
+                ScoreManager.ResetScore();
                 LoadMenuScene();
             };
 
