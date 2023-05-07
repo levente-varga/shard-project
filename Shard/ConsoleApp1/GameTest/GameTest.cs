@@ -76,6 +76,65 @@ namespace Shard
             scoreButton.SetText("Score: " + newScore.ToString());
         }
 
+        public void LoadLevelSelectionScene()
+        {
+            Scene levelSelectionScene = new Scene();
+
+            SceneManager.GetInstance().LoadScene(levelSelectionScene);
+
+            CreateBackground();
+
+            int buttonSpacing = 10;
+            int buttonWidth = 200;
+            int buttonHeight = 44;
+            int buttonYOffset = -110;
+
+            Button chooseLevelButton = new Button(
+                Bootstrap.GetDisplay().GetWidth() / 2 - buttonWidth / 2,
+                Bootstrap.GetDisplay().GetHeight() / 2 + buttonYOffset,
+                buttonWidth, buttonHeight, "Choose your difficulty", 20,
+                Color.FromArgb(255, 255, 87, 51),
+                Color.FromArgb(255, 255, 136, 34),
+                Color.FromArgb(255, 255, 255, 255),
+                Color.FromArgb(255, 255, 255, 255)
+            );
+
+            levelSelectionScene.AddGameObject(chooseLevelButton);
+
+            Button easyButton = CreateLevelButton("Easy", buttonYOffset + buttonHeight + buttonSpacing);
+            Button mediumButton = CreateLevelButton("Medium", buttonYOffset + 2 * (buttonHeight + buttonSpacing));
+            Button hardButton = CreateLevelButton("Hard", buttonYOffset + 3 * (buttonHeight + buttonSpacing));
+
+            levelSelectionScene.AddGameObject(easyButton);
+            levelSelectionScene.AddGameObject(mediumButton);
+            levelSelectionScene.AddGameObject(hardButton);
+
+            easyButton.OnClick += () => LoadGameWithDifficulty(levelSelectionScene);
+            mediumButton.OnClick += () => LoadGameWithDifficulty(levelSelectionScene);
+            hardButton.OnClick += () => LoadGameWithDifficulty(levelSelectionScene);
+        }
+
+        private Button CreateLevelButton(string text, int yOffset)
+        {
+            int buttonWidth = 120;
+            int buttonHeight = 44;
+
+            return new Button(
+                Bootstrap.GetDisplay().GetWidth() / 2 - buttonWidth / 2,
+                Bootstrap.GetDisplay().GetHeight() / 2 + yOffset,
+                buttonWidth, buttonHeight, text, 20,
+                Color.FromArgb(255, 255, 87, 51),
+                Color.FromArgb(255, 255, 136, 34),
+                Color.FromArgb(255, 255, 255, 255),
+                Color.FromArgb(255, 255, 255, 255)
+            );
+        }
+        private void LoadGameWithDifficulty(Scene levelSelectionScene)
+        {
+            SceneManager.GetInstance().RemoveScene(levelSelectionScene);
+            LoadGameScene();
+        }
+
         public void LoadMenuScene()
         {
             Scene menuScene = new Scene();
@@ -96,7 +155,7 @@ namespace Shard
 
             startButton.OnClick += () => {
                 SceneManager.GetInstance().RemoveScene(menuScene);
-                LoadGameScene();
+                LoadLevelSelectionScene();
             };
         }
 
