@@ -96,7 +96,7 @@ namespace Shard
             Button chooseLevelButton = new Button(
                 Bootstrap.GetDisplay().GetWidth() / 2 - buttonWidth / 2,
                 Bootstrap.GetDisplay().GetHeight() / 2 + buttonYOffset,
-                buttonWidth, buttonHeight, "Choose your difficulty", 20,
+                buttonWidth, buttonHeight, "Choose your difficulty", 16,
                 Color.FromArgb(255, 255, 87, 51),
                 Color.FromArgb(255, 255, 136, 34),
                 Color.FromArgb(255, 255, 255, 255),
@@ -145,7 +145,7 @@ namespace Shard
             return new Button(
                 Bootstrap.GetDisplay().GetWidth() / 2 - buttonWidth / 2,
                 Bootstrap.GetDisplay().GetHeight() / 2 + yOffset,
-                buttonWidth, buttonHeight, text, 20,
+                buttonWidth, buttonHeight, text, 16,
                 Color.FromArgb(255, 255, 87, 51),
                 Color.FromArgb(255, 255, 136, 34),
                 Color.FromArgb(255, 255, 255, 255),
