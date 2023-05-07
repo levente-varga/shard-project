@@ -19,7 +19,7 @@ namespace Shard
             Bootstrap.GetInput().AddListener(this);
         }
 
-        public void LoadGameScene()
+        public void LoadGameScene(Action setupMusic = null)
         {
             Scene gameScene = new Scene();
 
@@ -27,7 +27,10 @@ namespace Shard
 
             CreateBackground();
 
-            SetupMusic();
+            if (setupMusic != null)
+            {
+                setupMusic();
+            }
 
             Button backToMenuButton = new Button(
                 Bootstrap.GetDisplay().GetWidth() / 2 - 550,
@@ -109,9 +112,28 @@ namespace Shard
             levelSelectionScene.AddGameObject(mediumButton);
             levelSelectionScene.AddGameObject(hardButton);
 
-            easyButton.OnClick += () => LoadGameWithDifficulty(levelSelectionScene);
-            mediumButton.OnClick += () => LoadGameWithDifficulty(levelSelectionScene);
-            hardButton.OnClick += () => LoadGameWithDifficulty(levelSelectionScene);
+            chooseLevelButton.OnClick += () =>
+            {
+
+            };
+            easyButton.OnClick += () =>
+            {
+                LoadGameWithDifficulty(levelSelectionScene, SetupOldMusic);
+            };
+            mediumButton.OnClick += () =>
+            {
+                LoadGameWithDifficulty(levelSelectionScene, SetupMusic);
+            };
+            hardButton.OnClick += () =>
+            {
+                LoadGameWithDifficulty(levelSelectionScene, SetupNewMusic);
+            };
+        }
+
+        private void LoadGameWithDifficulty(Scene levelSelectionScene, Action setupMusic)
+        {
+            SceneManager.GetInstance().RemoveScene(levelSelectionScene);
+            LoadGameScene(setupMusic);
         }
 
         private Button CreateLevelButton(string text, int yOffset)
@@ -164,7 +186,6 @@ namespace Shard
             if (music != null) music.PositionSeconds = Bootstrap.GetSound().MusicPosition;
 
             //Debug.Log(Bootstrap.getSound().MusicPosition + " / " + Bootstrap.getSound().MusicLength);
-
             //Bootstrap.getDisplay().showText("FPS: " + Bootstrap.getSecondFPS() + " / " + Bootstrap.getFPS(), 10, 10, 12, 255, 255, 255, 255);
             //Bootstrap.getDisplay().showText($"Position: {Bootstrap.getSound().MusicPosition} / {Bootstrap.getSound().MusicLength}", 10, 30, 12, 255, 255, 255, 255);
             //Bootstrap.getDisplay().showText($"Beat: {(int)music.PositionBeats + (int)(music.PositionBeats * 100) / 25 % 4 * 25 * 0.01 }", 10, 50, 12, 255, 255, 255, 255);
@@ -203,9 +224,10 @@ namespace Shard
             int displayHeight = Bootstrap.GetDisplay().GetHeight();
             Random random = new Random();
 
-            music.StartCreating();
-
             music = new Music("Coldplay - Clocks", "clocks.wav", 131.0, 0.24);
+
+            music.StartCreating();
+            
             for (int i = 0; i < 600; i += 4)
             {
                 music.AddNoteAndPause(1.5);
@@ -577,8 +599,6 @@ namespace Shard
             music.AddNoteAndPause(1.5);
             music.AddNoteAndPause(1.0);
             music.AddNoteAndPause(0.5);
-
-
         }
     }
 }
