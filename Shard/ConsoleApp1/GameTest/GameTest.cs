@@ -119,15 +119,15 @@ namespace Shard
             };
             easyButton.OnClick += () =>
             {
-                LoadGameWithDifficulty(levelSelectionScene, SetupOldMusic);
+                LoadGameWithDifficulty(levelSelectionScene, SetupEasyClocks);
             };
             mediumButton.OnClick += () =>
             {
-                LoadGameWithDifficulty(levelSelectionScene, SetupMusic);
+                LoadGameWithDifficulty(levelSelectionScene, SetupMediumClocks);
             };
             hardButton.OnClick += () =>
             {
-                LoadGameWithDifficulty(levelSelectionScene, SetupNewMusic);
+                LoadGameWithDifficulty(levelSelectionScene, SetupHardClocks);
             };
         }
 
@@ -219,7 +219,7 @@ namespace Shard
             }
         }
 
-        private void SetupOldMusic()
+        private void SetupEasyClocks()
         {
             int displayWidth = Bootstrap.GetDisplay().GetWidth();
             int displayHeight = Bootstrap.GetDisplay().GetHeight();
@@ -237,7 +237,7 @@ namespace Shard
             }
         }
 
-        private void SetupMusic()
+        private void SetupMediumClocks()
         {
             int displayWidth = Bootstrap.GetDisplay().GetWidth();
             int displayHeight = Bootstrap.GetDisplay().GetHeight();
@@ -495,7 +495,7 @@ namespace Shard
             }
         }
 
-        private void SetupNewMusic()
+        private void SetupHardClocks()
         {
             int displayWidth = Bootstrap.GetDisplay().GetWidth();
             int displayHeight = Bootstrap.GetDisplay().GetHeight();
