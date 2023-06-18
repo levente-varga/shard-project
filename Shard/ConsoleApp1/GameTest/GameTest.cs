@@ -12,6 +12,7 @@ namespace Shard
         GameObject background;
         Music music;
         private Button scoreButton;
+        private Action<string> selectedSongSetup;
 
         public override void Initialize()
         {
@@ -80,6 +81,75 @@ namespace Shard
             scoreButton.SetText("Score: " + newScore.ToString());
         }
 
+        public void LoadSongSelectionScene()
+        {
+            Scene songSelectionScene = new Scene();
+
+            SceneManager.GetInstance().LoadScene(songSelectionScene);
+
+            CreateBackground();
+
+            int buttonSpacing = 10;
+            int buttonWidth = 200;
+            int buttonHeight = 44;
+            int buttonYOffset = -110;
+
+            Button chooseSongButton = new Button(
+                Bootstrap.GetDisplay().GetWidth() / 2 - buttonWidth / 2,
+                Bootstrap.GetDisplay().GetHeight() / 2 + buttonYOffset,
+                buttonWidth, buttonHeight, "Choose your song", 16,
+                Color.FromArgb(255, 255, 87, 51),
+                Color.FromArgb(255, 255, 136, 34),
+                Color.FromArgb(255, 255, 255, 255),
+                Color.FromArgb(255, 255, 255, 255)
+            );
+
+            songSelectionScene.AddGameObject(chooseSongButton);
+
+            Button song1Button = CreateLevelButton("Coldplay - Clocks", buttonYOffset + buttonHeight + buttonSpacing);
+            Button song2Button = CreateLevelButton("Riot - Overkill", buttonYOffset + 2 * (buttonHeight + buttonSpacing));
+            Button song3Button = CreateLevelButton("XX - XX", buttonYOffset + 3 * (buttonHeight + buttonSpacing));
+
+            songSelectionScene.AddGameObject(song1Button);
+            songSelectionScene.AddGameObject(song2Button);
+            songSelectionScene.AddGameObject(song3Button);
+
+            chooseSongButton.OnClick += () =>
+            {
+
+            };
+            song1Button.OnClick += () =>
+            {
+                selectedSongSetup = (difficulty) =>
+                {
+                    if (difficulty == "Easy") SetupEasyClocks();
+                    else if (difficulty == "Medium") SetupMediumClocks();
+                    else if (difficulty == "Hard") SetupHardClocks();
+                };
+                LoadLevelSelectionScene();
+            };
+            song2Button.OnClick += () =>
+            {
+                selectedSongSetup = (difficulty) =>
+                {
+                    if (difficulty == "Easy") SetupEasyOverkill();
+                    else if (difficulty == "Medium") SetupMediumOverkill();
+                    else if (difficulty == "Hard") SetupHardOverkill();
+                };
+                LoadLevelSelectionScene();
+            };
+            song3Button.OnClick += () =>
+            {
+                selectedSongSetup = (difficulty) =>
+                {
+                    if (difficulty == "Easy") SetupEasyXX();
+                    else if (difficulty == "Medium") SetupMediumXX();
+                    else if (difficulty == "Hard") SetupHardXX();
+                };
+                LoadLevelSelectionScene();
+            };
+        }
+
         public void LoadLevelSelectionScene()
         {
             Scene levelSelectionScene = new Scene();
@@ -119,15 +189,15 @@ namespace Shard
             };
             easyButton.OnClick += () =>
             {
-                LoadGameWithDifficulty(levelSelectionScene, SetupEasyClocks);
+                LoadGameWithDifficulty(levelSelectionScene, () => selectedSongSetup("Easy"));
             };
             mediumButton.OnClick += () =>
             {
-                LoadGameWithDifficulty(levelSelectionScene, SetupMediumClocks);
+                LoadGameWithDifficulty(levelSelectionScene, () => selectedSongSetup("Medium"));
             };
             hardButton.OnClick += () =>
             {
-                LoadGameWithDifficulty(levelSelectionScene, SetupHardClocks);
+                LoadGameWithDifficulty(levelSelectionScene, () => selectedSongSetup("Hard"));
             };
         }
 
@@ -178,7 +248,7 @@ namespace Shard
 
             startButton.OnClick += () => {
                 SceneManager.GetInstance().RemoveScene(menuScene);
-                LoadLevelSelectionScene();
+                LoadSongSelectionScene();
             };
         }
 
@@ -501,6 +571,38 @@ namespace Shard
             int displayHeight = Bootstrap.GetDisplay().GetHeight();
             Random random = new Random();
 
+            music = new Music("Coldplay - Clocks", "clocks.wav", 131.0, 0.24 + 0.10);
+
+            music.StartCreating();
+
+            music.AddNoteAndPause(12);
+            music.AddNoteAndPause(4);
+
+        }
+        private void SetupEasyOverkill()
+        {
+            int displayWidth = Bootstrap.GetDisplay().GetWidth();
+            int displayHeight = Bootstrap.GetDisplay().GetHeight();
+            Random random = new Random();
+
+            music = new Music("RIOT - Overkill", "overkill.wav", 174.0, 4.90 + 0.07);
+
+            music.StartCreating();
+
+            for (int i = 0; i < 600; i += 4)
+            {
+                music.AddNoteAndPause(1.5);
+                music.AddNoteAndPause(1.5);
+                music.AddNoteAndPause(1);
+            }
+        }
+
+        private void SetupMediumOverkill()
+        {
+            int displayWidth = Bootstrap.GetDisplay().GetWidth();
+            int displayHeight = Bootstrap.GetDisplay().GetHeight();
+            Random random = new Random();
+
             music = new Music("RIOT - Overkill", "overkill.wav", 174.0, 4.90 + 0.07);
 
             music.StartCreating();
@@ -525,23 +627,23 @@ namespace Shard
 
             music.AddNoteAndPause(0.25, 400, 400);
             music.AddNoteAndPause(0.25, 470, 400);
-            music.AddNoteAndPause(1.0,  540, 400);
+            music.AddNoteAndPause(1.0, 540, 400);
 
             music.AddNoteAndPause(0.25, 800, 600);
             music.AddNoteAndPause(0.25, 870, 600);
-            music.AddNoteAndPause(6.0,  940, 600);
-            
+            music.AddNoteAndPause(6.0, 940, 600);
+
             music.AddNoteAndPause(0.25, 900, 500);
             music.AddNoteAndPause(0.25, 830, 500);
-            music.AddNoteAndPause(1.0,  760, 500);
-            
+            music.AddNoteAndPause(1.0, 760, 500);
+
             music.AddNoteAndPause(0.25, 500, 300);
             music.AddNoteAndPause(0.25, 430, 300);
-            music.AddNoteAndPause(6.0,  360, 300);
+            music.AddNoteAndPause(6.0, 360, 300);
 
             music.AddNoteAndPause(0.25, 900, 500);
             music.AddNoteAndPause(0.25, 880, 450);
-            music.AddNoteAndPause(1.0,  860, 400);
+            music.AddNoteAndPause(1.0, 860, 400);
 
             music.AddNoteAndPause(0.25, 800, 400);
             music.AddNoteAndPause(0.25, 780, 450);
@@ -600,6 +702,80 @@ namespace Shard
             music.AddNoteAndPause(1.5);
             music.AddNoteAndPause(1.0);
             music.AddNoteAndPause(0.5);
+        }
+
+
+        private void SetupHardOverkill()
+        {
+            int displayWidth = Bootstrap.GetDisplay().GetWidth();
+            int displayHeight = Bootstrap.GetDisplay().GetHeight();
+            Random random = new Random();
+
+            music = new Music("RIOT - Overkill", "overkill.wav", 174.0, 4.90 + 0.07);
+
+            music.StartCreating();
+
+            music.AddNoteAndPause(4);
+            music.AddNoteAndPause(8);
+            music.AddNoteAndPause(8);
+
+        }
+        private void SetupEasyXX()
+        {
+            int displayWidth = Bootstrap.GetDisplay().GetWidth();
+            int displayHeight = Bootstrap.GetDisplay().GetHeight();
+            Random random = new Random();
+
+            music = new Music("RIOT - Overkill", "overkill.wav", 174.0, 4.90 + 0.07);
+
+            music.StartCreating();
+
+            for (int i = 0; i < 600; i += 4)
+            {
+                music.AddNoteAndPause(1.5);
+                music.AddNoteAndPause(1.5);
+                music.AddNoteAndPause(1);
+            }
+        }
+
+        private void SetupMediumXX()
+        {
+            int displayWidth = Bootstrap.GetDisplay().GetWidth();
+            int displayHeight = Bootstrap.GetDisplay().GetHeight();
+            Random random = new Random();
+
+            music = new Music("RIOT - Overkill", "overkill.wav", 174.0, 4.90 + 0.07);
+
+            music.StartCreating();
+
+
+            music.AddNoteAndPause(
+                4,
+                Bootstrap.GetDisplay().GetWidth() / 2,
+                Bootstrap.GetDisplay().GetHeight() / 2
+                );
+
+            music.AddNoteAndPause(4);
+            music.AddNoteAndPause(4);
+            music.AddNoteAndPause(4);
+
+
+        }
+
+        private void SetupHardXX()
+        {
+            int displayWidth = Bootstrap.GetDisplay().GetWidth();
+            int displayHeight = Bootstrap.GetDisplay().GetHeight();
+            Random random = new Random();
+
+            music = new Music("RIOT - Overkill", "overkill.wav", 174.0, 4.90 + 0.07);
+
+            music.StartCreating();
+
+            music.AddNoteAndPause(4);
+            music.AddNoteAndPause(8);
+            music.AddNoteAndPause(8);
+
         }
     }
 }
